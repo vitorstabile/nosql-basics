@@ -1,6 +1,8 @@
-<div>
+<div id="chapter1">
 
-<h1 class="mb-6 text-3xl font-semibold text-balance max-lg:mb-3 max-lg:text-xl">What is NoSQL and Why Use It?</h1><div class="overflow-hidden [&amp;&gt;*:first-child]:mt-0 [&amp;&gt;*:last-child]:mb-0 course-content prose prose-lg prose-headings:mb-3 prose-headings:mt-8 prose-blockquote:font-normal prose-pre:rounded-2xl prose-pre:text-lg prose-li:my-1 prose-thead:border-zinc-800 prose-tr:border-zinc-800 max-lg:prose-h2:mt-3 max-lg:prose-h2:text-lg max-lg:prose-h3:text-base max-lg:prose-pre:px-3 max-lg:prose-pre:text-sm mt-8 max-w-full text-black max-lg:mt-4 max-lg:text-base"><p>NoSQL databases have emerged as a powerful alternative to traditional relational databases, offering flexibility, scalability, and performance advantages for specific use cases. Understanding what NoSQL databases are, their various types, and the reasons for choosing them is crucial for modern application development. This lesson will provide a comprehensive overview of NoSQL databases, exploring their key characteristics, benefits, and common use cases, setting the stage for a deeper dive into specific NoSQL database technologies in subsequent modules.</p>
+<div id="chapter-1.1">
+
+<h1 class="mb-6 text-3xl font-semibold text-balance max-lg:mb-3 max-lg:text-xl">What is NoSQL and Why Use It?</h1><p>NoSQL databases have emerged as a powerful alternative to traditional relational databases, offering flexibility, scalability, and performance advantages for specific use cases. Understanding what NoSQL databases are, their various types, and the reasons for choosing them is crucial for modern application development. This lesson will provide a comprehensive overview of NoSQL databases, exploring their key characteristics, benefits, and common use cases, setting the stage for a deeper dive into specific NoSQL database technologies in subsequent modules.</p>
 <h2>What is NoSQL?</h2>
 <p>NoSQL, which stands for "Not Only SQL," represents a category of database management systems that deviate from the traditional relational database model. Unlike relational databases that rely on a structured schema and SQL for data manipulation, NoSQL databases offer more flexible data models and diverse query mechanisms. This flexibility allows them to handle large volumes of unstructured, semi-structured, and structured data with greater efficiency and scalability.</p>
 <h3>Key Characteristics of NoSQL Databases</h3>
@@ -91,9 +93,9 @@
   
 </div>
 
-<div>
+<div id="chapter-1.2">
   
-<h1 class="mb-6 text-3xl font-semibold text-balance max-lg:mb-3 max-lg:text-xl">Understanding Different NoSQL Database Types</h1><div class="overflow-hidden [&amp;&gt;*:first-child]:mt-0 [&amp;&gt;*:last-child]:mb-0 course-content prose prose-lg prose-headings:mb-3 prose-headings:mt-8 prose-blockquote:font-normal prose-pre:rounded-2xl prose-pre:text-lg prose-li:my-1 prose-thead:border-zinc-800 prose-tr:border-zinc-800 max-lg:prose-h2:mt-3 max-lg:prose-h2:text-lg max-lg:prose-h3:text-base max-lg:prose-pre:px-3 max-lg:prose-pre:text-sm mt-8 max-w-full text-black max-lg:mt-4 max-lg:text-base"><p>Understanding the different types of NoSQL databases is crucial for choosing the right tool for your specific needs. Each type is designed with a particular data model and use case in mind, offering different trade-offs in terms of consistency, scalability, and complexity. This lesson will explore the key characteristics of each NoSQL database type, providing you with a solid foundation for making informed decisions in your projects.</p>
+<h1 class="mb-6 text-3xl font-semibold text-balance max-lg:mb-3 max-lg:text-xl">Understanding Different NoSQL Database Types</h1><p>Understanding the different types of NoSQL databases is crucial for choosing the right tool for your specific needs. Each type is designed with a particular data model and use case in mind, offering different trade-offs in terms of consistency, scalability, and complexity. This lesson will explore the key characteristics of each NoSQL database type, providing you with a solid foundation for making informed decisions in your projects.</p>
 <h2>Key-Value Databases</h2>
 <p>Key-value databases are the simplest type of NoSQL database. They store data as a collection of key-value pairs, where the key is a unique identifier and the value can be any type of data, from simple strings to complex objects.</p>
 <h3>Characteristics of Key-Value Databases</h3>
@@ -304,9 +306,9 @@
   
 </div>
 
-<div>
+<div id="chapter-1.3">
 
-<h1 class="mb-6 text-3xl font-semibold text-balance max-lg:mb-3 max-lg:text-xl">Key Differences Between NoSQL and Relational Databases (SQL)</h1><div class="overflow-hidden [&amp;&gt;*:first-child]:mt-0 [&amp;&gt;*:last-child]:mb-0 course-content prose prose-lg prose-headings:mb-3 prose-headings:mt-8 prose-blockquote:font-normal prose-pre:rounded-2xl prose-pre:text-lg prose-li:my-1 prose-thead:border-zinc-800 prose-tr:border-zinc-800 max-lg:prose-h2:mt-3 max-lg:prose-h2:text-lg max-lg:prose-h3:text-base max-lg:prose-pre:px-3 max-lg:prose-pre:text-sm mt-8 max-w-full text-black max-lg:mt-4 max-lg:text-base"><p>Relational databases, often referred to as SQL databases, have been the cornerstone of data management for decades. However, the rise of NoSQL databases has introduced a new paradigm, offering solutions tailored to modern application needs. Understanding the key differences between these two types of databases is crucial for making informed decisions about data storage and retrieval, especially when dealing with diverse data structures, scalability requirements, and performance expectations. This lesson will explore these differences in detail, providing a solid foundation for choosing the right database for your specific project.</p>
+<h1 class="mb-6 text-3xl font-semibold text-balance max-lg:mb-3 max-lg:text-xl">Key Differences Between NoSQL and Relational Databases (SQL)</h1><p>Relational databases, often referred to as SQL databases, have been the cornerstone of data management for decades. However, the rise of NoSQL databases has introduced a new paradigm, offering solutions tailored to modern application needs. Understanding the key differences between these two types of databases is crucial for making informed decisions about data storage and retrieval, especially when dealing with diverse data structures, scalability requirements, and performance expectations. This lesson will explore these differences in detail, providing a solid foundation for choosing the right database for your specific project.</p>
 <h2>Data Modeling and Structure</h2>
 <p>One of the most fundamental differences between SQL and NoSQL databases lies in their approach to data modeling and structure.</p>
 <h3>Relational Databases (SQL)</h3>
@@ -461,9 +463,9 @@
 
 </div>
 
-<div>
+<div id="chapter-1.4">
 
-<h1 class="mb-6 text-3xl font-semibold text-balance max-lg:mb-3 max-lg:text-xl">Choosing the Right NoSQL Database for Your Project: A Case Study - "The Social Media Analytics Platform"</h1><div class="overflow-hidden [&amp;&gt;*:first-child]:mt-0 [&amp;&gt;*:last-child]:mb-0 course-content prose prose-lg prose-headings:mb-3 prose-headings:mt-8 prose-blockquote:font-normal prose-pre:rounded-2xl prose-pre:text-lg prose-li:my-1 prose-thead:border-zinc-800 prose-tr:border-zinc-800 max-lg:prose-h2:mt-3 max-lg:prose-h2:text-lg max-lg:prose-h3:text-base max-lg:prose-pre:px-3 max-lg:prose-pre:text-sm mt-8 max-w-full text-black max-lg:mt-4 max-lg:text-base"><p>Choosing the right NoSQL database is crucial for the success of any project, especially one as complex as a social media analytics platform. The choice impacts performance, scalability, cost, and the ability to derive meaningful insights from data. This lesson will guide you through the process of selecting the most suitable NoSQL database for our social media analytics platform case study, considering the unique requirements and challenges involved. We'll explore how different NoSQL database types align with specific functionalities of the platform, enabling you to make informed decisions for your own projects.</p>
+<h1 class="mb-6 text-3xl font-semibold text-balance max-lg:mb-3 max-lg:text-xl">Choosing the Right NoSQL Database for Your Project: A Case Study - "The Social Media Analytics Platform"</h1><p>Choosing the right NoSQL database is crucial for the success of any project, especially one as complex as a social media analytics platform. The choice impacts performance, scalability, cost, and the ability to derive meaningful insights from data. This lesson will guide you through the process of selecting the most suitable NoSQL database for our social media analytics platform case study, considering the unique requirements and challenges involved. We'll explore how different NoSQL database types align with specific functionalities of the platform, enabling you to make informed decisions for your own projects.</p>
 <h2>Understanding the Social Media Analytics Platform Requirements</h2>
 <p>Before diving into specific NoSQL databases, let's clearly define the requirements of our social media analytics platform. This platform aims to collect, store, and analyze data from various social media sources to provide insights into user behavior, trends, and campaign performance. Key requirements include:</p>
 <ul>
@@ -551,9 +553,9 @@
 
 </div>
 
-<div>
+<div id="chapter-1.5">
 
-<h1 class="mb-6 text-3xl font-semibold text-balance max-lg:mb-3 max-lg:text-xl">Setting Up a Local Development Environment for NoSQL Exploration</h1><div class="overflow-hidden [&amp;&gt;*:first-child]:mt-0 [&amp;&gt;*:last-child]:mb-0 course-content prose prose-lg prose-headings:mb-3 prose-headings:mt-8 prose-blockquote:font-normal prose-pre:rounded-2xl prose-pre:text-lg prose-li:my-1 prose-thead:border-zinc-800 prose-tr:border-zinc-800 max-lg:prose-h2:mt-3 max-lg:prose-h2:text-lg max-lg:prose-h3:text-base max-lg:prose-pre:px-3 max-lg:prose-pre:text-sm mt-8 max-w-full text-black max-lg:mt-4 max-lg:text-base"><p>Setting up a local development environment is crucial for exploring NoSQL databases. It allows you to experiment, learn, and build applications without the constraints of a production environment. This lesson will guide you through the process of setting up your local environment to work with the various NoSQL databases covered in this course. We'll focus on the tools and techniques that will enable you to install, configure, and interact with these databases effectively.</p>
+<h1 class="mb-6 text-3xl font-semibold text-balance max-lg:mb-3 max-lg:text-xl">Setting Up a Local Development Environment for NoSQL Exploration</h1><p>Setting up a local development environment is crucial for exploring NoSQL databases. It allows you to experiment, learn, and build applications without the constraints of a production environment. This lesson will guide you through the process of setting up your local environment to work with the various NoSQL databases covered in this course. We'll focus on the tools and techniques that will enable you to install, configure, and interact with these databases effectively.</p>
 <h2>Choosing Your Operating System and Development Tools</h2>
 <p>The first step in setting up your local development environment is to choose your operating system and development tools. Most NoSQL databases are cross-platform and can run on Windows, macOS, and Linux.</p>
 <ul>
@@ -671,5 +673,7 @@
 <li><strong>Set Up a Redis Server:</strong> Set up a Redis server on your local machine using the instructions provided earlier. Connect to the Redis server using the <code>redis-cli</code> command and set a few key-value pairs. Retrieve the values to verify that everything is working correctly.</li>
 <li><strong>Run a NoSQL Database in Docker:</strong> Choose one of the NoSQL databases covered in this course and run it in a Docker container. Connect to the database from your host machine and perform basic CRUD operations.</li>
 </ol>
+
+</div>
 
 </div>
