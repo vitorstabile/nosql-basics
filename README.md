@@ -1,3 +1,5 @@
+<a href="#chapter-1">Go to Contact Us</a>
+
 <div id="chapter-1">
 
 <div id="chapter-1.1">
