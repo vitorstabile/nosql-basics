@@ -1,30 +1,4 @@
 <div class="bg-white p-8 pb-0 max-lg:px-4 max-lg:pt-3">
-	<div class="mb-4 flex justify-between max-sm:flex-col-reverse">
-		<div class="top-2 right-2 mb-3 flex items-center gap-2 max-sm:justify-end md:absolute lg:top-6 lg:right-6">
-			<button class="rounded-full p-1 text-gray-400 hover:text-black max-lg:hidden">
-				<svg
-					xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-message-circle-off size-4 stroke-[2.5]" aria-hidden="true">
-					<path d="M20.5 14.9A9 9 0 0 0 9.1 3.5"></path>
-					<path d="m2 2 20 20"></path>
-					<path d="M5.6 5.6C3 8.3 2.2 12.5 4 16l-2 6 6-2c3.4 1.8 7.6 1.1 10.3-1.7"></path>
-				</svg>
-			</button>
-			<button class="rounded-md px-2.5 text-gray-400 hover:text-black" type="button" id="radix-_r_1f_" aria-haspopup="menu" aria-expanded="false" data-state="closed">
-				<svg
-					xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-square-pen text-current" aria-hidden="true">
-					<path d="M12 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
-					<path d="M18.375 2.625a1 1 0 0 1 3 3l-9.013 9.014a2 2 0 0 1-.853.505l-2.873.84a.5.5 0 0 1-.62-.62l.84-2.873a2 2 0 0 1 .506-.852z"></path>
-				</svg>
-			</button>
-			<button class="flex items-center gap-1.5 rounded-full py-1 pr-3 pl-2 text-sm text-white disabled:opacity-50 max-lg:text-xs bg-red-500 hover:bg-red-600">
-				<svg
-					xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-x" aria-hidden="true">
-					<path d="M18 6 6 18"></path>
-					<path d="m6 6 12 12"></path>
-				</svg>Mark as Undone
-			</button>
-		</div>
-	</div>
 	<h1 class="mb-6 text-3xl font-semibold text-balance max-lg:mb-3 max-lg:text-xl">What is NoSQL and Why Use It?</h1>
 	<div class="overflow-hidden [&amp;&gt;*:first-child]:mt-0 [&amp;&gt;*:last-child]:mb-0 course-content prose prose-lg prose-headings:mb-3 prose-headings:mt-8 prose-blockquote:font-normal prose-pre:rounded-2xl prose-pre:text-lg prose-li:my-1 prose-thead:border-zinc-800 prose-tr:border-zinc-800 max-lg:prose-h2:mt-3 max-lg:prose-h2:text-lg max-lg:prose-h3:text-base max-lg:prose-pre:px-3 max-lg:prose-pre:text-sm mt-8 max-w-full text-black max-lg:mt-4 max-lg:text-base">
 		<p>NoSQL databases have emerged as a powerful alternative to traditional relational databases, offering flexibility, scalability, and performance advantages for specific use cases. Understanding what NoSQL databases are, their various types, and the reasons for choosing them is crucial for modern application development. This lesson will provide a comprehensive overview of NoSQL databases, exploring their key characteristics, benefits, and common use cases, setting the stage for a deeper dive into specific NoSQL database technologies in subsequent modules.</p>
