@@ -1,4 +1,4 @@
-<div id="chapter1">
+<div id="chapter-1">
 
 <div id="chapter-1.1">
 
@@ -678,7 +678,7 @@
 
 </div>
 
-<div id="chapter2">
+<div id="chapter-2">
 
 <div id="chapter-2.1">
 
@@ -1868,6 +1868,1214 @@ Replace <code>7.0</code> with the desired MongoDB version.</li>
 <li><strong>Update multiple users:</strong> Write a script to update the <code>joinDate</code> field for all users who joined before a specific date.</li>
 <li><strong>Complex query:</strong> Write a query to find all users who are located in "New York" or "Los Angeles" and have more than 1000 followers on Twitter.</li>
 <li><strong>Implement User Deletion with Confirmation:</strong> Add a <code>status</code> field to the user document (e.g., "active", "pending_deletion", "deleted"). When a user requests deletion, set their status to "pending_deletion". Create a background process (outside the scope of this lesson, but conceptually) that periodically deletes users with the "pending_deletion" status after a confirmation period. This provides a grace period for users to cancel their deletion request.</li>
+</ol>
+
+</div>
+
+</div>
+
+<div id="chapter-3">
+
+<div id="chapter-3.1">
+
+<h1 class="mb-6 text-3xl font-semibold text-balance max-lg:mb-3 max-lg:text-xl">Introduction to Redis: Concepts and Use Cases</h1><p>Redis is an in-memory data structure store, often used as a database, cache, message broker, and streaming engine. Its speed, versatility, and support for various data structures make it a popular choice for modern applications. Understanding Redis's core concepts and use cases is crucial for building scalable and efficient systems. This lesson will provide a comprehensive introduction to Redis, covering its fundamental principles and exploring its diverse applications.</p>
+<h2>Understanding Redis: Core Concepts</h2>
+<p>Redis operates on a key-value model, similar to other key-value stores you might have encountered. However, Redis distinguishes itself through its rich set of data structures and in-memory nature. Let's delve into the key concepts:</p>
+<h3>Key-Value Structure</h3>
+<p>At its heart, Redis stores data as key-value pairs. The <em>key</em> is a unique identifier, and the <em>value</em> is the data associated with that key.</p>
+<ul>
+<li><strong>Keys:</strong> Keys are strings and are case-sensitive. It's best practice to keep keys relatively short and descriptive. For example, <code>user:1234:name</code> is a better key than <code>theusernameoftheuserwithid1234</code>.</li>
+<li><strong>Values:</strong> Unlike simple key-value stores that only support string values, Redis supports various data structures as values, which we'll explore later.</li>
+</ul>
+<h3>In-Memory Data Storage</h3>
+<p>Redis primarily stores data in memory, which allows for extremely fast read and write operations. This is a significant advantage over traditional disk-based databases.</p>
+<ul>
+<li><strong>Speed:</strong> Because data resides in RAM, Redis can achieve sub-millisecond latency.</li>
+<li><strong>Persistence:</strong> While Redis is in-memory, it offers persistence options to save data to disk, preventing data loss in case of server restarts. This will be covered in a later lesson.</li>
+</ul>
+<h3>Data Structures</h3>
+<p>Redis supports a variety of data structures beyond simple strings, making it versatile for different use cases. These include:</p>
+<ul>
+<li><strong>Strings:</strong> Basic text or binary data.</li>
+<li><strong>Lists:</strong> Ordered collections of strings.</li>
+<li><strong>Sets:</strong> Unordered collections of unique strings.</li>
+<li><strong>Hashes:</strong> Collections of field-value pairs, similar to dictionaries.</li>
+<li><strong>Sorted Sets:</strong> Sets where each member is associated with a score, allowing for ordered retrieval.</li>
+<li><strong>Bitmaps:</strong> A compact way to store boolean information.</li>
+<li><strong>HyperLogLogs:</strong> A probabilistic data structure used for estimating the cardinality of a set.</li>
+<li><strong>Geospatial Indexes:</strong> Used for storing and querying geographical data.</li>
+<li><strong>Streams:</strong> An append-only data structure used for real-time data streaming.</li>
+</ul>
+<p>We will explore the basic data types (Strings, Lists, Sets, and Hashes) in more detail in the next lesson.</p>
+<h3>Single-Threaded Architecture</h3>
+<p>Redis uses a single-threaded event loop to process commands. This might seem like a limitation, but it simplifies the design and avoids the overhead of thread management and locking.</p>
+<ul>
+<li><strong>Simplicity:</strong> The single-threaded model makes Redis easier to reason about and debug.</li>
+<li><strong>Performance:</strong> Redis achieves high performance through its efficient event loop and in-memory data storage.</li>
+<li><strong>Limitations:</strong> Long-running commands can block the event loop, affecting overall performance. This can be mitigated by using asynchronous operations or breaking down large tasks into smaller ones.</li>
+</ul>
+<h3>Publish/Subscribe (Pub/Sub)</h3>
+<p>Redis provides a Pub/Sub messaging paradigm, allowing clients to subscribe to channels and receive messages published to those channels.</p>
+<ul>
+<li><strong>Real-time Communication:</strong> Pub/Sub is useful for implementing real-time features like chat applications or live updates.</li>
+<li><strong>Decoupling:</strong> It decouples publishers from subscribers, allowing for a more flexible and scalable architecture.</li>
+</ul>
+<h2>Common Use Cases for Redis</h2>
+<p>Redis's speed and versatility make it suitable for a wide range of applications. Here are some of the most common use cases:</p>
+<h3>Caching</h3>
+<p>Caching is one of the most popular use cases for Redis. By storing frequently accessed data in memory, Redis can significantly improve application performance.</p>
+<ul>
+<li><strong>Web Page Caching:</strong> Store rendered HTML pages or fragments in Redis to reduce the load on the web server.</li>
+<li><strong>Database Query Caching:</strong> Cache the results of expensive database queries to avoid repeatedly querying the database.</li>
+<li><strong>API Response Caching:</strong> Cache API responses to reduce latency and improve the responsiveness of applications. This is the use case we will implement in our Social Media Analytics Platform.</li>
+</ul>
+<h3>Session Management</h3>
+<p>Redis can be used to store user session data, providing a fast and scalable alternative to traditional session management solutions.</p>
+<ul>
+<li><strong>Scalability:</strong> Redis can easily handle a large number of concurrent sessions.</li>
+<li><strong>Performance:</strong> Accessing session data from Redis is much faster than reading from a database or file system.</li>
+</ul>
+<h3>Real-time Analytics</h3>
+<p>Redis can be used to track and analyze real-time data, such as website traffic, user activity, or sensor data.</p>
+<ul>
+<li><strong>Counters:</strong> Redis provides atomic increment and decrement operations, making it easy to track counters in real-time.</li>
+<li><strong>Leaderboards:</strong> Sorted sets can be used to maintain leaderboards based on scores.</li>
+</ul>
+<h3>Message Broker</h3>
+<p>Redis can be used as a message broker for asynchronous communication between different parts of an application.</p>
+<ul>
+<li><strong>Task Queues:</strong> Push tasks to a Redis queue and have worker processes consume them asynchronously.</li>
+<li><strong>Pub/Sub:</strong> Use Pub/Sub for real-time messaging and event notifications.</li>
+</ul>
+<h3>Rate Limiting</h3>
+<p>Redis can be used to implement rate limiting, preventing users or applications from making too many requests in a given time period.</p>
+<ul>
+<li><strong>API Rate Limiting:</strong> Limit the number of requests that a user can make to an API.</li>
+<li><strong>Login Attempt Limiting:</strong> Prevent brute-force attacks by limiting the number of login attempts.</li>
+</ul>
+<h3>Real-World Application</h3>
+<p>Let's consider a hypothetical e-commerce website.</p>
+<ol>
+<li><strong>Caching:</strong> Redis can cache product details, category listings, and user profiles to reduce database load and improve page load times.</li>
+<li><strong>Session Management:</strong> User session data, such as shopping cart contents and login information, can be stored in Redis for fast access.</li>
+<li><strong>Real-time Inventory:</strong> Redis can track real-time inventory levels, ensuring that customers don't order out-of-stock items.</li>
+<li><strong>Recommendations:</strong> Redis can store pre-computed product recommendations based on user browsing history and purchase patterns.</li>
+<li><strong>Rate Limiting:</strong> Redis can limit the number of requests from a single IP address to prevent abuse or denial-of-service attacks.</li>
+</ol>
+<h3>Hypothetical Scenario</h3>
+<p>Imagine a multiplayer online game. Redis could be used to:</p>
+<ol>
+<li><strong>Store player session data:</strong> Keeping track of player location, inventory, and other real-time information.</li>
+<li><strong>Manage leaderboards:</strong> Maintaining and displaying player rankings based on scores or achievements.</li>
+<li><strong>Handle real-time chat:</strong> Facilitating communication between players in the game world.</li>
+<li><strong>Coordinate game events:</strong> Triggering and managing in-game events based on player actions or timers.</li>
+</ol>
+<h2>Exercises</h2>
+<ol>
+<li><strong>Caching Scenario:</strong> Design a caching strategy for a news website using Redis. What data would you cache, and how would you invalidate the cache when the data changes?</li>
+<li><strong>Real-time Counter:</strong> Implement a real-time counter using Redis to track the number of visitors to a website. How would you handle concurrent updates to the counter?</li>
+<li><strong>Session Management:</strong> Describe how you would use Redis to store user session data for a web application. What data would you store in the session, and how would you handle session expiration?</li>
+</ol>
+  
+</div>
+
+<div id="chapter-3.2">
+  
+<h1 class="mb-6 text-3xl font-semibold text-balance max-lg:mb-3 max-lg:text-xl">Installing and Configuring Redis</h1><p>Redis is a powerful in-memory data store that can significantly enhance the performance of applications. Before you can leverage its capabilities, you need to install and configure it correctly. This lesson will guide you through the process of installing Redis on various operating systems and configuring it for optimal use. We'll cover different installation methods, basic configuration settings, and security considerations to ensure your Redis instance is ready for development and production environments.</p>
+<h2>Installing Redis</h2>
+<p>Redis can be installed in several ways, depending on your operating system and preferences. We'll cover the most common methods for Linux, macOS, and Windows.</p>
+<h3>Installing on Linux</h3>
+<p>Linux offers multiple ways to install Redis, including using package managers and building from source.</p>
+<h4>Using Package Managers (Recommended)</h4>
+<p>Most Linux distributions provide Redis packages through their respective package managers. This is the easiest and recommended method for installation.</p>
+<ul>
+<li>
+<p><strong>Debian/Ubuntu:</strong></p>
+<div class="not-prose my-6 max-w-full overflow-hidden rounded-lg border border-gray-200 has-[code:empty]:hidden"><div class="flex items-center justify-between gap-2 border-b border-gray-200 bg-gray-50 px-3 py-2"><span class="text-sm text-gray-600">bash</span><div class="flex items-center gap-2"><button class="flex size-6 items-center justify-center gap-2 rounded-md text-gray-400 hover:bg-zinc-200 hover:text-black focus:outline-none"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-copy size-3.5" aria-hidden="true"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"></rect><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"></path></svg></button></div></div><div class="mt-0 text-sm [&amp;_pre]:py-0 [&amp;_pre]:grid [&amp;_code]:py-4 [&amp;_code]:w-full [&amp;_code]:grid [&amp;_code]:overflow-x-auto [&amp;_code]:no-scrollbar [&amp;_code]:bg-transparent [&amp;_.line]:px-3 [&amp;_.line]:w-full [&amp;_.line]:relative [&amp;_.line]:min-h-5"><div><pre class="shiki github-light" style="background-color:#fff;color:#24292e" tabindex="0"><code><span class="line"><span style="color:#6F42C1">sudo</span><span style="color:#032F62"> apt</span><span style="color:#032F62"> update</span></span>
+<span class="line"><span style="color:#6F42C1">sudo</span><span style="color:#032F62"> apt</span><span style="color:#032F62"> install</span><span style="color:#032F62"> redis-server</span></span></code></pre></div></div></div>
+<p>This command first updates the package list and then installs the <code>redis-server</code> package, which includes the Redis server and command-line client (<code>redis-cli</code>).</p>
+</li>
+<li>
+<p><strong>CentOS/RHEL/Fedora:</strong></p>
+<div class="not-prose my-6 max-w-full overflow-hidden rounded-lg border border-gray-200 has-[code:empty]:hidden"><div class="flex items-center justify-between gap-2 border-b border-gray-200 bg-gray-50 px-3 py-2"><span class="text-sm text-gray-600">bash</span><div class="flex items-center gap-2"><button class="flex size-6 items-center justify-center gap-2 rounded-md text-gray-400 hover:bg-zinc-200 hover:text-black focus:outline-none"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-copy size-3.5" aria-hidden="true"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"></rect><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"></path></svg></button></div></div><div class="mt-0 text-sm [&amp;_pre]:py-0 [&amp;_pre]:grid [&amp;_code]:py-4 [&amp;_code]:w-full [&amp;_code]:grid [&amp;_code]:overflow-x-auto [&amp;_code]:no-scrollbar [&amp;_code]:bg-transparent [&amp;_.line]:px-3 [&amp;_.line]:w-full [&amp;_.line]:relative [&amp;_.line]:min-h-5"><div><pre class="shiki github-light" style="background-color:#fff;color:#24292e" tabindex="0"><code><span class="line"><span style="color:#6F42C1">sudo</span><span style="color:#032F62"> yum</span><span style="color:#032F62"> install</span><span style="color:#032F62"> epel-release</span><span style="color:#6A737D">  # Install EPEL repository (if not already installed)</span></span>
+<span class="line"><span style="color:#6F42C1">sudo</span><span style="color:#032F62"> yum</span><span style="color:#032F62"> install</span><span style="color:#032F62"> redis</span></span></code></pre></div></div></div>
+<p>Or, on newer Fedora versions:</p>
+<div class="not-prose my-6 max-w-full overflow-hidden rounded-lg border border-gray-200 has-[code:empty]:hidden"><div class="flex items-center justify-between gap-2 border-b border-gray-200 bg-gray-50 px-3 py-2"><span class="text-sm text-gray-600">bash</span><div class="flex items-center gap-2"><button class="flex size-6 items-center justify-center gap-2 rounded-md text-gray-400 hover:bg-zinc-200 hover:text-black focus:outline-none"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-copy size-3.5" aria-hidden="true"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"></rect><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"></path></svg></button></div></div><div class="mt-0 text-sm [&amp;_pre]:py-0 [&amp;_pre]:grid [&amp;_code]:py-4 [&amp;_code]:w-full [&amp;_code]:grid [&amp;_code]:overflow-x-auto [&amp;_code]:no-scrollbar [&amp;_code]:bg-transparent [&amp;_.line]:px-3 [&amp;_.line]:w-full [&amp;_.line]:relative [&amp;_.line]:min-h-5"><div><pre class="shiki github-light" style="background-color:#fff;color:#24292e" tabindex="0"><code><span class="line"><span style="color:#6F42C1">sudo</span><span style="color:#032F62"> dnf</span><span style="color:#032F62"> install</span><span style="color:#032F62"> redis</span></span></code></pre></div></div></div>
+<p>These commands install Redis from the Extra Packages for Enterprise Linux (EPEL) repository (if needed) or directly from the distribution's repositories.</p>
+</li>
+<li>
+<p><strong>Arch Linux:</strong></p>
+<div class="not-prose my-6 max-w-full overflow-hidden rounded-lg border border-gray-200 has-[code:empty]:hidden"><div class="flex items-center justify-between gap-2 border-b border-gray-200 bg-gray-50 px-3 py-2"><span class="text-sm text-gray-600">bash</span><div class="flex items-center gap-2"><button class="flex size-6 items-center justify-center gap-2 rounded-md text-gray-400 hover:bg-zinc-200 hover:text-black focus:outline-none"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-copy size-3.5" aria-hidden="true"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"></rect><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"></path></svg></button></div></div><div class="mt-0 text-sm [&amp;_pre]:py-0 [&amp;_pre]:grid [&amp;_code]:py-4 [&amp;_code]:w-full [&amp;_code]:grid [&amp;_code]:overflow-x-auto [&amp;_code]:no-scrollbar [&amp;_code]:bg-transparent [&amp;_.line]:px-3 [&amp;_.line]:w-full [&amp;_.line]:relative [&amp;_.line]:min-h-5"><div><pre class="shiki github-light" style="background-color:#fff;color:#24292e" tabindex="0"><code><span class="line"><span style="color:#6F42C1">sudo</span><span style="color:#032F62"> pacman</span><span style="color:#005CC5"> -S</span><span style="color:#032F62"> redis</span></span></code></pre></div></div></div>
+<p>This command installs Redis from the Arch Linux package repository.</p>
+</li>
+</ul>
+<p>After installation, you can start the Redis server using the following command:</p>
+<div class="not-prose my-6 max-w-full overflow-hidden rounded-lg border border-gray-200 has-[code:empty]:hidden"><div class="flex items-center justify-between gap-2 border-b border-gray-200 bg-gray-50 px-3 py-2"><span class="text-sm text-gray-600">bash</span><div class="flex items-center gap-2"><button class="flex size-6 items-center justify-center gap-2 rounded-md text-gray-400 hover:bg-zinc-200 hover:text-black focus:outline-none"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-copy size-3.5" aria-hidden="true"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"></rect><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"></path></svg></button></div></div><div class="mt-0 text-sm [&amp;_pre]:py-0 [&amp;_pre]:grid [&amp;_code]:py-4 [&amp;_code]:w-full [&amp;_code]:grid [&amp;_code]:overflow-x-auto [&amp;_code]:no-scrollbar [&amp;_code]:bg-transparent [&amp;_.line]:px-3 [&amp;_.line]:w-full [&amp;_.line]:relative [&amp;_.line]:min-h-5"><div><pre class="shiki github-light" style="background-color:#fff;color:#24292e" tabindex="0"><code><span class="line"><span style="color:#6F42C1">sudo</span><span style="color:#032F62"> systemctl</span><span style="color:#032F62"> start</span><span style="color:#032F62"> redis</span></span></code></pre></div></div></div>
+<p>To enable Redis to start automatically on boot:</p>
+<div class="not-prose my-6 max-w-full overflow-hidden rounded-lg border border-gray-200 has-[code:empty]:hidden"><div class="flex items-center justify-between gap-2 border-b border-gray-200 bg-gray-50 px-3 py-2"><span class="text-sm text-gray-600">bash</span><div class="flex items-center gap-2"><button class="flex size-6 items-center justify-center gap-2 rounded-md text-gray-400 hover:bg-zinc-200 hover:text-black focus:outline-none"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-copy size-3.5" aria-hidden="true"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"></rect><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"></path></svg></button></div></div><div class="mt-0 text-sm [&amp;_pre]:py-0 [&amp;_pre]:grid [&amp;_code]:py-4 [&amp;_code]:w-full [&amp;_code]:grid [&amp;_code]:overflow-x-auto [&amp;_code]:no-scrollbar [&amp;_code]:bg-transparent [&amp;_.line]:px-3 [&amp;_.line]:w-full [&amp;_.line]:relative [&amp;_.line]:min-h-5"><div><pre class="shiki github-light" style="background-color:#fff;color:#24292e" tabindex="0"><code><span class="line"><span style="color:#6F42C1">sudo</span><span style="color:#032F62"> systemctl</span><span style="color:#032F62"> enable</span><span style="color:#032F62"> redis</span></span></code></pre></div></div></div>
+<p>You can check the status of the Redis server using:</p>
+<div class="not-prose my-6 max-w-full overflow-hidden rounded-lg border border-gray-200 has-[code:empty]:hidden"><div class="flex items-center justify-between gap-2 border-b border-gray-200 bg-gray-50 px-3 py-2"><span class="text-sm text-gray-600">bash</span><div class="flex items-center gap-2"><button class="flex size-6 items-center justify-center gap-2 rounded-md text-gray-400 hover:bg-zinc-200 hover:text-black focus:outline-none"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-copy size-3.5" aria-hidden="true"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"></rect><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"></path></svg></button></div></div><div class="mt-0 text-sm [&amp;_pre]:py-0 [&amp;_pre]:grid [&amp;_code]:py-4 [&amp;_code]:w-full [&amp;_code]:grid [&amp;_code]:overflow-x-auto [&amp;_code]:no-scrollbar [&amp;_code]:bg-transparent [&amp;_.line]:px-3 [&amp;_.line]:w-full [&amp;_.line]:relative [&amp;_.line]:min-h-5"><div><pre class="shiki github-light" style="background-color:#fff;color:#24292e" tabindex="0"><code><span class="line"><span style="color:#6F42C1">sudo</span><span style="color:#032F62"> systemctl</span><span style="color:#032F62"> status</span><span style="color:#032F62"> redis</span></span></code></pre></div></div></div>
+<h4>Building from Source</h4>
+<p>Building from source provides the latest version of Redis and allows for customization during the build process.</p>
+<ol>
+<li>
+<p><strong>Download the source code:</strong></p>
+<p>Visit the official Redis website (<a href="https://redis.io/download/">https://redis.io/download/</a>) and download the latest stable version of the source code.  Alternatively, use <code>wget</code>:</p>
+<div class="not-prose my-6 max-w-full overflow-hidden rounded-lg border border-gray-200 has-[code:empty]:hidden"><div class="flex items-center justify-between gap-2 border-b border-gray-200 bg-gray-50 px-3 py-2"><span class="text-sm text-gray-600">bash</span><div class="flex items-center gap-2"><button class="flex size-6 items-center justify-center gap-2 rounded-md text-gray-400 hover:bg-zinc-200 hover:text-black focus:outline-none"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-copy size-3.5" aria-hidden="true"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"></rect><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"></path></svg></button></div></div><div class="mt-0 text-sm [&amp;_pre]:py-0 [&amp;_pre]:grid [&amp;_code]:py-4 [&amp;_code]:w-full [&amp;_code]:grid [&amp;_code]:overflow-x-auto [&amp;_code]:no-scrollbar [&amp;_code]:bg-transparent [&amp;_.line]:px-3 [&amp;_.line]:w-full [&amp;_.line]:relative [&amp;_.line]:min-h-5"><div><pre class="shiki github-light" style="background-color:#fff;color:#24292e" tabindex="0"><code><span class="line"><span style="color:#6F42C1">wget</span><span style="color:#032F62"> https://download.redis.io/redis-stable.tar.gz</span></span></code></pre></div></div></div>
+</li>
+<li>
+<p><strong>Extract the archive:</strong></p>
+<div class="not-prose my-6 max-w-full overflow-hidden rounded-lg border border-gray-200 has-[code:empty]:hidden"><div class="flex items-center justify-between gap-2 border-b border-gray-200 bg-gray-50 px-3 py-2"><span class="text-sm text-gray-600">bash</span><div class="flex items-center gap-2"><button class="flex size-6 items-center justify-center gap-2 rounded-md text-gray-400 hover:bg-zinc-200 hover:text-black focus:outline-none"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-copy size-3.5" aria-hidden="true"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"></rect><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"></path></svg></button></div></div><div class="mt-0 text-sm [&amp;_pre]:py-0 [&amp;_pre]:grid [&amp;_code]:py-4 [&amp;_code]:w-full [&amp;_code]:grid [&amp;_code]:overflow-x-auto [&amp;_code]:no-scrollbar [&amp;_code]:bg-transparent [&amp;_.line]:px-3 [&amp;_.line]:w-full [&amp;_.line]:relative [&amp;_.line]:min-h-5"><div><pre class="shiki github-light" style="background-color:#fff;color:#24292e" tabindex="0"><code><span class="line"><span style="color:#6F42C1">tar</span><span style="color:#032F62"> xzf</span><span style="color:#032F62"> redis-stable.tar.gz</span></span>
+<span class="line"><span style="color:#005CC5">cd</span><span style="color:#032F62"> redis-stable</span></span></code></pre></div></div></div>
+</li>
+<li>
+<p><strong>Compile Redis:</strong></p>
+<div class="not-prose my-6 max-w-full overflow-hidden rounded-lg border border-gray-200 has-[code:empty]:hidden"><div class="flex items-center justify-between gap-2 border-b border-gray-200 bg-gray-50 px-3 py-2"><span class="text-sm text-gray-600">bash</span><div class="flex items-center gap-2"><button class="flex size-6 items-center justify-center gap-2 rounded-md text-gray-400 hover:bg-zinc-200 hover:text-black focus:outline-none"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-copy size-3.5" aria-hidden="true"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"></rect><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"></path></svg></button></div></div><div class="mt-0 text-sm [&amp;_pre]:py-0 [&amp;_pre]:grid [&amp;_code]:py-4 [&amp;_code]:w-full [&amp;_code]:grid [&amp;_code]:overflow-x-auto [&amp;_code]:no-scrollbar [&amp;_code]:bg-transparent [&amp;_.line]:px-3 [&amp;_.line]:w-full [&amp;_.line]:relative [&amp;_.line]:min-h-5"><div><pre class="shiki github-light" style="background-color:#fff;color:#24292e" tabindex="0"><code><span class="line"><span style="color:#6F42C1">make</span></span></code></pre></div></div></div>
+<p>This command compiles the Redis source code.  Ensure you have <code>gcc</code>, <code>make</code>, and <code>tcl</code> installed. If not, install them using your distribution's package manager (e.g., <code>sudo apt install build-essential tcl</code> on Debian/Ubuntu).</p>
+</li>
+<li>
+<p><strong>Install Redis:</strong></p>
+<div class="not-prose my-6 max-w-full overflow-hidden rounded-lg border border-gray-200 has-[code:empty]:hidden"><div class="flex items-center justify-between gap-2 border-b border-gray-200 bg-gray-50 px-3 py-2"><span class="text-sm text-gray-600">bash</span><div class="flex items-center gap-2"><button class="flex size-6 items-center justify-center gap-2 rounded-md text-gray-400 hover:bg-zinc-200 hover:text-black focus:outline-none"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-copy size-3.5" aria-hidden="true"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"></rect><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"></path></svg></button></div></div><div class="mt-0 text-sm [&amp;_pre]:py-0 [&amp;_pre]:grid [&amp;_code]:py-4 [&amp;_code]:w-full [&amp;_code]:grid [&amp;_code]:overflow-x-auto [&amp;_code]:no-scrollbar [&amp;_code]:bg-transparent [&amp;_.line]:px-3 [&amp;_.line]:w-full [&amp;_.line]:relative [&amp;_.line]:min-h-5"><div><pre class="shiki github-light" style="background-color:#fff;color:#24292e" tabindex="0"><code><span class="line"><span style="color:#6F42C1">sudo</span><span style="color:#032F62"> make</span><span style="color:#032F62"> install</span></span></code></pre></div></div></div>
+<p>This command installs the Redis binaries to <code>/usr/local/bin</code>.</p>
+</li>
+<li>
+<p><strong>Configure Redis (Optional):</strong></p>
+<p>Copy the <code>redis.conf</code> file to <code>/etc/redis/redis.conf</code> and modify it as needed.  You can find the <code>redis.conf</code> file in the root directory of the extracted source code.</p>
+<div class="not-prose my-6 max-w-full overflow-hidden rounded-lg border border-gray-200 has-[code:empty]:hidden"><div class="flex items-center justify-between gap-2 border-b border-gray-200 bg-gray-50 px-3 py-2"><span class="text-sm text-gray-600">bash</span><div class="flex items-center gap-2"><button class="flex size-6 items-center justify-center gap-2 rounded-md text-gray-400 hover:bg-zinc-200 hover:text-black focus:outline-none"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-copy size-3.5" aria-hidden="true"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"></rect><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"></path></svg></button></div></div><div class="mt-0 text-sm [&amp;_pre]:py-0 [&amp;_pre]:grid [&amp;_code]:py-4 [&amp;_code]:w-full [&amp;_code]:grid [&amp;_code]:overflow-x-auto [&amp;_code]:no-scrollbar [&amp;_code]:bg-transparent [&amp;_.line]:px-3 [&amp;_.line]:w-full [&amp;_.line]:relative [&amp;_.line]:min-h-5"><div><pre class="shiki github-light" style="background-color:#fff;color:#24292e" tabindex="0"><code><span class="line"><span style="color:#6F42C1">sudo</span><span style="color:#032F62"> mkdir</span><span style="color:#032F62"> /etc/redis</span></span>
+<span class="line"><span style="color:#6F42C1">sudo</span><span style="color:#032F62"> cp</span><span style="color:#032F62"> redis.conf</span><span style="color:#032F62"> /etc/redis/redis.conf</span></span></code></pre></div></div></div>
+</li>
+<li>
+<p><strong>Run Redis:</strong></p>
+<p>You can run Redis directly from the command line:</p>
+<div class="not-prose my-6 max-w-full overflow-hidden rounded-lg border border-gray-200 has-[code:empty]:hidden"><div class="flex items-center justify-between gap-2 border-b border-gray-200 bg-gray-50 px-3 py-2"><span class="text-sm text-gray-600">bash</span><div class="flex items-center gap-2"><button class="flex size-6 items-center justify-center gap-2 rounded-md text-gray-400 hover:bg-zinc-200 hover:text-black focus:outline-none"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-copy size-3.5" aria-hidden="true"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"></rect><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"></path></svg></button></div></div><div class="mt-0 text-sm [&amp;_pre]:py-0 [&amp;_pre]:grid [&amp;_code]:py-4 [&amp;_code]:w-full [&amp;_code]:grid [&amp;_code]:overflow-x-auto [&amp;_code]:no-scrollbar [&amp;_code]:bg-transparent [&amp;_.line]:px-3 [&amp;_.line]:w-full [&amp;_.line]:relative [&amp;_.line]:min-h-5"><div><pre class="shiki github-light" style="background-color:#fff;color:#24292e" tabindex="0"><code><span class="line"><span style="color:#6F42C1">redis-server</span><span style="color:#032F62"> /etc/redis/redis.conf</span></span></code></pre></div></div></div>
+<p>Or, create a systemd service file to manage Redis as a service.</p>
+</li>
+</ol>
+<h3>Installing on macOS</h3>
+<p>macOS offers several options for installing Redis, including using Homebrew and building from source.</p>
+<h4>Using Homebrew (Recommended)</h4>
+<p>Homebrew is a popular package manager for macOS.</p>
+<ol>
+<li>
+<p><strong>Install Homebrew (if not already installed):</strong></p>
+<div class="not-prose my-6 max-w-full overflow-hidden rounded-lg border border-gray-200 has-[code:empty]:hidden"><div class="flex items-center justify-between gap-2 border-b border-gray-200 bg-gray-50 px-3 py-2"><span class="text-sm text-gray-600">bash</span><div class="flex items-center gap-2"><button class="flex size-6 items-center justify-center gap-2 rounded-md text-gray-400 hover:bg-zinc-200 hover:text-black focus:outline-none"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-copy size-3.5" aria-hidden="true"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"></rect><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"></path></svg></button></div></div><div class="mt-0 text-sm [&amp;_pre]:py-0 [&amp;_pre]:grid [&amp;_code]:py-4 [&amp;_code]:w-full [&amp;_code]:grid [&amp;_code]:overflow-x-auto [&amp;_code]:no-scrollbar [&amp;_code]:bg-transparent [&amp;_.line]:px-3 [&amp;_.line]:w-full [&amp;_.line]:relative [&amp;_.line]:min-h-5"><div><pre class="shiki github-light" style="background-color:#fff;color:#24292e" tabindex="0"><code><span class="line"><span style="color:#6F42C1">/bin/bash</span><span style="color:#005CC5"> -c</span><span style="color:#032F62"> "$(</span><span style="color:#6F42C1">curl</span><span style="color:#005CC5"> -fsSL</span><span style="color:#032F62"> https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"</span></span></code></pre></div></div></div>
+</li>
+<li>
+<p><strong>Install Redis:</strong></p>
+<div class="not-prose my-6 max-w-full overflow-hidden rounded-lg border border-gray-200 has-[code:empty]:hidden"><div class="flex items-center justify-between gap-2 border-b border-gray-200 bg-gray-50 px-3 py-2"><span class="text-sm text-gray-600">bash</span><div class="flex items-center gap-2"><button class="flex size-6 items-center justify-center gap-2 rounded-md text-gray-400 hover:bg-zinc-200 hover:text-black focus:outline-none"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-copy size-3.5" aria-hidden="true"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"></rect><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"></path></svg></button></div></div><div class="mt-0 text-sm [&amp;_pre]:py-0 [&amp;_pre]:grid [&amp;_code]:py-4 [&amp;_code]:w-full [&amp;_code]:grid [&amp;_code]:overflow-x-auto [&amp;_code]:no-scrollbar [&amp;_code]:bg-transparent [&amp;_.line]:px-3 [&amp;_.line]:w-full [&amp;_.line]:relative [&amp;_.line]:min-h-5"><div><pre class="shiki github-light" style="background-color:#fff;color:#24292e" tabindex="0"><code><span class="line"><span style="color:#6F42C1">brew</span><span style="color:#032F62"> update</span></span>
+<span class="line"><span style="color:#6F42C1">brew</span><span style="color:#032F62"> install</span><span style="color:#032F62"> redis</span></span></code></pre></div></div></div>
+<p>This command updates Homebrew and installs Redis.</p>
+</li>
+<li>
+<p><strong>Start Redis:</strong></p>
+<div class="not-prose my-6 max-w-full overflow-hidden rounded-lg border border-gray-200 has-[code:empty]:hidden"><div class="flex items-center justify-between gap-2 border-b border-gray-200 bg-gray-50 px-3 py-2"><span class="text-sm text-gray-600">bash</span><div class="flex items-center gap-2"><button class="flex size-6 items-center justify-center gap-2 rounded-md text-gray-400 hover:bg-zinc-200 hover:text-black focus:outline-none"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-copy size-3.5" aria-hidden="true"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"></rect><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"></path></svg></button></div></div><div class="mt-0 text-sm [&amp;_pre]:py-0 [&amp;_pre]:grid [&amp;_code]:py-4 [&amp;_code]:w-full [&amp;_code]:grid [&amp;_code]:overflow-x-auto [&amp;_code]:no-scrollbar [&amp;_code]:bg-transparent [&amp;_.line]:px-3 [&amp;_.line]:w-full [&amp;_.line]:relative [&amp;_.line]:min-h-5"><div><pre class="shiki github-light" style="background-color:#fff;color:#24292e" tabindex="0"><code><span class="line"><span style="color:#6F42C1">brew</span><span style="color:#032F62"> services</span><span style="color:#032F62"> start</span><span style="color:#032F62"> redis</span></span></code></pre></div></div></div>
+<p>This command starts the Redis server as a background service.  To stop it, use <code>brew services stop redis</code>.</p>
+</li>
+</ol>
+<h4>Building from Source</h4>
+<p>The process is similar to building from source on Linux.  Follow the Linux instructions, ensuring you have Xcode Command Line Tools installed.</p>
+<h3>Installing on Windows</h3>
+<p>Windows does not have an official Redis distribution. However, you can use several third-party distributions or run Redis in a Docker container.</p>
+<h4>Using a Third-Party Distribution</h4>
+<p>Several third-party distributions of Redis are available for Windows.  One popular option is the MSOpenTech port of Redis.</p>
+<ol>
+<li>
+<p><strong>Download the MSOpenTech Redis distribution:</strong></p>
+<p>Search for "MSOpenTech Redis" and download the latest release from a trusted source (e.g., GitHub).</p>
+</li>
+<li>
+<p><strong>Extract the archive:</strong></p>
+<p>Extract the downloaded archive to a directory of your choice (e.g., <code>C:\Redis</code>).</p>
+</li>
+<li>
+<p><strong>Run Redis:</strong></p>
+<p>Open a command prompt and navigate to the extracted directory.  Run the Redis server using:</p>
+<div class="not-prose my-6 max-w-full overflow-hidden rounded-lg border border-gray-200 has-[code:empty]:hidden"><div class="flex items-center justify-between gap-2 border-b border-gray-200 bg-gray-50 px-3 py-2"><span class="text-sm text-gray-600">bash</span><div class="flex items-center gap-2"><button class="flex size-6 items-center justify-center gap-2 rounded-md text-gray-400 hover:bg-zinc-200 hover:text-black focus:outline-none"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-copy size-3.5" aria-hidden="true"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"></rect><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"></path></svg></button></div></div><div class="mt-0 text-sm [&amp;_pre]:py-0 [&amp;_pre]:grid [&amp;_code]:py-4 [&amp;_code]:w-full [&amp;_code]:grid [&amp;_code]:overflow-x-auto [&amp;_code]:no-scrollbar [&amp;_code]:bg-transparent [&amp;_.line]:px-3 [&amp;_.line]:w-full [&amp;_.line]:relative [&amp;_.line]:min-h-5"><div><pre class="shiki github-light" style="background-color:#fff;color:#24292e" tabindex="0"><code><span class="line"><span style="color:#6F42C1">redis-server.exe</span><span style="color:#032F62"> redis.windows.conf</span></span></code></pre></div></div></div>
+<p>Or, for a more recent version:</p>
+<div class="not-prose my-6 max-w-full overflow-hidden rounded-lg border border-gray-200 has-[code:empty]:hidden"><div class="flex items-center justify-between gap-2 border-b border-gray-200 bg-gray-50 px-3 py-2"><span class="text-sm text-gray-600">bash</span><div class="flex items-center gap-2"><button class="flex size-6 items-center justify-center gap-2 rounded-md text-gray-400 hover:bg-zinc-200 hover:text-black focus:outline-none"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-copy size-3.5" aria-hidden="true"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"></rect><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"></path></svg></button></div></div><div class="mt-0 text-sm [&amp;_pre]:py-0 [&amp;_pre]:grid [&amp;_code]:py-4 [&amp;_code]:w-full [&amp;_code]:grid [&amp;_code]:overflow-x-auto [&amp;_code]:no-scrollbar [&amp;_code]:bg-transparent [&amp;_.line]:px-3 [&amp;_.line]:w-full [&amp;_.line]:relative [&amp;_.line]:min-h-5"><div><pre class="shiki github-light" style="background-color:#fff;color:#24292e" tabindex="0"><code><span class="line"><span style="color:#6F42C1">redis-server.exe</span></span></code></pre></div></div></div>
+<p>You can also install Redis as a Windows service for automatic startup.</p>
+</li>
+</ol>
+<h4>Using Docker</h4>
+<p>Docker provides a containerized environment for running Redis on Windows.</p>
+<ol>
+<li>
+<p><strong>Install Docker Desktop for Windows:</strong></p>
+<p>Download and install Docker Desktop from the official Docker website (<a href="https://www.docker.com/products/docker-desktop/">https://www.docker.com/products/docker-desktop/</a>).</p>
+</li>
+<li>
+<p><strong>Pull the Redis image:</strong></p>
+<p>Open a command prompt or PowerShell and run:</p>
+<div class="not-prose my-6 max-w-full overflow-hidden rounded-lg border border-gray-200 has-[code:empty]:hidden"><div class="flex items-center justify-between gap-2 border-b border-gray-200 bg-gray-50 px-3 py-2"><span class="text-sm text-gray-600">bash</span><div class="flex items-center gap-2"><button class="flex size-6 items-center justify-center gap-2 rounded-md text-gray-400 hover:bg-zinc-200 hover:text-black focus:outline-none"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-copy size-3.5" aria-hidden="true"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"></rect><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"></path></svg></button></div></div><div class="mt-0 text-sm [&amp;_pre]:py-0 [&amp;_pre]:grid [&amp;_code]:py-4 [&amp;_code]:w-full [&amp;_code]:grid [&amp;_code]:overflow-x-auto [&amp;_code]:no-scrollbar [&amp;_code]:bg-transparent [&amp;_.line]:px-3 [&amp;_.line]:w-full [&amp;_.line]:relative [&amp;_.line]:min-h-5"><div><pre class="shiki github-light" style="background-color:#fff;color:#24292e" tabindex="0"><code><span class="line"><span style="color:#6F42C1">docker</span><span style="color:#032F62"> pull</span><span style="color:#032F62"> redis</span></span></code></pre></div></div></div>
+<p>This command downloads the official Redis image from Docker Hub.</p>
+</li>
+<li>
+<p><strong>Run the Redis container:</strong></p>
+<div class="not-prose my-6 max-w-full overflow-hidden rounded-lg border border-gray-200 has-[code:empty]:hidden"><div class="flex items-center justify-between gap-2 border-b border-gray-200 bg-gray-50 px-3 py-2"><span class="text-sm text-gray-600">bash</span><div class="flex items-center gap-2"><button class="flex size-6 items-center justify-center gap-2 rounded-md text-gray-400 hover:bg-zinc-200 hover:text-black focus:outline-none"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-copy size-3.5" aria-hidden="true"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"></rect><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"></path></svg></button></div></div><div class="mt-0 text-sm [&amp;_pre]:py-0 [&amp;_pre]:grid [&amp;_code]:py-4 [&amp;_code]:w-full [&amp;_code]:grid [&amp;_code]:overflow-x-auto [&amp;_code]:no-scrollbar [&amp;_code]:bg-transparent [&amp;_.line]:px-3 [&amp;_.line]:w-full [&amp;_.line]:relative [&amp;_.line]:min-h-5"><div><pre class="shiki github-light" style="background-color:#fff;color:#24292e" tabindex="0"><code><span class="line"><span style="color:#6F42C1">docker</span><span style="color:#032F62"> run</span><span style="color:#005CC5"> --name</span><span style="color:#032F62"> my-redis</span><span style="color:#005CC5"> -d</span><span style="color:#005CC5"> -p</span><span style="color:#032F62"> 6379:6379</span><span style="color:#032F62"> redis</span></span></code></pre></div></div></div>
+<p>This command creates and starts a Redis container named <code>my-redis</code>, maps port 6379 on the host to port 6379 in the container, and runs the container in detached mode.</p>
+</li>
+</ol>
+<h2>Configuring Redis</h2>
+<p>After installing Redis, you need to configure it to suit your specific needs. The main configuration file is <code>redis.conf</code>, typically located in <code>/etc/redis/</code> on Linux or in the Redis installation directory on other platforms.</p>
+<h3>Basic Configuration Settings</h3>
+<p>Here are some essential configuration settings you should consider:</p>
+<ul>
+<li>
+<p><strong><code>bind</code>:</strong> Specifies the IP addresses on which Redis should listen for connections. By default, it's set to <code>127.0.0.1</code>, which means Redis only accepts connections from the local machine. To allow connections from other machines, change this to <code>0.0.0.0</code> (all interfaces) or a specific IP address.  <strong>Warning:</strong> Binding to <code>0.0.0.0</code> without proper authentication can expose your Redis instance to security risks.</p>
+<div class="not-prose my-6 max-w-full overflow-hidden rounded-lg border border-gray-200 has-[code:empty]:hidden"><div class="flex items-center justify-between gap-2 border-b border-gray-200 bg-gray-50 px-3 py-2"><span class="text-sm text-gray-600">javascript</span><div class="flex items-center gap-2"><button class="flex size-6 items-center justify-center gap-2 rounded-md text-gray-400 hover:bg-zinc-200 hover:text-black focus:outline-none"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-copy size-3.5" aria-hidden="true"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"></rect><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"></path></svg></button></div></div><div class="mt-0 text-sm [&amp;_pre]:py-0 [&amp;_pre]:grid [&amp;_code]:py-4 [&amp;_code]:w-full [&amp;_code]:grid [&amp;_code]:overflow-x-auto [&amp;_code]:no-scrollbar [&amp;_code]:bg-transparent [&amp;_.line]:px-3 [&amp;_.line]:w-full [&amp;_.line]:relative [&amp;_.line]:min-h-5"><div><pre class="shiki github-light" style="background-color:#fff;color:#24292e" tabindex="0"><code><span class="line"><span style="color:#24292E">bind </span><span style="color:#005CC5">127.0</span><span style="color:#24292E">.</span><span style="color:#005CC5">0.1</span></span></code></pre></div></div></div>
+</li>
+<li>
+<p><strong><code>port</code>:</strong> Specifies the port number on which Redis listens. The default port is <code>6379</code>.</p>
+<div class="not-prose my-6 max-w-full overflow-hidden rounded-lg border border-gray-200 has-[code:empty]:hidden"><div class="flex items-center justify-between gap-2 border-b border-gray-200 bg-gray-50 px-3 py-2"><span class="text-sm text-gray-600">javascript</span><div class="flex items-center gap-2"><button class="flex size-6 items-center justify-center gap-2 rounded-md text-gray-400 hover:bg-zinc-200 hover:text-black focus:outline-none"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-copy size-3.5" aria-hidden="true"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"></rect><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"></path></svg></button></div></div><div class="mt-0 text-sm [&amp;_pre]:py-0 [&amp;_pre]:grid [&amp;_code]:py-4 [&amp;_code]:w-full [&amp;_code]:grid [&amp;_code]:overflow-x-auto [&amp;_code]:no-scrollbar [&amp;_code]:bg-transparent [&amp;_.line]:px-3 [&amp;_.line]:w-full [&amp;_.line]:relative [&amp;_.line]:min-h-5"><div><pre class="shiki github-light" style="background-color:#fff;color:#24292e" tabindex="0"><code><span class="line"><span style="color:#24292E">port </span><span style="color:#005CC5">6379</span></span></code></pre></div></div></div>
+</li>
+<li>
+<p><strong><code>requirepass</code>:</strong> Sets a password for accessing the Redis server. This is crucial for security, especially if you're allowing connections from other machines.</p>
+<div class="not-prose my-6 max-w-full overflow-hidden rounded-lg border border-gray-200 has-[code:empty]:hidden"><div class="flex items-center justify-between gap-2 border-b border-gray-200 bg-gray-50 px-3 py-2"><span class="text-sm text-gray-600">javascript</span><div class="flex items-center gap-2"><button class="flex size-6 items-center justify-center gap-2 rounded-md text-gray-400 hover:bg-zinc-200 hover:text-black focus:outline-none"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-copy size-3.5" aria-hidden="true"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"></rect><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"></path></svg></button></div></div><div class="mt-0 text-sm [&amp;_pre]:py-0 [&amp;_pre]:grid [&amp;_code]:py-4 [&amp;_code]:w-full [&amp;_code]:grid [&amp;_code]:overflow-x-auto [&amp;_code]:no-scrollbar [&amp;_code]:bg-transparent [&amp;_.line]:px-3 [&amp;_.line]:w-full [&amp;_.line]:relative [&amp;_.line]:min-h-5"><div><pre class="shiki github-light" style="background-color:#fff;color:#24292e" tabindex="0"><code><span class="line"><span style="color:#24292E">requirepass your_strong_password</span></span></code></pre></div></div></div>
+<p>Replace <code>your_strong_password</code> with a strong, unique password.  Clients will need to authenticate using the <code>AUTH</code> command before executing other commands.</p>
+</li>
+<li>
+<p><strong><code>maxmemory</code>:</strong> Sets the maximum amount of memory Redis can use. When Redis reaches this limit, it will start evicting keys based on the <code>maxmemory-policy</code>.</p>
+<div class="not-prose my-6 max-w-full overflow-hidden rounded-lg border border-gray-200 has-[code:empty]:hidden"><div class="flex items-center justify-between gap-2 border-b border-gray-200 bg-gray-50 px-3 py-2"><span class="text-sm text-gray-600">javascript</span><div class="flex items-center gap-2"><button class="flex size-6 items-center justify-center gap-2 rounded-md text-gray-400 hover:bg-zinc-200 hover:text-black focus:outline-none"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-copy size-3.5" aria-hidden="true"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"></rect><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"></path></svg></button></div></div><div class="mt-0 text-sm [&amp;_pre]:py-0 [&amp;_pre]:grid [&amp;_code]:py-4 [&amp;_code]:w-full [&amp;_code]:grid [&amp;_code]:overflow-x-auto [&amp;_code]:no-scrollbar [&amp;_code]:bg-transparent [&amp;_.line]:px-3 [&amp;_.line]:w-full [&amp;_.line]:relative [&amp;_.line]:min-h-5"><div><pre class="shiki github-light" style="background-color:#fff;color:#24292e" tabindex="0"><code><span class="line"><span style="color:#24292E">maxmemory 2gb</span></span></code></pre></div></div></div>
+<p>This example sets the maximum memory to 2GB.  Adjust this value based on your server's available memory and the size of your dataset.</p>
+</li>
+<li>
+<p><strong><code>maxmemory-policy</code>:</strong> Specifies the eviction policy to use when <code>maxmemory</code> is reached. Common policies include:</p>
+<ul>
+<li><code>noeviction</code>: Return an error when the memory limit is reached.</li>
+<li><code>allkeys-lru</code>: Evict the least recently used (LRU) key among all keys.</li>
+<li><code>volatile-lru</code>: Evict the least recently used key among keys with an expire set.</li>
+<li><code>allkeys-random</code>: Evict a random key among all keys.</li>
+<li><code>volatile-random</code>: Evict a random key among keys with an expire set.</li>
+<li><code>volatile-ttl</code>: Evict the key with the shortest time-to-live (TTL).</li>
+</ul>
+<div class="not-prose my-6 max-w-full overflow-hidden rounded-lg border border-gray-200 has-[code:empty]:hidden"><div class="flex items-center justify-between gap-2 border-b border-gray-200 bg-gray-50 px-3 py-2"><span class="text-sm text-gray-600">javascript</span><div class="flex items-center gap-2"><button class="flex size-6 items-center justify-center gap-2 rounded-md text-gray-400 hover:bg-zinc-200 hover:text-black focus:outline-none"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-copy size-3.5" aria-hidden="true"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"></rect><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"></path></svg></button></div></div><div class="mt-0 text-sm [&amp;_pre]:py-0 [&amp;_pre]:grid [&amp;_code]:py-4 [&amp;_code]:w-full [&amp;_code]:grid [&amp;_code]:overflow-x-auto [&amp;_code]:no-scrollbar [&amp;_code]:bg-transparent [&amp;_.line]:px-3 [&amp;_.line]:w-full [&amp;_.line]:relative [&amp;_.line]:min-h-5"><div><pre class="shiki github-light" style="background-color:#fff;color:#24292e" tabindex="0"><code><span class="line"><span style="color:#24292E">maxmemory</span><span style="color:#D73A49">-</span><span style="color:#24292E">policy allkeys</span><span style="color:#D73A49">-</span><span style="color:#24292E">lru</span></span></code></pre></div></div></div>
+</li>
+<li>
+<p><strong><code>logfile</code>:</strong> Specifies the path to the Redis log file.</p>
+<div class="not-prose my-6 max-w-full overflow-hidden rounded-lg border border-gray-200 has-[code:empty]:hidden"><div class="flex items-center justify-between gap-2 border-b border-gray-200 bg-gray-50 px-3 py-2"><span class="text-sm text-gray-600">javascript</span><div class="flex items-center gap-2"><button class="flex size-6 items-center justify-center gap-2 rounded-md text-gray-400 hover:bg-zinc-200 hover:text-black focus:outline-none"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-copy size-3.5" aria-hidden="true"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"></rect><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"></path></svg></button></div></div><div class="mt-0 text-sm [&amp;_pre]:py-0 [&amp;_pre]:grid [&amp;_code]:py-4 [&amp;_code]:w-full [&amp;_code]:grid [&amp;_code]:overflow-x-auto [&amp;_code]:no-scrollbar [&amp;_code]:bg-transparent [&amp;_.line]:px-3 [&amp;_.line]:w-full [&amp;_.line]:relative [&amp;_.line]:min-h-5"><div><pre class="shiki github-light" style="background-color:#fff;color:#24292e" tabindex="0"><code><span class="line"><span style="color:#24292E">logfile </span><span style="color:#D73A49">/var</span><span style="color:#24292E">/log/redis/redis-server.log</span></span></code></pre></div></div></div>
+</li>
+<li>
+<p><strong><code>databases</code>:</strong> Specifies the number of databases Redis supports. The default is 16 (numbered 0 to 15).</p>
+<div class="not-prose my-6 max-w-full overflow-hidden rounded-lg border border-gray-200 has-[code:empty]:hidden"><div class="flex items-center justify-between gap-2 border-b border-gray-200 bg-gray-50 px-3 py-2"><span class="text-sm text-gray-600">javascript</span><div class="flex items-center gap-2"><button class="flex size-6 items-center justify-center gap-2 rounded-md text-gray-400 hover:bg-zinc-200 hover:text-black focus:outline-none"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-copy size-3.5" aria-hidden="true"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"></rect><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"></path></svg></button></div></div><div class="mt-0 text-sm [&amp;_pre]:py-0 [&amp;_pre]:grid [&amp;_code]:py-4 [&amp;_code]:w-full [&amp;_code]:grid [&amp;_code]:overflow-x-auto [&amp;_code]:no-scrollbar [&amp;_code]:bg-transparent [&amp;_.line]:px-3 [&amp;_.line]:w-full [&amp;_.line]:relative [&amp;_.line]:min-h-5"><div><pre class="shiki github-light" style="background-color:#fff;color:#24292e" tabindex="0"><code><span class="line"><span style="color:#24292E">databases </span><span style="color:#005CC5">16</span></span></code></pre></div></div></div>
+</li>
+<li>
+<p><strong><code>save</code>:</strong> Configures Redis's persistence settings.  This determines how often Redis saves the data to disk.  The default configuration includes several <code>save</code> directives:</p>
+<div class="not-prose my-6 max-w-full overflow-hidden rounded-lg border border-gray-200 has-[code:empty]:hidden"><div class="flex items-center justify-between gap-2 border-b border-gray-200 bg-gray-50 px-3 py-2"><span class="text-sm text-gray-600">javascript</span><div class="flex items-center gap-2"><button class="flex size-6 items-center justify-center gap-2 rounded-md text-gray-400 hover:bg-zinc-200 hover:text-black focus:outline-none"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-copy size-3.5" aria-hidden="true"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"></rect><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"></path></svg></button></div></div><div class="mt-0 text-sm [&amp;_pre]:py-0 [&amp;_pre]:grid [&amp;_code]:py-4 [&amp;_code]:w-full [&amp;_code]:grid [&amp;_code]:overflow-x-auto [&amp;_code]:no-scrollbar [&amp;_code]:bg-transparent [&amp;_.line]:px-3 [&amp;_.line]:w-full [&amp;_.line]:relative [&amp;_.line]:min-h-5"><div><pre class="shiki github-light" style="background-color:#fff;color:#24292e" tabindex="0"><code><span class="line"><span style="color:#24292E">save </span><span style="color:#005CC5">900</span><span style="color:#005CC5"> 1</span><span style="color:#24292E">          # Save the </span><span style="color:#005CC5">DB</span><span style="color:#D73A49"> if</span><span style="color:#24292E"> changed after </span><span style="color:#005CC5">900</span><span style="color:#6F42C1"> sec</span><span style="color:#24292E"> (</span><span style="color:#005CC5">15</span><span style="color:#24292E"> min) </span><span style="color:#D73A49">if</span><span style="color:#24292E"> at least </span><span style="color:#005CC5">1</span><span style="color:#24292E"> key changed</span></span>
+<span class="line"><span style="color:#24292E">save </span><span style="color:#005CC5">300</span><span style="color:#005CC5"> 10</span><span style="color:#24292E">         # Save the </span><span style="color:#005CC5">DB</span><span style="color:#D73A49"> if</span><span style="color:#24292E"> changed after </span><span style="color:#005CC5">300</span><span style="color:#6F42C1"> sec</span><span style="color:#24292E"> (</span><span style="color:#005CC5">5</span><span style="color:#24292E"> min) </span><span style="color:#D73A49">if</span><span style="color:#24292E"> at least </span><span style="color:#005CC5">10</span><span style="color:#24292E"> keys changed</span></span>
+<span class="line"><span style="color:#24292E">save </span><span style="color:#005CC5">60</span><span style="color:#005CC5"> 10000</span><span style="color:#24292E">       # Save the </span><span style="color:#005CC5">DB</span><span style="color:#D73A49"> if</span><span style="color:#24292E"> changed after </span><span style="color:#005CC5">60</span><span style="color:#6F42C1"> sec</span><span style="color:#24292E"> (</span><span style="color:#005CC5">1</span><span style="color:#24292E"> min) </span><span style="color:#D73A49">if</span><span style="color:#24292E"> at least </span><span style="color:#005CC5">10000</span><span style="color:#24292E"> keys changed</span></span></code></pre></div></div></div>
+<p>You can disable persistence by commenting out all <code>save</code> directives.  However, this means that all data will be lost if the Redis server restarts.</p>
+</li>
+</ul>
+<h3>Applying Configuration Changes</h3>
+<p>After modifying the <code>redis.conf</code> file, you need to restart the Redis server for the changes to take effect.</p>
+<ul>
+<li>
+<p><strong>Using systemd (Linux):</strong></p>
+<div class="not-prose my-6 max-w-full overflow-hidden rounded-lg border border-gray-200 has-[code:empty]:hidden"><div class="flex items-center justify-between gap-2 border-b border-gray-200 bg-gray-50 px-3 py-2"><span class="text-sm text-gray-600">bash</span><div class="flex items-center gap-2"><button class="flex size-6 items-center justify-center gap-2 rounded-md text-gray-400 hover:bg-zinc-200 hover:text-black focus:outline-none"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-copy size-3.5" aria-hidden="true"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"></rect><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"></path></svg></button></div></div><div class="mt-0 text-sm [&amp;_pre]:py-0 [&amp;_pre]:grid [&amp;_code]:py-4 [&amp;_code]:w-full [&amp;_code]:grid [&amp;_code]:overflow-x-auto [&amp;_code]:no-scrollbar [&amp;_code]:bg-transparent [&amp;_.line]:px-3 [&amp;_.line]:w-full [&amp;_.line]:relative [&amp;_.line]:min-h-5"><div><pre class="shiki github-light" style="background-color:#fff;color:#24292e" tabindex="0"><code><span class="line"><span style="color:#6F42C1">sudo</span><span style="color:#032F62"> systemctl</span><span style="color:#032F62"> restart</span><span style="color:#032F62"> redis</span></span></code></pre></div></div></div>
+</li>
+<li>
+<p><strong>Directly (if running from the command line):</strong></p>
+<p>Stop the Redis server (e.g., by pressing Ctrl+C) and restart it with the updated configuration file:</p>
+<div class="not-prose my-6 max-w-full overflow-hidden rounded-lg border border-gray-200 has-[code:empty]:hidden"><div class="flex items-center justify-between gap-2 border-b border-gray-200 bg-gray-50 px-3 py-2"><span class="text-sm text-gray-600">bash</span><div class="flex items-center gap-2"><button class="flex size-6 items-center justify-center gap-2 rounded-md text-gray-400 hover:bg-zinc-200 hover:text-black focus:outline-none"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-copy size-3.5" aria-hidden="true"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"></rect><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"></path></svg></button></div></div><div class="mt-0 text-sm [&amp;_pre]:py-0 [&amp;_pre]:grid [&amp;_code]:py-4 [&amp;_code]:w-full [&amp;_code]:grid [&amp;_code]:overflow-x-auto [&amp;_code]:no-scrollbar [&amp;_code]:bg-transparent [&amp;_.line]:px-3 [&amp;_.line]:w-full [&amp;_.line]:relative [&amp;_.line]:min-h-5"><div><pre class="shiki github-light" style="background-color:#fff;color:#24292e" tabindex="0"><code><span class="line"><span style="color:#6F42C1">redis-server</span><span style="color:#032F62"> /etc/redis/redis.conf</span></span></code></pre></div></div></div>
+</li>
+</ul>
+<h3>Example Configuration Scenario</h3>
+<p>Let's say you're setting up Redis for a development environment on your local machine. You want to enable password authentication and limit the memory usage to 1GB.</p>
+<ol>
+<li>
+<p><strong>Edit the <code>redis.conf</code> file:</strong></p>
+<div class="not-prose my-6 max-w-full overflow-hidden rounded-lg border border-gray-200 has-[code:empty]:hidden"><div class="flex items-center justify-between gap-2 border-b border-gray-200 bg-gray-50 px-3 py-2"><span class="text-sm text-gray-600">javascript</span><div class="flex items-center gap-2"><button class="flex size-6 items-center justify-center gap-2 rounded-md text-gray-400 hover:bg-zinc-200 hover:text-black focus:outline-none"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-copy size-3.5" aria-hidden="true"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"></rect><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"></path></svg></button></div></div><div class="mt-0 text-sm [&amp;_pre]:py-0 [&amp;_pre]:grid [&amp;_code]:py-4 [&amp;_code]:w-full [&amp;_code]:grid [&amp;_code]:overflow-x-auto [&amp;_code]:no-scrollbar [&amp;_code]:bg-transparent [&amp;_.line]:px-3 [&amp;_.line]:w-full [&amp;_.line]:relative [&amp;_.line]:min-h-5"><div><pre class="shiki github-light" style="background-color:#fff;color:#24292e" tabindex="0"><code><span class="line"><span style="color:#24292E">bind </span><span style="color:#005CC5">127.0</span><span style="color:#24292E">.</span><span style="color:#005CC5">0.1</span></span>
+<span class="line"><span style="color:#24292E">port </span><span style="color:#005CC5">6379</span></span>
+<span class="line"><span style="color:#24292E">requirepass mydevpassword</span></span>
+<span class="line"><span style="color:#24292E">maxmemory 1gb</span></span>
+<span class="line"><span style="color:#24292E">maxmemory</span><span style="color:#D73A49">-</span><span style="color:#24292E">policy allkeys</span><span style="color:#D73A49">-</span><span style="color:#24292E">lru</span></span></code></pre></div></div></div>
+</li>
+<li>
+<p><strong>Restart the Redis server:</strong></p>
+<div class="not-prose my-6 max-w-full overflow-hidden rounded-lg border border-gray-200 has-[code:empty]:hidden"><div class="flex items-center justify-between gap-2 border-b border-gray-200 bg-gray-50 px-3 py-2"><span class="text-sm text-gray-600">bash</span><div class="flex items-center gap-2"><button class="flex size-6 items-center justify-center gap-2 rounded-md text-gray-400 hover:bg-zinc-200 hover:text-black focus:outline-none"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-copy size-3.5" aria-hidden="true"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"></rect><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"></path></svg></button></div></div><div class="mt-0 text-sm [&amp;_pre]:py-0 [&amp;_pre]:grid [&amp;_code]:py-4 [&amp;_code]:w-full [&amp;_code]:grid [&amp;_code]:overflow-x-auto [&amp;_code]:no-scrollbar [&amp;_code]:bg-transparent [&amp;_.line]:px-3 [&amp;_.line]:w-full [&amp;_.line]:relative [&amp;_.line]:min-h-5"><div><pre class="shiki github-light" style="background-color:#fff;color:#24292e" tabindex="0"><code><span class="line"><span style="color:#6F42C1">sudo</span><span style="color:#032F62"> systemctl</span><span style="color:#032F62"> restart</span><span style="color:#032F62"> redis</span><span style="color:#6A737D">  # If using systemd</span></span></code></pre></div></div></div>
+</li>
+<li>
+<p><strong>Test the configuration:</strong></p>
+<p>Open the <code>redis-cli</code> and try to execute a command without authenticating:</p>
+<div class="not-prose my-6 max-w-full overflow-hidden rounded-lg border border-gray-200 has-[code:empty]:hidden"><div class="flex items-center justify-between gap-2 border-b border-gray-200 bg-gray-50 px-3 py-2"><span class="text-sm text-gray-600">bash</span><div class="flex items-center gap-2"><button class="flex size-6 items-center justify-center gap-2 rounded-md text-gray-400 hover:bg-zinc-200 hover:text-black focus:outline-none"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-copy size-3.5" aria-hidden="true"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"></rect><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"></path></svg></button></div></div><div class="mt-0 text-sm [&amp;_pre]:py-0 [&amp;_pre]:grid [&amp;_code]:py-4 [&amp;_code]:w-full [&amp;_code]:grid [&amp;_code]:overflow-x-auto [&amp;_code]:no-scrollbar [&amp;_code]:bg-transparent [&amp;_.line]:px-3 [&amp;_.line]:w-full [&amp;_.line]:relative [&amp;_.line]:min-h-5"><div><pre class="shiki github-light" style="background-color:#fff;color:#24292e" tabindex="0"><code><span class="line"><span style="color:#6F42C1">redis-cli</span></span>
+<span class="line"><span style="color:#D73A49">&gt;</span><span style="color:#24292E"> SET mykey myvalue</span></span>
+<span class="line"><span style="color:#24292E">(</span><span style="color:#6F42C1">error</span><span style="color:#24292E">) </span><span style="color:#6F42C1">NOAUTH</span><span style="color:#032F62"> Authentication</span><span style="color:#032F62"> required.</span></span></code></pre></div></div></div>
+<p>Authenticate using the <code>AUTH</code> command:</p>
+<div class="not-prose my-6 max-w-full overflow-hidden rounded-lg border border-gray-200 has-[code:empty]:hidden"><div class="flex items-center justify-between gap-2 border-b border-gray-200 bg-gray-50 px-3 py-2"><span class="text-sm text-gray-600">bash</span><div class="flex items-center gap-2"><button class="flex size-6 items-center justify-center gap-2 rounded-md text-gray-400 hover:bg-zinc-200 hover:text-black focus:outline-none"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-copy size-3.5" aria-hidden="true"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"></rect><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"></path></svg></button></div></div><div class="mt-0 text-sm [&amp;_pre]:py-0 [&amp;_pre]:grid [&amp;_code]:py-4 [&amp;_code]:w-full [&amp;_code]:grid [&amp;_code]:overflow-x-auto [&amp;_code]:no-scrollbar [&amp;_code]:bg-transparent [&amp;_.line]:px-3 [&amp;_.line]:w-full [&amp;_.line]:relative [&amp;_.line]:min-h-5"><div><pre class="shiki github-light" style="background-color:#fff;color:#24292e" tabindex="0"><code><span class="line"><span style="color:#6F42C1">AUTH</span><span style="color:#032F62"> mydevpassword</span></span>
+<span class="line"><span style="color:#6F42C1">OK</span></span>
+<span class="line"><span style="color:#6F42C1">SET</span><span style="color:#032F62"> mykey</span><span style="color:#032F62"> myvalue</span></span>
+<span class="line"><span style="color:#6F42C1">OK</span></span>
+<span class="line"><span style="color:#6F42C1">GET</span><span style="color:#032F62"> mykey</span></span>
+<span class="line"><span style="color:#6F42C1">"myvalue"</span></span></code></pre></div></div></div>
+</li>
+</ol>
+<h3>Security Considerations</h3>
+<p>Securing your Redis instance is crucial, especially in production environments. Here are some key security measures:</p>
+<ul>
+<li>
+<p><strong>Password Authentication:</strong> Always set a strong password using the <code>requirepass</code> directive.</p>
+</li>
+<li>
+<p><strong>Network Isolation:</strong>  Bind Redis to specific IP addresses or use a firewall to restrict access to authorized clients.  Avoid binding to <code>0.0.0.0</code> in production.</p>
+</li>
+<li>
+<p><strong>Rename Commands:</strong>  Rename potentially dangerous commands like <code>FLUSHALL</code>, <code>FLUSHDB</code>, <code>KEYS</code>, <code>SHUTDOWN</code>, <code>CONFIG</code>, <code>EVAL</code> using the <code>rename-command</code> directive in <code>redis.conf</code>.  For example:</p>
+<div class="not-prose my-6 max-w-full overflow-hidden rounded-lg border border-gray-200 has-[code:empty]:hidden"><div class="flex items-center justify-between gap-2 border-b border-gray-200 bg-gray-50 px-3 py-2"><span class="text-sm text-gray-600">javascript</span><div class="flex items-center gap-2"><button class="flex size-6 items-center justify-center gap-2 rounded-md text-gray-400 hover:bg-zinc-200 hover:text-black focus:outline-none"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-copy size-3.5" aria-hidden="true"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"></rect><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"></path></svg></button></div></div><div class="mt-0 text-sm [&amp;_pre]:py-0 [&amp;_pre]:grid [&amp;_code]:py-4 [&amp;_code]:w-full [&amp;_code]:grid [&amp;_code]:overflow-x-auto [&amp;_code]:no-scrollbar [&amp;_code]:bg-transparent [&amp;_.line]:px-3 [&amp;_.line]:w-full [&amp;_.line]:relative [&amp;_.line]:min-h-5"><div><pre class="shiki github-light" style="background-color:#fff;color:#24292e" tabindex="0"><code><span class="line"><span style="color:#24292E">rename</span><span style="color:#D73A49">-</span><span style="color:#24292E">command </span><span style="color:#005CC5">FLUSHALL</span><span style="color:#032F62"> ""</span><span style="color:#24292E">  # Disables the </span><span style="color:#005CC5">FLUSHALL</span><span style="color:#24292E"> command</span></span>
+<span class="line"><span style="color:#24292E">rename</span><span style="color:#D73A49">-</span><span style="color:#24292E">command </span><span style="color:#005CC5">FLUSHDB</span><span style="color:#032F62"> "some_secret_command"</span><span style="color:#24292E"> # Renames </span><span style="color:#005CC5">FLUSHDB</span></span></code></pre></div></div></div>
+</li>
+<li>
+<p><strong>Disable Unnecessary Commands:</strong>  If you don't need certain commands, disable them using <code>rename-command</code>.</p>
+</li>
+<li>
+<p><strong>Regular Updates:</strong> Keep your Redis installation up-to-date with the latest security patches.</p>
+</li>
+<li>
+<p><strong>TLS Encryption:</strong>  For sensitive data, consider using TLS encryption to protect data in transit.  Redis supports TLS encryption, but it requires additional configuration.</p>
+</li>
+<li>
+<p><strong>Redis Security Checklist:</strong> Consult the official Redis security checklist for more comprehensive security recommendations.</p>
+</li>
+</ul>
+<h2>Practice Activities</h2>
+<ol>
+<li><strong>Install Redis on your local machine:</strong> Choose the installation method appropriate for your operating system and follow the steps outlined above.</li>
+<li><strong>Configure Redis with a password:</strong> Set a password in the <code>redis.conf</code> file and verify that you can authenticate using <code>redis-cli</code>.</li>
+<li><strong>Experiment with <code>maxmemory</code> and <code>maxmemory-policy</code>:</strong> Set a small <code>maxmemory</code> value (e.g., 10MB) and experiment with different <code>maxmemory-policy</code> settings. Observe how Redis evicts keys when the memory limit is reached.  Use the <code>INFO memory</code> command in <code>redis-cli</code> to monitor memory usage.</li>
+<li><strong>Rename a command:</strong> Rename the <code>FLUSHDB</code> command in <code>redis.conf</code> and verify that you can no longer use the original command name.</li>
+</ol>
+ 
+</div>
+
+<div id="chapter-3.3">
+
+<h1 class="mb-6 text-3xl font-semibold text-balance max-lg:mb-3 max-lg:text-xl">Basic Redis Data Types: Strings, Lists, Sets, Hashes</h1><p>Redis is known for its speed and versatility, and a big part of that comes from the variety of data structures it offers. Unlike some other key-value stores that only support strings, Redis gives you strings, lists, sets, and hashes to work with. Understanding these data types is crucial for efficiently storing and manipulating data in Redis, and for leveraging its full potential for caching, session management, and more. This lesson will provide a comprehensive overview of these fundamental data types, equipping you with the knowledge to choose the right data structure for your specific needs.</p>
+<h2>Redis Strings</h2>
+<p>Redis strings are the most basic data type. They can store any kind of data, including text, numbers, and even binary data, up to a maximum size of 512 MB.</p>
+<h3>Basic Operations with Strings</h3>
+<p>The two most fundamental commands for working with strings are <code>SET</code> and <code>GET</code>.</p>
+<ul>
+<li><strong>SET:</strong> Assigns a value to a key.</li>
+<li><strong>GET:</strong> Retrieves the value associated with a key.</li>
+</ul>
+<p>Here's how you can use them:</p>
+<div class="not-prose my-6 max-w-full overflow-hidden rounded-lg border border-gray-200 has-[code:empty]:hidden"><div class="flex items-center justify-between gap-2 border-b border-gray-200 bg-gray-50 px-3 py-2"><span class="text-sm text-gray-600">javascript</span><div class="flex items-center gap-2"><button class="flex size-6 items-center justify-center gap-2 rounded-md text-gray-400 hover:bg-zinc-200 hover:text-black focus:outline-none"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-copy size-3.5" aria-hidden="true"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"></rect><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"></path></svg></button></div></div><div class="mt-0 text-sm [&amp;_pre]:py-0 [&amp;_pre]:grid [&amp;_code]:py-4 [&amp;_code]:w-full [&amp;_code]:grid [&amp;_code]:overflow-x-auto [&amp;_code]:no-scrollbar [&amp;_code]:bg-transparent [&amp;_.line]:px-3 [&amp;_.line]:w-full [&amp;_.line]:relative [&amp;_.line]:min-h-5"><div><pre class="shiki github-light" style="background-color:#fff;color:#24292e" tabindex="0"><code><span class="line"><span style="color:#005CC5">SET</span><span style="color:#24292E"> mykey </span><span style="color:#032F62">"Hello Redis"</span></span>
+<span class="line"><span style="color:#005CC5">GET</span><span style="color:#24292E"> mykey</span></span></code></pre></div></div></div>
+<p>This would store the string "Hello Redis" under the key "mykey", and then retrieve it.</p>
+<h3>Numerical Operations</h3>
+<p>Redis can also treat strings as numbers, allowing you to perform atomic increment and decrement operations.</p>
+<ul>
+<li><strong>INCR:</strong> Increments the value of a key by 1. If the key doesn't exist, it's initialized to 0 before being incremented.</li>
+<li><strong>DECR:</strong> Decrements the value of a key by 1. Similar to <code>INCR</code>, it initializes to 0 if the key doesn't exist.</li>
+<li><strong>INCRBY:</strong> Increments the value of a key by a specified integer.</li>
+<li><strong>DECRBY:</strong> Decrements the value of a key by a specified integer.</li>
+</ul>
+<p>Example:</p>
+<div class="not-prose my-6 max-w-full overflow-hidden rounded-lg border border-gray-200 has-[code:empty]:hidden"><div class="flex items-center justify-between gap-2 border-b border-gray-200 bg-gray-50 px-3 py-2"><span class="text-sm text-gray-600">javascript</span><div class="flex items-center gap-2"><button class="flex size-6 items-center justify-center gap-2 rounded-md text-gray-400 hover:bg-zinc-200 hover:text-black focus:outline-none"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-copy size-3.5" aria-hidden="true"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"></rect><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"></path></svg></button></div></div><div class="mt-0 text-sm [&amp;_pre]:py-0 [&amp;_pre]:grid [&amp;_code]:py-4 [&amp;_code]:w-full [&amp;_code]:grid [&amp;_code]:overflow-x-auto [&amp;_code]:no-scrollbar [&amp;_code]:bg-transparent [&amp;_.line]:px-3 [&amp;_.line]:w-full [&amp;_.line]:relative [&amp;_.line]:min-h-5"><div><pre class="shiki github-light" style="background-color:#fff;color:#24292e" tabindex="0"><code><span class="line"><span style="color:#005CC5">SET</span><span style="color:#24292E"> counter </span><span style="color:#005CC5">10</span></span>
+<span class="line"><span style="color:#005CC5">INCR</span><span style="color:#24292E"> counter</span></span>
+<span class="line"><span style="color:#005CC5">GET</span><span style="color:#24292E"> counter  </span><span style="color:#6A737D">// Output: 11</span></span>
+<span class="line"><span style="color:#005CC5">DECRBY</span><span style="color:#24292E"> counter </span><span style="color:#005CC5">5</span></span>
+<span class="line"><span style="color:#005CC5">GET</span><span style="color:#24292E"> counter  </span><span style="color:#6A737D">// Output: 6</span></span></code></pre></div></div></div>
+<h3>String Length and Appending</h3>
+<ul>
+<li><strong>STRLEN:</strong> Returns the length of the string value associated with a key.</li>
+<li><strong>APPEND:</strong> Appends a string to the value of a key. If the key doesn't exist, it's created with an empty string before appending.</li>
+</ul>
+<p>Example:</p>
+<div class="not-prose my-6 max-w-full overflow-hidden rounded-lg border border-gray-200 has-[code:empty]:hidden"><div class="flex items-center justify-between gap-2 border-b border-gray-200 bg-gray-50 px-3 py-2"><span class="text-sm text-gray-600">javascript</span><div class="flex items-center gap-2"><button class="flex size-6 items-center justify-center gap-2 rounded-md text-gray-400 hover:bg-zinc-200 hover:text-black focus:outline-none"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-copy size-3.5" aria-hidden="true"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"></rect><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"></path></svg></button></div></div><div class="mt-0 text-sm [&amp;_pre]:py-0 [&amp;_pre]:grid [&amp;_code]:py-4 [&amp;_code]:w-full [&amp;_code]:grid [&amp;_code]:overflow-x-auto [&amp;_code]:no-scrollbar [&amp;_code]:bg-transparent [&amp;_.line]:px-3 [&amp;_.line]:w-full [&amp;_.line]:relative [&amp;_.line]:min-h-5"><div><pre class="shiki github-light" style="background-color:#fff;color:#24292e" tabindex="0"><code><span class="line"><span style="color:#005CC5">SET</span><span style="color:#24292E"> mykey </span><span style="color:#032F62">"Hello"</span></span>
+<span class="line"><span style="color:#005CC5">APPEND</span><span style="color:#24292E"> mykey </span><span style="color:#032F62">" World"</span></span>
+<span class="line"><span style="color:#005CC5">GET</span><span style="color:#24292E"> mykey  </span><span style="color:#6A737D">// Output: "Hello World"</span></span>
+<span class="line"><span style="color:#005CC5">STRLEN</span><span style="color:#24292E"> mykey  </span><span style="color:#6A737D">// Output: 11</span></span></code></pre></div></div></div>
+<h3>Practical Examples</h3>
+<ul>
+<li><strong>Storing User Sessions:</strong> You can store user session data as a serialized string (e.g., JSON) under a unique session ID.</li>
+<li><strong>Caching HTML Fragments:</strong> Store frequently accessed HTML snippets as strings to reduce database load.</li>
+<li><strong>Rate Limiting:</strong> Use <code>INCR</code> to track the number of requests from a specific IP address within a time window.</li>
+</ul>
+<h3>Exercises</h3>
+<ol>
+<li>Store your name in Redis under the key "name". Then, retrieve it and print it to the console.</li>
+<li>Create a counter called "page_views" and increment it each time a page is visited. Retrieve the counter value and display it.</li>
+<li>Store the string "Redis is" under the key "message". Append the string " awesome!" to it. Retrieve the complete message and print its length.</li>
+</ol>
+<h2>Redis Lists</h2>
+<p>Redis lists are ordered collections of strings. They are implemented as linked lists, which means that adding or removing elements from the beginning or end of the list is very efficient.</p>
+<h3>Basic List Operations</h3>
+<ul>
+<li><strong>LPUSH:</strong> Adds one or more values to the <em>left</em> (beginning) of a list.</li>
+<li><strong>RPUSH:</strong> Adds one or more values to the <em>right</em> (end) of a list.</li>
+<li><strong>LPOP:</strong> Removes and returns the <em>leftmost</em> element of a list.</li>
+<li><strong>RPOP:</strong> Removes and returns the <em>rightmost</em> element of a list.</li>
+<li><strong>LRANGE:</strong> Returns a range of elements from a list.</li>
+</ul>
+<p>Example:</p>
+<div class="not-prose my-6 max-w-full overflow-hidden rounded-lg border border-gray-200 has-[code:empty]:hidden"><div class="flex items-center justify-between gap-2 border-b border-gray-200 bg-gray-50 px-3 py-2"><span class="text-sm text-gray-600">javascript</span><div class="flex items-center gap-2"><button class="flex size-6 items-center justify-center gap-2 rounded-md text-gray-400 hover:bg-zinc-200 hover:text-black focus:outline-none"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-copy size-3.5" aria-hidden="true"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"></rect><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"></path></svg></button></div></div><div class="mt-0 text-sm [&amp;_pre]:py-0 [&amp;_pre]:grid [&amp;_code]:py-4 [&amp;_code]:w-full [&amp;_code]:grid [&amp;_code]:overflow-x-auto [&amp;_code]:no-scrollbar [&amp;_code]:bg-transparent [&amp;_.line]:px-3 [&amp;_.line]:w-full [&amp;_.line]:relative [&amp;_.line]:min-h-5"><div><pre class="shiki github-light" style="background-color:#fff;color:#24292e" tabindex="0"><code><span class="line"><span style="color:#005CC5">LPUSH</span><span style="color:#24292E"> mylist </span><span style="color:#032F62">"world"</span></span>
+<span class="line"><span style="color:#005CC5">LPUSH</span><span style="color:#24292E"> mylist </span><span style="color:#032F62">"hello"</span></span>
+<span class="line"><span style="color:#005CC5">RPUSH</span><span style="color:#24292E"> mylist </span><span style="color:#032F62">"!"</span></span>
+<span class="line"><span style="color:#005CC5">LRANGE</span><span style="color:#24292E"> mylist </span><span style="color:#005CC5">0</span><span style="color:#D73A49"> -</span><span style="color:#005CC5">1</span><span style="color:#6A737D">  // Output: "hello", "world", "!" (0 is the start index, -1 is the end index, meaning all elements)</span></span>
+<span class="line"><span style="color:#005CC5">LPOP</span><span style="color:#24292E"> mylist  </span><span style="color:#6A737D">// Output: "hello"</span></span>
+<span class="line"><span style="color:#005CC5">RPOP</span><span style="color:#24292E"> mylist  </span><span style="color:#6A737D">// Output: "!"</span></span>
+<span class="line"><span style="color:#005CC5">LRANGE</span><span style="color:#24292E"> mylist </span><span style="color:#005CC5">0</span><span style="color:#D73A49"> -</span><span style="color:#005CC5">1</span><span style="color:#6A737D">  // Output: "world"</span></span></code></pre></div></div></div>
+<h3>Other Useful List Commands</h3>
+<ul>
+<li><strong>LLEN:</strong> Returns the length of a list.</li>
+<li><strong>LINDEX:</strong> Returns the element at a specific index in a list.</li>
+<li><strong>LSET:</strong> Sets the value of an element at a specific index in a list.</li>
+<li><strong>LREM:</strong> Removes elements from a list that match a specified value.</li>
+<li><strong>LTRIM:</strong> Trims a list to a specified range, discarding all other elements.</li>
+</ul>
+<p>Example:</p>
+<div class="not-prose my-6 max-w-full overflow-hidden rounded-lg border border-gray-200 has-[code:empty]:hidden"><div class="flex items-center justify-between gap-2 border-b border-gray-200 bg-gray-50 px-3 py-2"><span class="text-sm text-gray-600">javascript</span><div class="flex items-center gap-2"><button class="flex size-6 items-center justify-center gap-2 rounded-md text-gray-400 hover:bg-zinc-200 hover:text-black focus:outline-none"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-copy size-3.5" aria-hidden="true"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"></rect><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"></path></svg></button></div></div><div class="mt-0 text-sm [&amp;_pre]:py-0 [&amp;_pre]:grid [&amp;_code]:py-4 [&amp;_code]:w-full [&amp;_code]:grid [&amp;_code]:overflow-x-auto [&amp;_code]:no-scrollbar [&amp;_code]:bg-transparent [&amp;_.line]:px-3 [&amp;_.line]:w-full [&amp;_.line]:relative [&amp;_.line]:min-h-5"><div><pre class="shiki github-light" style="background-color:#fff;color:#24292e" tabindex="0"><code><span class="line"><span style="color:#005CC5">RPUSH</span><span style="color:#24292E"> mylist </span><span style="color:#032F62">"a"</span><span style="color:#032F62"> "b"</span><span style="color:#032F62"> "c"</span><span style="color:#032F62"> "b"</span><span style="color:#032F62"> "a"</span></span>
+<span class="line"><span style="color:#005CC5">LLEN</span><span style="color:#24292E"> mylist  </span><span style="color:#6A737D">// Output: 5</span></span>
+<span class="line"><span style="color:#005CC5">LINDEX</span><span style="color:#24292E"> mylist </span><span style="color:#005CC5">2</span><span style="color:#6A737D">  // Output: "c"</span></span>
+<span class="line"><span style="color:#005CC5">LSET</span><span style="color:#24292E"> mylist </span><span style="color:#005CC5">1</span><span style="color:#032F62"> "B"</span></span>
+<span class="line"><span style="color:#005CC5">LRANGE</span><span style="color:#24292E"> mylist </span><span style="color:#005CC5">0</span><span style="color:#D73A49"> -</span><span style="color:#005CC5">1</span><span style="color:#6A737D">  // Output: "a", "B", "c", "b", "a"</span></span>
+<span class="line"><span style="color:#005CC5">LREM</span><span style="color:#24292E"> mylist </span><span style="color:#005CC5">2</span><span style="color:#032F62"> "a"</span><span style="color:#6A737D">  // Removes 2 occurrences of "a"</span></span>
+<span class="line"><span style="color:#005CC5">LRANGE</span><span style="color:#24292E"> mylist </span><span style="color:#005CC5">0</span><span style="color:#D73A49"> -</span><span style="color:#005CC5">1</span><span style="color:#6A737D">  // Output: "B", "c", "b"</span></span>
+<span class="line"><span style="color:#005CC5">LTRIM</span><span style="color:#24292E"> mylist </span><span style="color:#005CC5">1</span><span style="color:#005CC5"> 2</span></span>
+<span class="line"><span style="color:#005CC5">LRANGE</span><span style="color:#24292E"> mylist </span><span style="color:#005CC5">0</span><span style="color:#D73A49"> -</span><span style="color:#005CC5">1</span><span style="color:#6A737D"> // Output: "c", "b"</span></span></code></pre></div></div></div>
+<h3>Practical Examples</h3>
+<ul>
+<li><strong>Task Queues:</strong> Use <code>LPUSH</code> to add tasks to a queue and <code>RPOP</code> to retrieve and process them.</li>
+<li><strong>Recent Activity Streams:</strong> Store the latest user activities in a list, using <code>LPUSH</code> to add new activities and <code>LTRIM</code> to keep the list size limited.</li>
+<li><strong>Chat Applications:</strong> Store messages in a list for each chat room, allowing users to retrieve the latest messages.</li>
+</ul>
+<h3>Exercises</h3>
+<ol>
+<li>Create a list called "todo" and add three tasks to it: "Buy groceries", "Walk the dog", and "Do laundry".</li>
+<li>Retrieve the first task from the "todo" list and print it. Then, retrieve the remaining tasks and print them as well.</li>
+<li>Create a list called "numbers" and add the numbers 1 to 5 to it. Then, replace the third element with the number 10. Print the updated list.</li>
+<li>Create a list called "duplicates" and add the values "a", "b", "c", "b", "a" to it. Remove all occurrences of "b" from the list. Print the updated list.</li>
+</ol>
+<h2>Redis Sets</h2>
+<p>Redis sets are unordered collections of unique strings. This means that each element in a set must be distinct; duplicates are not allowed. Sets are useful for storing collections of items where membership testing and performing set operations (union, intersection, difference) are important.</p>
+<h3>Basic Set Operations</h3>
+<ul>
+<li><strong>SADD:</strong> Adds one or more members to a set.</li>
+<li><strong>SMEMBERS:</strong> Returns all members of a set.</li>
+<li><strong>SISMEMBER:</strong> Checks if a member exists in a set.</li>
+<li><strong>SREM:</strong> Removes one or more members from a set.</li>
+<li><strong>SCARD:</strong> Returns the cardinality (number of elements) of a set.</li>
+</ul>
+<p>Example:</p>
+<div class="not-prose my-6 max-w-full overflow-hidden rounded-lg border border-gray-200 has-[code:empty]:hidden"><div class="flex items-center justify-between gap-2 border-b border-gray-200 bg-gray-50 px-3 py-2"><span class="text-sm text-gray-600">javascript</span><div class="flex items-center gap-2"><button class="flex size-6 items-center justify-center gap-2 rounded-md text-gray-400 hover:bg-zinc-200 hover:text-black focus:outline-none"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-copy size-3.5" aria-hidden="true"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"></rect><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"></path></svg></button></div></div><div class="mt-0 text-sm [&amp;_pre]:py-0 [&amp;_pre]:grid [&amp;_code]:py-4 [&amp;_code]:w-full [&amp;_code]:grid [&amp;_code]:overflow-x-auto [&amp;_code]:no-scrollbar [&amp;_code]:bg-transparent [&amp;_.line]:px-3 [&amp;_.line]:w-full [&amp;_.line]:relative [&amp;_.line]:min-h-5"><div><pre class="shiki github-light" style="background-color:#fff;color:#24292e" tabindex="0"><code><span class="line"><span style="color:#005CC5">SADD</span><span style="color:#24292E"> myset </span><span style="color:#032F62">"apple"</span></span>
+<span class="line"><span style="color:#005CC5">SADD</span><span style="color:#24292E"> myset </span><span style="color:#032F62">"banana"</span><span style="color:#032F62"> "cherry"</span></span>
+<span class="line"><span style="color:#005CC5">SMEMBERS</span><span style="color:#24292E"> myset  </span><span style="color:#6A737D">// Output: "apple", "banana", "cherry" (order is not guaranteed)</span></span>
+<span class="line"><span style="color:#005CC5">SISMEMBER</span><span style="color:#24292E"> myset </span><span style="color:#032F62">"banana"</span><span style="color:#6A737D">  // Output: 1 (true)</span></span>
+<span class="line"><span style="color:#005CC5">SISMEMBER</span><span style="color:#24292E"> myset </span><span style="color:#032F62">"grape"</span><span style="color:#6A737D">  // Output: 0 (false)</span></span>
+<span class="line"><span style="color:#005CC5">SREM</span><span style="color:#24292E"> myset </span><span style="color:#032F62">"apple"</span></span>
+<span class="line"><span style="color:#005CC5">SMEMBERS</span><span style="color:#24292E"> myset  </span><span style="color:#6A737D">// Output: "banana", "cherry"</span></span>
+<span class="line"><span style="color:#005CC5">SCARD</span><span style="color:#24292E"> myset  </span><span style="color:#6A737D">// Output: 2</span></span></code></pre></div></div></div>
+<h3>Set Operations</h3>
+<p>Redis provides commands for performing standard set operations:</p>
+<ul>
+<li><strong>SUNION:</strong> Returns the union of multiple sets.</li>
+<li><strong>SINTER:</strong> Returns the intersection of multiple sets.</li>
+<li><strong>SDIFF:</strong> Returns the difference between multiple sets.</li>
+<li><strong>SUNIONSTORE:</strong> Stores the union of multiple sets in a new set.</li>
+<li><strong>SINTERSTORE:</strong> Stores the intersection of multiple sets in a new set.</li>
+<li><strong>SDIFFSTORE:</strong> Stores the difference between multiple sets in a new set.</li>
+</ul>
+<p>Example:</p>
+<div class="not-prose my-6 max-w-full overflow-hidden rounded-lg border border-gray-200 has-[code:empty]:hidden"><div class="flex items-center justify-between gap-2 border-b border-gray-200 bg-gray-50 px-3 py-2"><span class="text-sm text-gray-600">javascript</span><div class="flex items-center gap-2"><button class="flex size-6 items-center justify-center gap-2 rounded-md text-gray-400 hover:bg-zinc-200 hover:text-black focus:outline-none"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-copy size-3.5" aria-hidden="true"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"></rect><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"></path></svg></button></div></div><div class="mt-0 text-sm [&amp;_pre]:py-0 [&amp;_pre]:grid [&amp;_code]:py-4 [&amp;_code]:w-full [&amp;_code]:grid [&amp;_code]:overflow-x-auto [&amp;_code]:no-scrollbar [&amp;_code]:bg-transparent [&amp;_.line]:px-3 [&amp;_.line]:w-full [&amp;_.line]:relative [&amp;_.line]:min-h-5"><div><pre class="shiki github-light" style="background-color:#fff;color:#24292e" tabindex="0"><code><span class="line"><span style="color:#005CC5">SADD</span><span style="color:#24292E"> set1 </span><span style="color:#032F62">"a"</span><span style="color:#032F62"> "b"</span><span style="color:#032F62"> "c"</span></span>
+<span class="line"><span style="color:#005CC5">SADD</span><span style="color:#24292E"> set2 </span><span style="color:#032F62">"b"</span><span style="color:#032F62"> "c"</span><span style="color:#032F62"> "d"</span></span>
+<span class="line"><span style="color:#005CC5">SUNION</span><span style="color:#24292E"> set1 set2  </span><span style="color:#6A737D">// Output: "a", "b", "c", "d"</span></span>
+<span class="line"><span style="color:#005CC5">SINTER</span><span style="color:#24292E"> set1 set2  </span><span style="color:#6A737D">// Output: "b", "c"</span></span>
+<span class="line"><span style="color:#005CC5">SDIFF</span><span style="color:#24292E"> set1 set2  </span><span style="color:#6A737D">// Output: "a"</span></span>
+<span class="line"><span style="color:#005CC5">SUNIONSTORE</span><span style="color:#24292E"> resultset set1 set2</span></span>
+<span class="line"><span style="color:#005CC5">SMEMBERS</span><span style="color:#24292E"> resultset  </span><span style="color:#6A737D">// Output: "a", "b", "c", "d"</span></span></code></pre></div></div></div>
+<h3>Practical Examples</h3>
+<ul>
+<li><strong>Social Networking:</strong> Store the followers of a user in a set. Use <code>SINTER</code> to find mutual followers between two users.</li>
+<li><strong>E-commerce:</strong> Store the products in a user's shopping cart in a set.</li>
+<li><strong>Recommendation Systems:</strong> Store the items a user has interacted with in a set. Use <code>SDIFF</code> to find items they haven't seen yet.</li>
+</ul>
+<h3>Exercises</h3>
+<ol>
+<li>Create two sets: "users_online" and "users_active". Add some user IDs to each set.</li>
+<li>Find the users who are both online and active (intersection).</li>
+<li>Find the users who are online but not active (difference).</li>
+<li>Store the union of "users_online" and "users_active" in a new set called "all_users".</li>
+</ol>
+<h2>Redis Hashes</h2>
+<p>Redis hashes are collections of field-value pairs. They are similar to dictionaries or maps in other programming languages. Hashes are useful for representing objects or data structures with multiple attributes.</p>
+<h3>Basic Hash Operations</h3>
+<ul>
+<li><strong>HSET:</strong> Sets the value of a field in a hash.</li>
+<li><strong>HGET:</strong> Gets the value of a field in a hash.</li>
+<li><strong>HMSET:</strong> Sets multiple fields in a hash.</li>
+<li><strong>HMGET:</strong> Gets the values of multiple fields in a hash.</li>
+<li><strong>HGETALL:</strong> Gets all fields and values in a hash.</li>
+<li><strong>HDEL:</strong> Deletes one or more fields from a hash.</li>
+<li><strong>HEXISTS:</strong> Checks if a field exists in a hash.</li>
+<li><strong>HLEN:</strong> Returns the number of fields in a hash.</li>
+</ul>
+<p>Example:</p>
+<div class="not-prose my-6 max-w-full overflow-hidden rounded-lg border border-gray-200 has-[code:empty]:hidden"><div class="flex items-center justify-between gap-2 border-b border-gray-200 bg-gray-50 px-3 py-2"><span class="text-sm text-gray-600">javascript</span><div class="flex items-center gap-2"><button class="flex size-6 items-center justify-center gap-2 rounded-md text-gray-400 hover:bg-zinc-200 hover:text-black focus:outline-none"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-copy size-3.5" aria-hidden="true"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"></rect><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"></path></svg></button></div></div><div class="mt-0 text-sm [&amp;_pre]:py-0 [&amp;_pre]:grid [&amp;_code]:py-4 [&amp;_code]:w-full [&amp;_code]:grid [&amp;_code]:overflow-x-auto [&amp;_code]:no-scrollbar [&amp;_code]:bg-transparent [&amp;_.line]:px-3 [&amp;_.line]:w-full [&amp;_.line]:relative [&amp;_.line]:min-h-5"><div><pre class="shiki github-light" style="background-color:#fff;color:#24292e" tabindex="0"><code><span class="line"><span style="color:#005CC5">HSET</span><span style="color:#6F42C1"> user</span><span style="color:#24292E">:</span><span style="color:#005CC5">1000</span><span style="color:#24292E"> name </span><span style="color:#032F62">"John Doe"</span></span>
+<span class="line"><span style="color:#005CC5">HSET</span><span style="color:#6F42C1"> user</span><span style="color:#24292E">:</span><span style="color:#005CC5">1000</span><span style="color:#24292E"> age </span><span style="color:#005CC5">30</span></span>
+<span class="line"><span style="color:#005CC5">HGET</span><span style="color:#6F42C1"> user</span><span style="color:#24292E">:</span><span style="color:#005CC5">1000</span><span style="color:#24292E"> name  </span><span style="color:#6A737D">// Output: "John Doe"</span></span>
+<span class="line"><span style="color:#005CC5">HMSET</span><span style="color:#6F42C1"> user</span><span style="color:#24292E">:</span><span style="color:#005CC5">1001</span><span style="color:#24292E"> name </span><span style="color:#032F62">"Jane Smith"</span><span style="color:#24292E"> age </span><span style="color:#005CC5">25</span><span style="color:#24292E"> city </span><span style="color:#032F62">"New York"</span></span>
+<span class="line"><span style="color:#005CC5">HMGET</span><span style="color:#6F42C1"> user</span><span style="color:#24292E">:</span><span style="color:#005CC5">1001</span><span style="color:#24292E"> name age  </span><span style="color:#6A737D">// Output: "Jane Smith", "25"</span></span>
+<span class="line"><span style="color:#005CC5">HGETALL</span><span style="color:#6F42C1"> user</span><span style="color:#24292E">:</span><span style="color:#005CC5">1000</span><span style="color:#6A737D">  // Output: "name", "John Doe", "age", "30"</span></span>
+<span class="line"><span style="color:#005CC5">HDEL</span><span style="color:#6F42C1"> user</span><span style="color:#24292E">:</span><span style="color:#005CC5">1000</span><span style="color:#24292E"> age</span></span>
+<span class="line"><span style="color:#005CC5">HGETALL</span><span style="color:#6F42C1"> user</span><span style="color:#24292E">:</span><span style="color:#005CC5">1000</span><span style="color:#6A737D">  // Output: "name", "John Doe"</span></span>
+<span class="line"><span style="color:#005CC5">HEXISTS</span><span style="color:#6F42C1"> user</span><span style="color:#24292E">:</span><span style="color:#005CC5">1001</span><span style="color:#24292E"> city  </span><span style="color:#6A737D">// Output: 1 (true)</span></span>
+<span class="line"><span style="color:#005CC5">HLEN</span><span style="color:#6F42C1"> user</span><span style="color:#24292E">:</span><span style="color:#005CC5">1001</span><span style="color:#6A737D">  // Output: 2</span></span></code></pre></div></div></div>
+<h3>Other Useful Hash Commands</h3>
+<ul>
+<li><strong>HINCRBY:</strong> Increments the value of a field in a hash by a specified integer.</li>
+<li><strong>HKEYS:</strong> Returns all field names in a hash.</li>
+<li><strong>HVALS:</strong> Returns all values in a hash.</li>
+</ul>
+<p>Example:</p>
+<div class="not-prose my-6 max-w-full overflow-hidden rounded-lg border border-gray-200 has-[code:empty]:hidden"><div class="flex items-center justify-between gap-2 border-b border-gray-200 bg-gray-50 px-3 py-2"><span class="text-sm text-gray-600">javascript</span><div class="flex items-center gap-2"><button class="flex size-6 items-center justify-center gap-2 rounded-md text-gray-400 hover:bg-zinc-200 hover:text-black focus:outline-none"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-copy size-3.5" aria-hidden="true"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"></rect><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"></path></svg></button></div></div><div class="mt-0 text-sm [&amp;_pre]:py-0 [&amp;_pre]:grid [&amp;_code]:py-4 [&amp;_code]:w-full [&amp;_code]:grid [&amp;_code]:overflow-x-auto [&amp;_code]:no-scrollbar [&amp;_code]:bg-transparent [&amp;_.line]:px-3 [&amp;_.line]:w-full [&amp;_.line]:relative [&amp;_.line]:min-h-5"><div><pre class="shiki github-light" style="background-color:#fff;color:#24292e" tabindex="0"><code><span class="line"><span style="color:#005CC5">HSET</span><span style="color:#6F42C1"> product</span><span style="color:#24292E">:</span><span style="color:#005CC5">101</span><span style="color:#24292E"> price </span><span style="color:#005CC5">100</span></span>
+<span class="line"><span style="color:#005CC5">HINCRBY</span><span style="color:#6F42C1"> product</span><span style="color:#24292E">:</span><span style="color:#005CC5">101</span><span style="color:#24292E"> price </span><span style="color:#005CC5">20</span></span>
+<span class="line"><span style="color:#005CC5">HGET</span><span style="color:#6F42C1"> product</span><span style="color:#24292E">:</span><span style="color:#005CC5">101</span><span style="color:#24292E"> price  </span><span style="color:#6A737D">// Output: "120"</span></span>
+<span class="line"><span style="color:#005CC5">HKEYS</span><span style="color:#6F42C1"> user</span><span style="color:#24292E">:</span><span style="color:#005CC5">1001</span><span style="color:#6A737D">  // Output: "name", "age", "city"</span></span>
+<span class="line"><span style="color:#005CC5">HVALS</span><span style="color:#6F42C1"> user</span><span style="color:#24292E">:</span><span style="color:#005CC5">1001</span><span style="color:#6A737D">  // Output: "Jane Smith", "25", "New York"</span></span></code></pre></div></div></div>
+<h3>Practical Examples</h3>
+<ul>
+<li><strong>Storing User Profiles:</strong> Store user information (name, email, age, etc.) in a hash.</li>
+<li><strong>Representing Objects:</strong> Model complex objects with multiple attributes using hashes.</li>
+<li><strong>Caching Data:</strong> Store the results of expensive computations in a hash for quick retrieval.</li>
+</ul>
+<h3>Exercises</h3>
+<ol>
+<li>Create a hash called "product:123" and store the following information: name = "Laptop", price = 999, brand = "Dell".</li>
+<li>Retrieve the name and price of the product.</li>
+<li>Increase the price of the product by 50.</li>
+<li>Add a new field called "discount" with a value of 10 to the product.</li>
+<li>Retrieve all the fields and values of the product.</li>
+</ol>
+
+</div>
+
+<div id="chapter-3.4">
+
+<h1 class="mb-6 text-3xl font-semibold text-balance max-lg:mb-3 max-lg:text-xl">Using Redis for Caching: Improving Application Performance</h1><p>Caching is a fundamental technique for improving application performance. By storing frequently accessed data in a temporary storage location, we can reduce the need to retrieve it from the original source, which is often slower. Redis, with its in-memory data storage and fast read/write operations, is an excellent choice for implementing caching in various applications. This lesson will explore how to leverage Redis for caching, focusing on the core concepts, practical implementation, and benefits.</p>
+<h2>Understanding Caching Concepts</h2>
+<p>Caching involves storing copies of data in a faster, more accessible location than the original source. When a request for data is made, the cache is checked first. If the data is found in the cache (a "cache hit"), it's served directly from the cache. If the data is not in the cache (a "cache miss"), it's retrieved from the original source, stored in the cache for future use, and then served to the user.</p>
+<h3>Cache Strategies</h3>
+<p>Several caching strategies can be employed, each with its own trade-offs:</p>
+<ul>
+<li><strong>Write-Through Cache:</strong> Data is written to both the cache and the main data store simultaneously. This ensures data consistency but can introduce latency on write operations.
+<ul>
+<li><em>Example:</em> Imagine a social media platform where user profile updates are immediately written to both the Redis cache and the main database (e.g., MongoDB). This guarantees that the cache always reflects the latest profile information.</li>
+<li><em>Hypothetical Scenario:</em> An e-commerce site uses a write-through cache for product inventory. When a customer places an order, the inventory count is updated in both the Redis cache and the primary database to prevent overselling.</li>
+</ul>
+</li>
+<li><strong>Write-Back Cache (Write-Behind Cache):</strong> Data is written only to the cache initially. Updates to the main data store are batched and performed asynchronously. This improves write performance but introduces a risk of data loss if the cache fails before the updates are written to the main store.
+<ul>
+<li><em>Example:</em> Consider a logging system where log entries are initially written to a Redis cache. Periodically, these entries are flushed to a persistent storage system like InfluxDB. This allows for high-speed logging without overwhelming the storage system.</li>
+<li><em>Hypothetical Scenario:</em> A financial application uses a write-back cache for transaction data. Transactions are initially stored in Redis, and then periodically written to a more durable database. This improves the speed of transaction processing, but requires careful handling of potential data loss in case of Redis failure.</li>
+</ul>
+</li>
+<li><strong>Cache-Aside (Lazy Loading):</strong> The application first checks the cache. If the data is present (cache hit), it's returned. If not (cache miss), the application retrieves the data from the main data store, stores it in the cache, and then returns it. This is a common and flexible strategy.
+<ul>
+<li><em>Example:</em> In our social media analytics platform, when a request comes in for a user's recent posts, the application first checks Redis. If the posts are cached, they are returned immediately. If not, the application fetches them from MongoDB, stores them in Redis with an expiration time, and then returns them to the user.</li>
+<li><em>Hypothetical Scenario:</em> A news website uses a cache-aside strategy for article content. When a user requests an article, the application first checks Redis. If the article is cached, it's served immediately. If not, the application retrieves it from the database, caches it in Redis, and then serves it to the user.</li>
+</ul>
+</li>
+</ul>
+<h3>Cache Invalidation Strategies</h3>
+<p>Cache invalidation is the process of removing or updating data in the cache when the original data changes. This is crucial to ensure data consistency.</p>
+<ul>
+<li><strong>Time-To-Live (TTL):</strong> Each cached item is assigned a TTL, after which it expires and is removed from the cache. This is a simple and widely used strategy.
+<ul>
+<li><em>Example:</em> In our social media analytics platform, we might set a TTL of 60 seconds for cached API responses. After 60 seconds, the cache entry expires, and the next request will fetch fresh data from the database.</li>
+<li><em>Hypothetical Scenario:</em> An e-commerce site caches product prices with a TTL of 24 hours. This ensures that prices are updated at least once a day, even if the underlying database is not updated frequently.</li>
+</ul>
+</li>
+<li><strong>Event-Based Invalidation:</strong> The cache is updated or invalidated when specific events occur in the system. This requires a mechanism for the application to notify the cache of data changes.
+<ul>
+<li><em>Example:</em> When a user updates their profile information on our social media platform, an event is triggered that invalidates the corresponding cache entry in Redis. This ensures that the next request for the user's profile retrieves the updated information.</li>
+<li><em>Hypothetical Scenario:</em> A content management system (CMS) uses event-based invalidation. When an editor publishes a new article, an event is triggered that invalidates the cache entries for related pages, ensuring that the latest content is displayed.</li>
+</ul>
+</li>
+<li><strong>Write-Through Invalidation:</strong> As mentioned earlier, in a write-through cache, any write operation to the main data store also updates the cache. This ensures that the cache is always consistent with the main data store.</li>
+</ul>
+<h2>Implementing Caching with Redis</h2>
+<p>Redis provides several features that make it well-suited for caching:</p>
+<ul>
+<li><strong>In-Memory Data Storage:</strong> Redis stores data in memory, providing extremely fast read and write operations.</li>
+<li><strong>Key-Value Data Model:</strong> Redis's simple key-value data model makes it easy to store and retrieve cached data.</li>
+<li><strong>TTL Support:</strong> Redis allows you to set a TTL for each key, automatically expiring cached data after a specified time.</li>
+<li><strong>Pub/Sub:</strong> Redis's publish/subscribe feature can be used for event-based cache invalidation.</li>
+</ul>
+<h3>Basic Caching Example</h3>
+<p>Let's illustrate a simple cache-aside implementation using Python and the <code>redis-py</code> library.</p>
+<div class="not-prose my-6 max-w-full overflow-hidden rounded-lg border border-gray-200 has-[code:empty]:hidden"><div class="flex items-center justify-between gap-2 border-b border-gray-200 bg-gray-50 px-3 py-2"><span class="text-sm text-gray-600">python</span><div class="flex items-center gap-2"><button class="flex size-6 items-center justify-center gap-2 rounded-md text-gray-400 hover:bg-zinc-200 hover:text-black focus:outline-none"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-copy size-3.5" aria-hidden="true"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"></rect><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"></path></svg></button></div></div><div class="mt-0 text-sm [&amp;_pre]:py-0 [&amp;_pre]:grid [&amp;_code]:py-4 [&amp;_code]:w-full [&amp;_code]:grid [&amp;_code]:overflow-x-auto [&amp;_code]:no-scrollbar [&amp;_code]:bg-transparent [&amp;_.line]:px-3 [&amp;_.line]:w-full [&amp;_.line]:relative [&amp;_.line]:min-h-5"><div><pre class="shiki github-light" style="background-color:#fff;color:#24292e" tabindex="0"><code><span class="line"><span style="color:#D73A49">import</span><span style="color:#24292E"> redis</span></span>
+<span class="line"><span style="color:#D73A49">import</span><span style="color:#24292E"> time</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D"># Connect to Redis</span></span>
+<span class="line"><span style="color:#24292E">redis_client </span><span style="color:#D73A49">=</span><span style="color:#24292E"> redis.Redis(</span><span style="color:#E36209">host</span><span style="color:#D73A49">=</span><span style="color:#032F62">'localhost'</span><span style="color:#24292E">, </span><span style="color:#E36209">port</span><span style="color:#D73A49">=</span><span style="color:#005CC5">6379</span><span style="color:#24292E">, </span><span style="color:#E36209">db</span><span style="color:#D73A49">=</span><span style="color:#005CC5">0</span><span style="color:#24292E">)</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> get_user_data</span><span style="color:#24292E">(user_id):</span></span>
+<span class="line"><span style="color:#032F62">    """</span></span>
+<span class="line"><span style="color:#032F62">    Simulates fetching user data from a database.</span></span>
+<span class="line"><span style="color:#032F62">    """</span></span>
+<span class="line"><span style="color:#005CC5">    print</span><span style="color:#24292E">(</span><span style="color:#D73A49">f</span><span style="color:#032F62">"Fetching user data from database for user ID: </span><span style="color:#005CC5">{</span><span style="color:#24292E">user_id</span><span style="color:#005CC5">}</span><span style="color:#032F62">"</span><span style="color:#24292E">)</span></span>
+<span class="line"><span style="color:#24292E">    time.sleep(</span><span style="color:#005CC5">1</span><span style="color:#24292E">)  </span><span style="color:#6A737D"># Simulate database latency</span></span>
+<span class="line"><span style="color:#D73A49">    return</span><span style="color:#24292E"> {</span><span style="color:#032F62">"user_id"</span><span style="color:#24292E">: user_id, </span><span style="color:#032F62">"name"</span><span style="color:#24292E">: </span><span style="color:#D73A49">f</span><span style="color:#032F62">"User </span><span style="color:#005CC5">{</span><span style="color:#24292E">user_id</span><span style="color:#005CC5">}</span><span style="color:#032F62">"</span><span style="color:#24292E">, </span><span style="color:#032F62">"email"</span><span style="color:#24292E">: </span><span style="color:#D73A49">f</span><span style="color:#032F62">"user</span><span style="color:#005CC5">{</span><span style="color:#24292E">user_id</span><span style="color:#005CC5">}</span><span style="color:#032F62">@example.com"</span><span style="color:#24292E">}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> get_user_data_cached</span><span style="color:#24292E">(user_id):</span></span>
+<span class="line"><span style="color:#032F62">    """</span></span>
+<span class="line"><span style="color:#032F62">    Retrieves user data from cache if available, otherwise fetches from the database.</span></span>
+<span class="line"><span style="color:#032F62">    """</span></span>
+<span class="line"><span style="color:#24292E">    cache_key </span><span style="color:#D73A49">=</span><span style="color:#D73A49"> f</span><span style="color:#032F62">"user:</span><span style="color:#005CC5">{</span><span style="color:#24292E">user_id</span><span style="color:#005CC5">}</span><span style="color:#032F62">"</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D">    # Try to get data from cache</span></span>
+<span class="line"><span style="color:#24292E">    user_data </span><span style="color:#D73A49">=</span><span style="color:#24292E"> redis_client.get(cache_key)</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#D73A49">    if</span><span style="color:#24292E"> user_data:</span></span>
+<span class="line"><span style="color:#005CC5">        print</span><span style="color:#24292E">(</span><span style="color:#D73A49">f</span><span style="color:#032F62">"Fetching user data from cache for user ID: </span><span style="color:#005CC5">{</span><span style="color:#24292E">user_id</span><span style="color:#005CC5">}</span><span style="color:#032F62">"</span><span style="color:#24292E">)</span></span>
+<span class="line"><span style="color:#D73A49">        return</span><span style="color:#005CC5"> eval</span><span style="color:#24292E">(user_data.decode(</span><span style="color:#032F62">'utf-8'</span><span style="color:#24292E">))  </span><span style="color:#6A737D"># Deserialize from bytes</span></span>
+<span class="line"><span style="color:#D73A49">    else</span><span style="color:#24292E">:</span></span>
+<span class="line"><span style="color:#6A737D">        # Data not in cache, fetch from database</span></span>
+<span class="line"><span style="color:#24292E">        user_data </span><span style="color:#D73A49">=</span><span style="color:#24292E"> get_user_data(user_id)</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D">        # Store data in cache with a TTL of 60 seconds</span></span>
+<span class="line"><span style="color:#24292E">        redis_client.set(cache_key, </span><span style="color:#005CC5">str</span><span style="color:#24292E">(user_data), </span><span style="color:#E36209">ex</span><span style="color:#D73A49">=</span><span style="color:#005CC5">60</span><span style="color:#24292E">)</span></span>
+<span class="line"><span style="color:#D73A49">        return</span><span style="color:#24292E"> user_data</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D"># Example usage</span></span>
+<span class="line"><span style="color:#24292E">user_id </span><span style="color:#D73A49">=</span><span style="color:#005CC5"> 123</span></span>
+<span class="line"><span style="color:#24292E">user_data </span><span style="color:#D73A49">=</span><span style="color:#24292E"> get_user_data_cached(user_id)</span></span>
+<span class="line"><span style="color:#005CC5">print</span><span style="color:#24292E">(</span><span style="color:#D73A49">f</span><span style="color:#032F62">"User data: </span><span style="color:#005CC5">{</span><span style="color:#24292E">user_data</span><span style="color:#005CC5">}</span><span style="color:#032F62">"</span><span style="color:#24292E">)</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D"># Retrieve again from cache</span></span>
+<span class="line"><span style="color:#24292E">user_data </span><span style="color:#D73A49">=</span><span style="color:#24292E"> get_user_data_cached(user_id)</span></span>
+<span class="line"><span style="color:#005CC5">print</span><span style="color:#24292E">(</span><span style="color:#D73A49">f</span><span style="color:#032F62">"User data: </span><span style="color:#005CC5">{</span><span style="color:#24292E">user_data</span><span style="color:#005CC5">}</span><span style="color:#032F62">"</span><span style="color:#24292E">)</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#24292E">time.sleep(</span><span style="color:#005CC5">61</span><span style="color:#24292E">) </span><span style="color:#6A737D"># Wait for cache to expire</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#24292E">user_data </span><span style="color:#D73A49">=</span><span style="color:#24292E"> get_user_data_cached(user_id)</span></span>
+<span class="line"><span style="color:#005CC5">print</span><span style="color:#24292E">(</span><span style="color:#D73A49">f</span><span style="color:#032F62">"User data: </span><span style="color:#005CC5">{</span><span style="color:#24292E">user_data</span><span style="color:#005CC5">}</span><span style="color:#032F62">"</span><span style="color:#24292E">)</span></span></code></pre></div></div></div>
+<p>In this example:</p>
+<ol>
+<li>We connect to a Redis instance running on <code>localhost:6379</code>.</li>
+<li>The <code>get_user_data_cached</code> function first checks if the user data is present in the Redis cache using the key <code>user:{user_id}</code>.</li>
+<li>If the data is found in the cache, it's retrieved and returned.</li>
+<li>If the data is not found, it's fetched from the <code>get_user_data</code> function (simulating a database call), stored in the cache with a TTL of 60 seconds, and then returned.</li>
+<li>The <code>eval(user_data.decode('utf-8'))</code> part is used to convert the data retrieved from Redis (which is stored as bytes) back into a Python dictionary.  Storing the data as a string is a common practice.  Alternatives include using JSON serialization.</li>
+<li>The <code>time.sleep(61)</code> call allows the cache to expire before the final call to <code>get_user_data_cached</code>.</li>
+</ol>
+<h3>Caching API Responses in the Social Media Analytics Platform</h3>
+<p>Let's consider how we can apply Redis caching to our social media analytics platform. A common use case is caching API responses to reduce the load on external social media APIs and improve response times for users.</p>
+<div class="not-prose my-6 max-w-full overflow-hidden rounded-lg border border-gray-200 has-[code:empty]:hidden"><div class="flex items-center justify-between gap-2 border-b border-gray-200 bg-gray-50 px-3 py-2"><span class="text-sm text-gray-600">python</span><div class="flex items-center gap-2"><button class="flex size-6 items-center justify-center gap-2 rounded-md text-gray-400 hover:bg-zinc-200 hover:text-black focus:outline-none"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-copy size-3.5" aria-hidden="true"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"></rect><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"></path></svg></button></div></div><div class="mt-0 text-sm [&amp;_pre]:py-0 [&amp;_pre]:grid [&amp;_code]:py-4 [&amp;_code]:w-full [&amp;_code]:grid [&amp;_code]:overflow-x-auto [&amp;_code]:no-scrollbar [&amp;_code]:bg-transparent [&amp;_.line]:px-3 [&amp;_.line]:w-full [&amp;_.line]:relative [&amp;_.line]:min-h-5"><div><pre class="shiki github-light" style="background-color:#fff;color:#24292e" tabindex="0"><code><span class="line"><span style="color:#D73A49">import</span><span style="color:#24292E"> redis</span></span>
+<span class="line"><span style="color:#D73A49">import</span><span style="color:#24292E"> requests</span></span>
+<span class="line"><span style="color:#D73A49">import</span><span style="color:#24292E"> json</span></span>
+<span class="line"><span style="color:#D73A49">import</span><span style="color:#24292E"> time</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D"># Connect to Redis</span></span>
+<span class="line"><span style="color:#24292E">redis_client </span><span style="color:#D73A49">=</span><span style="color:#24292E"> redis.Redis(</span><span style="color:#E36209">host</span><span style="color:#D73A49">=</span><span style="color:#032F62">'localhost'</span><span style="color:#24292E">, </span><span style="color:#E36209">port</span><span style="color:#D73A49">=</span><span style="color:#005CC5">6379</span><span style="color:#24292E">, </span><span style="color:#E36209">db</span><span style="color:#D73A49">=</span><span style="color:#005CC5">0</span><span style="color:#24292E">)</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> fetch_social_media_data</span><span style="color:#24292E">(api_endpoint):</span></span>
+<span class="line"><span style="color:#032F62">    """</span></span>
+<span class="line"><span style="color:#032F62">    Simulates fetching data from a social media API.</span></span>
+<span class="line"><span style="color:#032F62">    """</span></span>
+<span class="line"><span style="color:#005CC5">    print</span><span style="color:#24292E">(</span><span style="color:#D73A49">f</span><span style="color:#032F62">"Fetching data from social media API: </span><span style="color:#005CC5">{</span><span style="color:#24292E">api_endpoint</span><span style="color:#005CC5">}</span><span style="color:#032F62">"</span><span style="color:#24292E">)</span></span>
+<span class="line"><span style="color:#24292E">    time.sleep(</span><span style="color:#005CC5">2</span><span style="color:#24292E">)  </span><span style="color:#6A737D"># Simulate API latency</span></span>
+<span class="line"><span style="color:#6A737D">    # Replace with actual API call</span></span>
+<span class="line"><span style="color:#6A737D">    # response = requests.get(api_endpoint)</span></span>
+<span class="line"><span style="color:#6A737D">    # return response.json()</span></span>
+<span class="line"><span style="color:#D73A49">    return</span><span style="color:#24292E"> {</span><span style="color:#032F62">"data"</span><span style="color:#24292E">: </span><span style="color:#D73A49">f</span><span style="color:#032F62">"Social media data from </span><span style="color:#005CC5">{</span><span style="color:#24292E">api_endpoint</span><span style="color:#005CC5">}</span><span style="color:#032F62">"</span><span style="color:#24292E">}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> get_social_media_data_cached</span><span style="color:#24292E">(api_endpoint):</span></span>
+<span class="line"><span style="color:#032F62">    """</span></span>
+<span class="line"><span style="color:#032F62">    Retrieves social media data from cache if available, otherwise fetches from the API.</span></span>
+<span class="line"><span style="color:#032F62">    """</span></span>
+<span class="line"><span style="color:#24292E">    cache_key </span><span style="color:#D73A49">=</span><span style="color:#D73A49"> f</span><span style="color:#032F62">"api:</span><span style="color:#005CC5">{</span><span style="color:#24292E">api_endpoint</span><span style="color:#005CC5">}</span><span style="color:#032F62">"</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D">    # Try to get data from cache</span></span>
+<span class="line"><span style="color:#24292E">    data </span><span style="color:#D73A49">=</span><span style="color:#24292E"> redis_client.get(cache_key)</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#D73A49">    if</span><span style="color:#24292E"> data:</span></span>
+<span class="line"><span style="color:#005CC5">        print</span><span style="color:#24292E">(</span><span style="color:#D73A49">f</span><span style="color:#032F62">"Fetching data from cache for API endpoint: </span><span style="color:#005CC5">{</span><span style="color:#24292E">api_endpoint</span><span style="color:#005CC5">}</span><span style="color:#032F62">"</span><span style="color:#24292E">)</span></span>
+<span class="line"><span style="color:#D73A49">        return</span><span style="color:#24292E"> json.loads(data.decode(</span><span style="color:#032F62">'utf-8'</span><span style="color:#24292E">))  </span><span style="color:#6A737D"># Deserialize from JSON</span></span>
+<span class="line"><span style="color:#D73A49">    else</span><span style="color:#24292E">:</span></span>
+<span class="line"><span style="color:#6A737D">        # Data not in cache, fetch from API</span></span>
+<span class="line"><span style="color:#24292E">        data </span><span style="color:#D73A49">=</span><span style="color:#24292E"> fetch_social_media_data(api_endpoint)</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D">        # Store data in cache with a TTL of 300 seconds (5 minutes)</span></span>
+<span class="line"><span style="color:#24292E">        redis_client.set(cache_key, json.dumps(data), </span><span style="color:#E36209">ex</span><span style="color:#D73A49">=</span><span style="color:#005CC5">300</span><span style="color:#24292E">)</span></span>
+<span class="line"><span style="color:#D73A49">        return</span><span style="color:#24292E"> data</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D"># Example usage</span></span>
+<span class="line"><span style="color:#24292E">api_endpoint </span><span style="color:#D73A49">=</span><span style="color:#032F62"> "https://api.example.com/social_media_data"</span></span>
+<span class="line"><span style="color:#24292E">data </span><span style="color:#D73A49">=</span><span style="color:#24292E"> get_social_media_data_cached(api_endpoint)</span></span>
+<span class="line"><span style="color:#005CC5">print</span><span style="color:#24292E">(</span><span style="color:#D73A49">f</span><span style="color:#032F62">"Social media data: </span><span style="color:#005CC5">{</span><span style="color:#24292E">data</span><span style="color:#005CC5">}</span><span style="color:#032F62">"</span><span style="color:#24292E">)</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D"># Retrieve again from cache</span></span>
+<span class="line"><span style="color:#24292E">data </span><span style="color:#D73A49">=</span><span style="color:#24292E"> get_social_media_data_cached(api_endpoint)</span></span>
+<span class="line"><span style="color:#005CC5">print</span><span style="color:#24292E">(</span><span style="color:#D73A49">f</span><span style="color:#032F62">"Social media data: </span><span style="color:#005CC5">{</span><span style="color:#24292E">data</span><span style="color:#005CC5">}</span><span style="color:#032F62">"</span><span style="color:#24292E">)</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#24292E">time.sleep(</span><span style="color:#005CC5">301</span><span style="color:#24292E">) </span><span style="color:#6A737D"># Wait for cache to expire</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#24292E">data </span><span style="color:#D73A49">=</span><span style="color:#24292E"> get_social_media_data_cached(api_endpoint)</span></span>
+<span class="line"><span style="color:#005CC5">print</span><span style="color:#24292E">(</span><span style="color:#D73A49">f</span><span style="color:#032F62">"Social media data: </span><span style="color:#005CC5">{</span><span style="color:#24292E">data</span><span style="color:#005CC5">}</span><span style="color:#032F62">"</span><span style="color:#24292E">)</span></span></code></pre></div></div></div>
+<p>In this example:</p>
+<ol>
+<li>We define a <code>fetch_social_media_data</code> function that simulates fetching data from a social media API.</li>
+<li>The <code>get_social_media_data_cached</code> function first checks if the API response is present in the Redis cache using the key <code>api:{api_endpoint}</code>.</li>
+<li>If the data is found in the cache, it's retrieved and returned.  Note that we use <code>json.loads</code> to deserialize the data from JSON format.</li>
+<li>If the data is not found, it's fetched from the <code>fetch_social_media_data</code> function, stored in the cache with a TTL of 300 seconds (5 minutes), and then returned.</li>
+</ol>
+<h3>Advanced Caching Techniques</h3>
+<p>Beyond basic caching, several advanced techniques can further optimize performance and data consistency:</p>
+<ul>
+<li><strong>Cache Stampede Prevention:</strong> When a large number of requests arrive simultaneously for a cache entry that has expired, they can all try to regenerate the cache, overwhelming the system. Techniques like "probabilistic early expiration" or "lock-and-regenerate" can help prevent this.
+<ul>
+<li><em>Probabilistic Early Expiration:</em> Instead of expiring the cache entry at the exact TTL, expire it slightly earlier with a small probability. This spreads out the cache regeneration load.</li>
+<li><em>Lock-and-Regenerate:</em> When a cache miss occurs, acquire a lock before regenerating the cache. Only one process can regenerate the cache at a time, while others wait for the lock to be released.</li>
+</ul>
+</li>
+<li><strong>Tag-Based Caching:</strong> Instead of invalidating individual cache entries, you can tag related entries and invalidate them all at once. This is useful when multiple cache entries depend on the same underlying data.
+<ul>
+<li><em>Example:</em> In an e-commerce site, you might tag all cache entries related to a specific product category. When the category is updated, you can invalidate all tagged entries, ensuring that the latest category information is displayed.</li>
+</ul>
+</li>
+<li><strong>Tiered Caching:</strong> Using multiple layers of cache, such as a local in-memory cache (e.g., using a library like Guava Cache) in addition to Redis, can further improve performance. The local cache provides extremely fast access for frequently accessed data, while Redis serves as a shared cache for the entire application.</li>
+</ul>
+<h2>Exercises</h2>
+<ol>
+<li><strong>Implement a Write-Through Cache:</strong> Modify the <code>get_user_data_cached</code> function to implement a write-through cache. When user data is updated, ensure that the cache is updated simultaneously with the database.</li>
+<li><strong>Implement Event-Based Invalidation:</strong> Add a function to update user data in the database. When this function is called, trigger an event that invalidates the corresponding cache entry in Redis. You can use Redis's Pub/Sub feature for this.</li>
+<li><strong>Experiment with Different TTLs:</strong> Test the impact of different TTL values on cache hit rate and data consistency. Observe how shorter TTLs lead to more frequent cache refreshes but ensure more up-to-date data, while longer TTLs reduce the load on the database but may serve stale data.</li>
+<li><strong>Implement Cache Stampede Prevention:</strong> Modify the <code>get_social_media_data_cached</code> function to implement a lock-and-regenerate strategy to prevent cache stampedes.</li>
+</ol>
+
+</div>
+
+<div id="chapter-3.5">
+
+<h1 class="mb-6 text-3xl font-semibold text-balance max-lg:mb-3 max-lg:text-xl">Implementing Redis in the Social Media Analytics Platform: Caching API Responses</h1><p>Implementing Redis in the Social Media Analytics Platform: Caching API Responses is crucial for enhancing the performance and responsiveness of our application. By strategically caching API responses, we can significantly reduce latency, minimize the load on external APIs, and improve the overall user experience. This lesson will guide you through the process of integrating Redis caching into our Social Media Analytics Platform, focusing on practical implementation and best practices.</p>
+<h2>Understanding API Caching with Redis</h2>
+<p>API caching involves storing the responses from external APIs in a cache, such as Redis, so that subsequent requests for the same data can be served directly from the cache instead of hitting the API again. This approach is particularly beneficial when dealing with APIs that have rate limits, high latency, or are frequently accessed.</p>
+<h3>Benefits of Caching API Responses</h3>
+<ul>
+<li><strong>Reduced Latency:</strong> Serving data from Redis, which is an in-memory data store, is significantly faster than fetching it from an external API.</li>
+<li><strong>Lower API Load:</strong> Caching reduces the number of requests made to external APIs, which can help avoid rate limits and reduce costs.</li>
+<li><strong>Improved Scalability:</strong> By reducing the load on external APIs, caching allows our application to handle more traffic without performance degradation.</li>
+<li><strong>Enhanced User Experience:</strong> Faster response times lead to a smoother and more responsive user experience.</li>
+</ul>
+<h3>Key Considerations for API Caching</h3>
+<ul>
+<li><strong>Cache Invalidation:</strong> Determining when to invalidate or update the cache is crucial to ensure that the data served is up-to-date.</li>
+<li><strong>Cache Expiration:</strong> Setting appropriate expiration times for cached data is essential to balance freshness and performance.</li>
+<li><strong>Cache Key Generation:</strong> Creating unique and consistent cache keys is necessary to retrieve the correct data from the cache.</li>
+<li><strong>Data Serialization:</strong> Converting API responses into a format that can be stored in Redis (e.g., JSON) and back is required.</li>
+</ul>
+<h2>Implementing Redis Caching in the Social Media Analytics Platform</h2>
+<p>Let's walk through the steps to implement Redis caching for API responses in our Social Media Analytics Platform. We'll focus on caching responses from a hypothetical social media API that provides data about user engagement metrics.</p>
+<h3>Step 1: Setting up Redis Connection</h3>
+<p>First, we need to establish a connection to our Redis server. We'll use a Redis client library (e.g., <code>redis-py</code> in Python, <code>ioredis</code> in Node.js) to interact with Redis.</p>
+<p><strong>Python Example (using <code>redis-py</code>):</strong></p>
+<div class="not-prose my-6 max-w-full overflow-hidden rounded-lg border border-gray-200 has-[code:empty]:hidden"><div class="flex items-center justify-between gap-2 border-b border-gray-200 bg-gray-50 px-3 py-2"><span class="text-sm text-gray-600">python</span><div class="flex items-center gap-2"><button class="flex size-6 items-center justify-center gap-2 rounded-md text-gray-400 hover:bg-zinc-200 hover:text-black focus:outline-none"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-copy size-3.5" aria-hidden="true"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"></rect><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"></path></svg></button></div></div><div class="mt-0 text-sm [&amp;_pre]:py-0 [&amp;_pre]:grid [&amp;_code]:py-4 [&amp;_code]:w-full [&amp;_code]:grid [&amp;_code]:overflow-x-auto [&amp;_code]:no-scrollbar [&amp;_code]:bg-transparent [&amp;_.line]:px-3 [&amp;_.line]:w-full [&amp;_.line]:relative [&amp;_.line]:min-h-5"><div><pre class="shiki github-light" style="background-color:#fff;color:#24292e" tabindex="0"><code><span class="line"><span style="color:#D73A49">import</span><span style="color:#24292E"> redis</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D"># Configure Redis connection</span></span>
+<span class="line"><span style="color:#24292E">redis_host </span><span style="color:#D73A49">=</span><span style="color:#032F62"> 'localhost'</span></span>
+<span class="line"><span style="color:#24292E">redis_port </span><span style="color:#D73A49">=</span><span style="color:#005CC5"> 6379</span></span>
+<span class="line"><span style="color:#24292E">redis_db </span><span style="color:#D73A49">=</span><span style="color:#005CC5"> 0</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D"># Create a Redis client instance</span></span>
+<span class="line"><span style="color:#24292E">redis_client </span><span style="color:#D73A49">=</span><span style="color:#24292E"> redis.Redis(</span><span style="color:#E36209">host</span><span style="color:#D73A49">=</span><span style="color:#24292E">redis_host, </span><span style="color:#E36209">port</span><span style="color:#D73A49">=</span><span style="color:#24292E">redis_port, </span><span style="color:#E36209">db</span><span style="color:#D73A49">=</span><span style="color:#24292E">redis_db)</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#D73A49">try</span><span style="color:#24292E">:</span></span>
+<span class="line"><span style="color:#24292E">    redis_client.ping()</span></span>
+<span class="line"><span style="color:#D73A49">except</span><span style="color:#24292E"> redis.exceptions.ConnectionError </span><span style="color:#D73A49">as</span><span style="color:#24292E"> e:</span></span>
+<span class="line"><span style="color:#005CC5">    print</span><span style="color:#24292E">(</span><span style="color:#D73A49">f</span><span style="color:#032F62">"Could not connect to Redis: </span><span style="color:#005CC5">{</span><span style="color:#24292E">e</span><span style="color:#005CC5">}</span><span style="color:#032F62">"</span><span style="color:#24292E">)</span></span>
+<span class="line"><span style="color:#005CC5">    exit</span><span style="color:#24292E">()</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#005CC5">print</span><span style="color:#24292E">(</span><span style="color:#032F62">"Successfully connected to Redis!"</span><span style="color:#24292E">)</span></span></code></pre></div></div></div>
+<p><strong>Node.js Example (using <code>ioredis</code>):</strong></p>
+<div class="not-prose my-6 max-w-full overflow-hidden rounded-lg border border-gray-200 has-[code:empty]:hidden"><div class="flex items-center justify-between gap-2 border-b border-gray-200 bg-gray-50 px-3 py-2"><span class="text-sm text-gray-600">javascript</span><div class="flex items-center gap-2"><button class="flex size-6 items-center justify-center gap-2 rounded-md text-gray-400 hover:bg-zinc-200 hover:text-black focus:outline-none"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-copy size-3.5" aria-hidden="true"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"></rect><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"></path></svg></button></div></div><div class="mt-0 text-sm [&amp;_pre]:py-0 [&amp;_pre]:grid [&amp;_code]:py-4 [&amp;_code]:w-full [&amp;_code]:grid [&amp;_code]:overflow-x-auto [&amp;_code]:no-scrollbar [&amp;_code]:bg-transparent [&amp;_.line]:px-3 [&amp;_.line]:w-full [&amp;_.line]:relative [&amp;_.line]:min-h-5"><div><pre class="shiki github-light" style="background-color:#fff;color:#24292e" tabindex="0"><code><span class="line"><span style="color:#D73A49">const</span><span style="color:#005CC5"> Redis</span><span style="color:#D73A49"> =</span><span style="color:#6F42C1"> require</span><span style="color:#24292E">(</span><span style="color:#032F62">'ioredis'</span><span style="color:#24292E">);</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D">// Configure Redis connection</span></span>
+<span class="line"><span style="color:#D73A49">const</span><span style="color:#005CC5"> redisHost</span><span style="color:#D73A49"> =</span><span style="color:#032F62"> 'localhost'</span><span style="color:#24292E">;</span></span>
+<span class="line"><span style="color:#D73A49">const</span><span style="color:#005CC5"> redisPort</span><span style="color:#D73A49"> =</span><span style="color:#005CC5"> 6379</span><span style="color:#24292E">;</span></span>
+<span class="line"><span style="color:#D73A49">const</span><span style="color:#005CC5"> redisDb</span><span style="color:#D73A49"> =</span><span style="color:#005CC5"> 0</span><span style="color:#24292E">;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D">// Create a Redis client instance</span></span>
+<span class="line"><span style="color:#D73A49">const</span><span style="color:#005CC5"> redisClient</span><span style="color:#D73A49"> =</span><span style="color:#D73A49"> new</span><span style="color:#6F42C1"> Redis</span><span style="color:#24292E">({</span></span>
+<span class="line"><span style="color:#24292E">  host: redisHost,</span></span>
+<span class="line"><span style="color:#24292E">  port: redisPort,</span></span>
+<span class="line"><span style="color:#24292E">  db: redisDb,</span></span>
+<span class="line"><span style="color:#24292E">});</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#24292E">redisClient.</span><span style="color:#6F42C1">ping</span><span style="color:#24292E">()</span></span>
+<span class="line"><span style="color:#24292E">  .</span><span style="color:#6F42C1">then</span><span style="color:#24292E">(() </span><span style="color:#D73A49">=&gt;</span><span style="color:#24292E"> {</span></span>
+<span class="line"><span style="color:#24292E">    console.</span><span style="color:#6F42C1">log</span><span style="color:#24292E">(</span><span style="color:#032F62">"Successfully connected to Redis!"</span><span style="color:#24292E">);</span></span>
+<span class="line"><span style="color:#24292E">  })</span></span>
+<span class="line"><span style="color:#24292E">  .</span><span style="color:#6F42C1">catch</span><span style="color:#24292E">((</span><span style="color:#E36209">err</span><span style="color:#24292E">) </span><span style="color:#D73A49">=&gt;</span><span style="color:#24292E"> {</span></span>
+<span class="line"><span style="color:#24292E">    console.</span><span style="color:#6F42C1">error</span><span style="color:#24292E">(</span><span style="color:#032F62">"Could not connect to Redis:"</span><span style="color:#24292E">, err);</span></span>
+<span class="line"><span style="color:#24292E">    process.</span><span style="color:#6F42C1">exit</span><span style="color:#24292E">(</span><span style="color:#005CC5">1</span><span style="color:#24292E">);</span></span>
+<span class="line"><span style="color:#24292E">  });</span></span></code></pre></div></div></div>
+<h3>Step 2: Creating a Caching Function</h3>
+<p>Next, we'll create a function that handles caching API responses. This function will:</p>
+<ol>
+<li>Generate a cache key based on the API request parameters.</li>
+<li>Check if the data is already in the cache.</li>
+<li>If the data is in the cache, return it.</li>
+<li>If the data is not in the cache, fetch it from the API, store it in the cache, and return it.</li>
+</ol>
+<p><strong>Python Example:</strong></p>
+<div class="not-prose my-6 max-w-full overflow-hidden rounded-lg border border-gray-200 has-[code:empty]:hidden"><div class="flex items-center justify-between gap-2 border-b border-gray-200 bg-gray-50 px-3 py-2"><span class="text-sm text-gray-600">python</span><div class="flex items-center gap-2"><button class="flex size-6 items-center justify-center gap-2 rounded-md text-gray-400 hover:bg-zinc-200 hover:text-black focus:outline-none"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-copy size-3.5" aria-hidden="true"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"></rect><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"></path></svg></button></div></div><div class="mt-0 text-sm [&amp;_pre]:py-0 [&amp;_pre]:grid [&amp;_code]:py-4 [&amp;_code]:w-full [&amp;_code]:grid [&amp;_code]:overflow-x-auto [&amp;_code]:no-scrollbar [&amp;_code]:bg-transparent [&amp;_.line]:px-3 [&amp;_.line]:w-full [&amp;_.line]:relative [&amp;_.line]:min-h-5"><div><pre class="shiki github-light" style="background-color:#fff;color:#24292e" tabindex="0"><code><span class="line"><span style="color:#D73A49">import</span><span style="color:#24292E"> json</span></span>
+<span class="line"><span style="color:#D73A49">import</span><span style="color:#24292E"> requests</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#D73A49">def</span><span style="color:#6F42C1"> get_social_media_data</span><span style="color:#24292E">(user_id):</span></span>
+<span class="line"><span style="color:#032F62">    """</span></span>
+<span class="line"><span style="color:#032F62">    Retrieves social media data for a given user, caching the API response in Redis.</span></span>
+<span class="line"><span style="color:#032F62">    """</span></span>
+<span class="line"><span style="color:#24292E">    cache_key </span><span style="color:#D73A49">=</span><span style="color:#D73A49"> f</span><span style="color:#032F62">"social_media_data:</span><span style="color:#005CC5">{</span><span style="color:#24292E">user_id</span><span style="color:#005CC5">}</span><span style="color:#032F62">"</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D">    # Check if the data is in the cache</span></span>
+<span class="line"><span style="color:#24292E">    cached_data </span><span style="color:#D73A49">=</span><span style="color:#24292E"> redis_client.get(cache_key)</span></span>
+<span class="line"><span style="color:#D73A49">    if</span><span style="color:#24292E"> cached_data:</span></span>
+<span class="line"><span style="color:#005CC5">        print</span><span style="color:#24292E">(</span><span style="color:#032F62">"Data retrieved from cache"</span><span style="color:#24292E">)</span></span>
+<span class="line"><span style="color:#D73A49">        return</span><span style="color:#24292E"> json.loads(cached_data.decode(</span><span style="color:#032F62">'utf-8'</span><span style="color:#24292E">))</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D">    # If the data is not in the cache, fetch it from the API</span></span>
+<span class="line"><span style="color:#24292E">    api_url </span><span style="color:#D73A49">=</span><span style="color:#D73A49"> f</span><span style="color:#032F62">"https://api.example.com/social_media_data/</span><span style="color:#005CC5">{</span><span style="color:#24292E">user_id</span><span style="color:#005CC5">}</span><span style="color:#032F62">"</span><span style="color:#6A737D">  # Replace with your actual API endpoint</span></span>
+<span class="line"><span style="color:#D73A49">    try</span><span style="color:#24292E">:</span></span>
+<span class="line"><span style="color:#24292E">        response </span><span style="color:#D73A49">=</span><span style="color:#24292E"> requests.get(api_url)</span></span>
+<span class="line"><span style="color:#24292E">        response.raise_for_status()  </span><span style="color:#6A737D"># Raise an exception for bad status codes</span></span>
+<span class="line"><span style="color:#24292E">        data </span><span style="color:#D73A49">=</span><span style="color:#24292E"> response.json()</span></span>
+<span class="line"><span style="color:#D73A49">    except</span><span style="color:#24292E"> requests.exceptions.RequestException </span><span style="color:#D73A49">as</span><span style="color:#24292E"> e:</span></span>
+<span class="line"><span style="color:#005CC5">        print</span><span style="color:#24292E">(</span><span style="color:#D73A49">f</span><span style="color:#032F62">"Error fetching data from API: </span><span style="color:#005CC5">{</span><span style="color:#24292E">e</span><span style="color:#005CC5">}</span><span style="color:#032F62">"</span><span style="color:#24292E">)</span></span>
+<span class="line"><span style="color:#D73A49">        return</span><span style="color:#005CC5"> None</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D">    # Store the data in the cache with an expiration time (e.g., 60 seconds)</span></span>
+<span class="line"><span style="color:#24292E">    redis_client.setex(cache_key, </span><span style="color:#005CC5">60</span><span style="color:#24292E">, json.dumps(data))</span></span>
+<span class="line"><span style="color:#005CC5">    print</span><span style="color:#24292E">(</span><span style="color:#032F62">"Data retrieved from API and cached"</span><span style="color:#24292E">)</span></span>
+<span class="line"><span style="color:#D73A49">    return</span><span style="color:#24292E"> data</span></span></code></pre></div></div></div>
+<p><strong>Node.js Example:</strong></p>
+<div class="not-prose my-6 max-w-full overflow-hidden rounded-lg border border-gray-200 has-[code:empty]:hidden"><div class="flex items-center justify-between gap-2 border-b border-gray-200 bg-gray-50 px-3 py-2"><span class="text-sm text-gray-600">javascript</span><div class="flex items-center gap-2"><button class="flex size-6 items-center justify-center gap-2 rounded-md text-gray-400 hover:bg-zinc-200 hover:text-black focus:outline-none"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-copy size-3.5" aria-hidden="true"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"></rect><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"></path></svg></button></div></div><div class="mt-0 text-sm [&amp;_pre]:py-0 [&amp;_pre]:grid [&amp;_code]:py-4 [&amp;_code]:w-full [&amp;_code]:grid [&amp;_code]:overflow-x-auto [&amp;_code]:no-scrollbar [&amp;_code]:bg-transparent [&amp;_.line]:px-3 [&amp;_.line]:w-full [&amp;_.line]:relative [&amp;_.line]:min-h-5"><div><pre class="shiki github-light" style="background-color:#fff;color:#24292e" tabindex="0"><code><span class="line"><span style="color:#D73A49">const</span><span style="color:#005CC5"> axios</span><span style="color:#D73A49"> =</span><span style="color:#6F42C1"> require</span><span style="color:#24292E">(</span><span style="color:#032F62">'axios'</span><span style="color:#24292E">); </span><span style="color:#6A737D">// You might need to install axios: npm install axios</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#D73A49">async</span><span style="color:#D73A49"> function</span><span style="color:#6F42C1"> getSocialMediaData</span><span style="color:#24292E">(</span><span style="color:#E36209">userId</span><span style="color:#24292E">) {</span></span>
+<span class="line"><span style="color:#D73A49">  const</span><span style="color:#005CC5"> cacheKey</span><span style="color:#D73A49"> =</span><span style="color:#032F62"> `social_media_data:${</span><span style="color:#24292E">userId</span><span style="color:#032F62">}`</span><span style="color:#24292E">;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D">  // Check if the data is in the cache</span></span>
+<span class="line"><span style="color:#D73A49">  const</span><span style="color:#005CC5"> cachedData</span><span style="color:#D73A49"> =</span><span style="color:#D73A49"> await</span><span style="color:#24292E"> redisClient.</span><span style="color:#6F42C1">get</span><span style="color:#24292E">(cacheKey);</span></span>
+<span class="line"><span style="color:#D73A49">  if</span><span style="color:#24292E"> (cachedData) {</span></span>
+<span class="line"><span style="color:#24292E">    console.</span><span style="color:#6F42C1">log</span><span style="color:#24292E">(</span><span style="color:#032F62">"Data retrieved from cache"</span><span style="color:#24292E">);</span></span>
+<span class="line"><span style="color:#D73A49">    return</span><span style="color:#005CC5"> JSON</span><span style="color:#24292E">.</span><span style="color:#6F42C1">parse</span><span style="color:#24292E">(cachedData);</span></span>
+<span class="line"><span style="color:#24292E">  }</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D">  // If the data is not in the cache, fetch it from the API</span></span>
+<span class="line"><span style="color:#D73A49">  const</span><span style="color:#005CC5"> apiUrl</span><span style="color:#D73A49"> =</span><span style="color:#032F62"> `https://api.example.com/social_media_data/${</span><span style="color:#24292E">userId</span><span style="color:#032F62">}`</span><span style="color:#24292E">; </span><span style="color:#6A737D">// Replace with your actual API endpoint</span></span>
+<span class="line"><span style="color:#D73A49">  try</span><span style="color:#24292E"> {</span></span>
+<span class="line"><span style="color:#D73A49">    const</span><span style="color:#005CC5"> response</span><span style="color:#D73A49"> =</span><span style="color:#D73A49"> await</span><span style="color:#24292E"> axios.</span><span style="color:#6F42C1">get</span><span style="color:#24292E">(apiUrl);</span></span>
+<span class="line"><span style="color:#D73A49">    const</span><span style="color:#005CC5"> data</span><span style="color:#D73A49"> =</span><span style="color:#24292E"> response.data;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D">    // Store the data in the cache with an expiration time (e.g., 60 seconds)</span></span>
+<span class="line"><span style="color:#D73A49">    await</span><span style="color:#24292E"> redisClient.</span><span style="color:#6F42C1">setex</span><span style="color:#24292E">(cacheKey, </span><span style="color:#005CC5">60</span><span style="color:#24292E">, </span><span style="color:#005CC5">JSON</span><span style="color:#24292E">.</span><span style="color:#6F42C1">stringify</span><span style="color:#24292E">(data));</span></span>
+<span class="line"><span style="color:#24292E">    console.</span><span style="color:#6F42C1">log</span><span style="color:#24292E">(</span><span style="color:#032F62">"Data retrieved from API and cached"</span><span style="color:#24292E">);</span></span>
+<span class="line"><span style="color:#D73A49">    return</span><span style="color:#24292E"> data;</span></span>
+<span class="line"><span style="color:#24292E">  } </span><span style="color:#D73A49">catch</span><span style="color:#24292E"> (error) {</span></span>
+<span class="line"><span style="color:#24292E">    console.</span><span style="color:#6F42C1">error</span><span style="color:#24292E">(</span><span style="color:#032F62">"Error fetching data from API:"</span><span style="color:#24292E">, error);</span></span>
+<span class="line"><span style="color:#D73A49">    return</span><span style="color:#005CC5"> null</span><span style="color:#24292E">;</span></span>
+<span class="line"><span style="color:#24292E">  }</span></span>
+<span class="line"><span style="color:#24292E">}</span></span></code></pre></div></div></div>
+<h3>Step 3: Integrating the Caching Function into the Application</h3>
+<p>Now, we can integrate the caching function into our Social Media Analytics Platform. Whenever we need to retrieve social media data for a user, we'll call the <code>get_social_media_data</code> function.</p>
+<p><strong>Python Example:</strong></p>
+<div class="not-prose my-6 max-w-full overflow-hidden rounded-lg border border-gray-200 has-[code:empty]:hidden"><div class="flex items-center justify-between gap-2 border-b border-gray-200 bg-gray-50 px-3 py-2"><span class="text-sm text-gray-600">python</span><div class="flex items-center gap-2"><button class="flex size-6 items-center justify-center gap-2 rounded-md text-gray-400 hover:bg-zinc-200 hover:text-black focus:outline-none"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-copy size-3.5" aria-hidden="true"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"></rect><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"></path></svg></button></div></div><div class="mt-0 text-sm [&amp;_pre]:py-0 [&amp;_pre]:grid [&amp;_code]:py-4 [&amp;_code]:w-full [&amp;_code]:grid [&amp;_code]:overflow-x-auto [&amp;_code]:no-scrollbar [&amp;_code]:bg-transparent [&amp;_.line]:px-3 [&amp;_.line]:w-full [&amp;_.line]:relative [&amp;_.line]:min-h-5"><div><pre class="shiki github-light" style="background-color:#fff;color:#24292e" tabindex="0"><code><span class="line"><span style="color:#24292E">user_id </span><span style="color:#D73A49">=</span><span style="color:#032F62"> "12345"</span></span>
+<span class="line"><span style="color:#24292E">data </span><span style="color:#D73A49">=</span><span style="color:#24292E"> get_social_media_data(user_id)</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#D73A49">if</span><span style="color:#24292E"> data:</span></span>
+<span class="line"><span style="color:#005CC5">    print</span><span style="color:#24292E">(</span><span style="color:#D73A49">f</span><span style="color:#032F62">"Social media data for user </span><span style="color:#005CC5">{</span><span style="color:#24292E">user_id</span><span style="color:#005CC5">}</span><span style="color:#032F62">: </span><span style="color:#005CC5">{</span><span style="color:#24292E">data</span><span style="color:#005CC5">}</span><span style="color:#032F62">"</span><span style="color:#24292E">)</span></span>
+<span class="line"><span style="color:#D73A49">else</span><span style="color:#24292E">:</span></span>
+<span class="line"><span style="color:#005CC5">    print</span><span style="color:#24292E">(</span><span style="color:#D73A49">f</span><span style="color:#032F62">"Failed to retrieve social media data for user </span><span style="color:#005CC5">{</span><span style="color:#24292E">user_id</span><span style="color:#005CC5">}</span><span style="color:#032F62">"</span><span style="color:#24292E">)</span></span></code></pre></div></div></div>
+<p><strong>Node.js Example:</strong></p>
+<div class="not-prose my-6 max-w-full overflow-hidden rounded-lg border border-gray-200 has-[code:empty]:hidden"><div class="flex items-center justify-between gap-2 border-b border-gray-200 bg-gray-50 px-3 py-2"><span class="text-sm text-gray-600">javascript</span><div class="flex items-center gap-2"><button class="flex size-6 items-center justify-center gap-2 rounded-md text-gray-400 hover:bg-zinc-200 hover:text-black focus:outline-none"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-copy size-3.5" aria-hidden="true"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"></rect><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"></path></svg></button></div></div><div class="mt-0 text-sm [&amp;_pre]:py-0 [&amp;_pre]:grid [&amp;_code]:py-4 [&amp;_code]:w-full [&amp;_code]:grid [&amp;_code]:overflow-x-auto [&amp;_code]:no-scrollbar [&amp;_code]:bg-transparent [&amp;_.line]:px-3 [&amp;_.line]:w-full [&amp;_.line]:relative [&amp;_.line]:min-h-5"><div><pre class="shiki github-light" style="background-color:#fff;color:#24292e" tabindex="0"><code><span class="line"><span style="color:#D73A49">async</span><span style="color:#D73A49"> function</span><span style="color:#6F42C1"> main</span><span style="color:#24292E">() {</span></span>
+<span class="line"><span style="color:#D73A49">  const</span><span style="color:#005CC5"> userId</span><span style="color:#D73A49"> =</span><span style="color:#032F62"> "12345"</span><span style="color:#24292E">;</span></span>
+<span class="line"><span style="color:#D73A49">  const</span><span style="color:#005CC5"> data</span><span style="color:#D73A49"> =</span><span style="color:#D73A49"> await</span><span style="color:#6F42C1"> getSocialMediaData</span><span style="color:#24292E">(userId);</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#D73A49">  if</span><span style="color:#24292E"> (data) {</span></span>
+<span class="line"><span style="color:#24292E">    console.</span><span style="color:#6F42C1">log</span><span style="color:#24292E">(</span><span style="color:#032F62">`Social media data for user ${</span><span style="color:#24292E">userId</span><span style="color:#032F62">}:`</span><span style="color:#24292E">, data);</span></span>
+<span class="line"><span style="color:#24292E">  } </span><span style="color:#D73A49">else</span><span style="color:#24292E"> {</span></span>
+<span class="line"><span style="color:#24292E">    console.</span><span style="color:#6F42C1">log</span><span style="color:#24292E">(</span><span style="color:#032F62">`Failed to retrieve social media data for user ${</span><span style="color:#24292E">userId</span><span style="color:#032F62">}`</span><span style="color:#24292E">);</span></span>
+<span class="line"><span style="color:#24292E">  }</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#24292E">  redisClient.</span><span style="color:#6F42C1">quit</span><span style="color:#24292E">(); </span><span style="color:#6A737D">// Close the Redis connection when done</span></span>
+<span class="line"><span style="color:#24292E">}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6F42C1">main</span><span style="color:#24292E">();</span></span></code></pre></div></div></div>
+<h3>Step 4: Testing the Caching Implementation</h3>
+<p>To verify that the caching is working correctly, run the application and observe the output. The first time you request data for a user, it should be fetched from the API and stored in the cache. Subsequent requests for the same user should be served from the cache. You can also use the Redis CLI to monitor the cache and verify that the data is being stored and retrieved correctly.</p>
+<div class="not-prose my-6 max-w-full overflow-hidden rounded-lg border border-gray-200 has-[code:empty]:hidden"><div class="flex items-center justify-between gap-2 border-b border-gray-200 bg-gray-50 px-3 py-2"><span class="text-sm text-gray-600">bash</span><div class="flex items-center gap-2"><button class="flex size-6 items-center justify-center gap-2 rounded-md text-gray-400 hover:bg-zinc-200 hover:text-black focus:outline-none"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-copy size-3.5" aria-hidden="true"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"></rect><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"></path></svg></button></div></div><div class="mt-0 text-sm [&amp;_pre]:py-0 [&amp;_pre]:grid [&amp;_code]:py-4 [&amp;_code]:w-full [&amp;_code]:grid [&amp;_code]:overflow-x-auto [&amp;_code]:no-scrollbar [&amp;_code]:bg-transparent [&amp;_.line]:px-3 [&amp;_.line]:w-full [&amp;_.line]:relative [&amp;_.line]:min-h-5"><div><pre class="shiki github-light" style="background-color:#fff;color:#24292e" tabindex="0"><code><span class="line"><span style="color:#6F42C1">redis-cli</span></span>
+<span class="line"><span style="color:#D73A49">&gt;</span><span style="color:#24292E"> get social_media_data:12345</span></span></code></pre></div></div></div>
+<h2>Advanced Caching Strategies</h2>
+<p>While the basic caching implementation described above is a good starting point, there are several advanced caching strategies that can further improve performance and efficiency.</p>
+<h3>Cache Invalidation Strategies</h3>
+<ul>
+<li><strong>Time-Based Expiration (TTL):</strong> As demonstrated in the examples, setting a time-to-live (TTL) for cached data is the simplest invalidation strategy. However, it may not be suitable for all scenarios, as data may become stale before the TTL expires.</li>
+<li><strong>Event-Based Invalidation:</strong> Invalidating the cache when specific events occur (e.g., when a user updates their profile) ensures that the cache is always up-to-date. This can be implemented using message queues or other event notification mechanisms.</li>
+<li><strong>Manual Invalidation:</strong> Providing an API endpoint or a UI element that allows administrators to manually invalidate the cache can be useful for handling exceptional cases.</li>
+</ul>
+<h3>Cache Key Generation Strategies</h3>
+<ul>
+<li><strong>Composite Keys:</strong> Using composite keys that include multiple parameters (e.g., user ID, date range, metric type) allows for more granular caching.</li>
+<li><strong>Normalization:</strong> Normalizing the parameters used to generate cache keys (e.g., sorting them alphabetically) ensures that the same key is generated regardless of the order in which the parameters are provided.</li>
+<li><strong>Versioning:</strong> Including a version number in the cache key allows for easy invalidation of the entire cache when the API schema changes.</li>
+</ul>
+<h3>Cache Stampede Prevention</h3>
+<p>A cache stampede occurs when a large number of requests hit the cache at the same time, all finding that the data is expired and attempting to regenerate it. This can overload the API and lead to performance degradation.</p>
+<ul>
+<li><strong>Probabilistic Early Expiration:</strong> Instead of expiring all cache entries at the same time, add a small random delay to the expiration time. This helps to distribute the load of regenerating the cache.</li>
+<li><strong>Locking:</strong> Use a distributed lock to ensure that only one process can regenerate the cache at a time. Other processes will wait for the lock to be released before attempting to regenerate the cache.</li>
+</ul>
+<h2>Exercises</h2>
+<ol>
+<li><strong>Implement Cache Invalidation:</strong> Modify the <code>get_social_media_data</code> function to invalidate the cache when a user updates their profile. Assume you have an API endpoint <code>/user/update</code> that triggers a profile update. When this endpoint is called, invalidate the cache for that user's social media data.</li>
+<li><strong>Experiment with Different Expiration Times:</strong> Test different expiration times for the cached data (e.g., 10 seconds, 1 minute, 5 minutes) and measure the impact on API load and response times.</li>
+<li><strong>Implement Composite Keys:</strong> Modify the <code>get_social_media_data</code> function to use composite keys that include the user ID and a date range. This will allow you to cache data for specific time periods.</li>
+<li><strong>Implement Cache Stampede Prevention:</strong> Add probabilistic early expiration to the caching mechanism to prevent cache stampedes.</li>
+</ol>
+
+</div>
+
+<div id="chapter-3.6">
+
+<h1 class="mb-6 text-3xl font-semibold text-balance max-lg:mb-3 max-lg:text-xl">Redis Persistence and Data Backup</h1><p>Redis is an in-memory data store, which means that all data resides in RAM for fast access. However, this also means that data is lost when the server restarts or crashes. To prevent data loss, Redis provides persistence mechanisms that allow you to save the data to disk and reload it when needed. This lesson will cover the two main persistence options in Redis: RDB (Redis Database) snapshots and AOF (Append Only File). We'll explore how they work, their advantages and disadvantages, and how to configure them.</p>
+<h2>Understanding Redis Persistence</h2>
+<p>Redis offers two primary methods for persisting data: RDB snapshots and AOF. These methods provide different trade-offs between data durability and performance. Understanding these trade-offs is crucial for choosing the right persistence strategy for your application.</p>
+<h3>RDB (Redis Database) Snapshots</h3>
+<p>RDB persistence performs point-in-time snapshots of your dataset at specified intervals. It's like taking a picture of your data and saving it to disk.</p>
+<p><strong>How RDB Works:</strong></p>
+<ol>
+<li>Redis creates a background process (forks) to handle the snapshotting.</li>
+<li>The background process writes the entire dataset to a temporary file on disk.</li>
+<li>Once the snapshot is complete, Redis replaces the old RDB file with the new one.</li>
+</ol>
+<p><strong>Configuration:</strong></p>
+<p>The <code>redis.conf</code> file controls RDB persistence. Here are some key configuration options:</p>
+<div class="not-prose my-6 max-w-full overflow-hidden rounded-lg border border-gray-200 has-[code:empty]:hidden"><div class="flex items-center justify-between gap-2 border-b border-gray-200 bg-gray-50 px-3 py-2"><span class="text-sm text-gray-600">javascript</span><div class="flex items-center gap-2"><button class="flex size-6 items-center justify-center gap-2 rounded-md text-gray-400 hover:bg-zinc-200 hover:text-black focus:outline-none"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-copy size-3.5" aria-hidden="true"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"></rect><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"></path></svg></button></div></div><div class="mt-0 text-sm [&amp;_pre]:py-0 [&amp;_pre]:grid [&amp;_code]:py-4 [&amp;_code]:w-full [&amp;_code]:grid [&amp;_code]:overflow-x-auto [&amp;_code]:no-scrollbar [&amp;_code]:bg-transparent [&amp;_.line]:px-3 [&amp;_.line]:w-full [&amp;_.line]:relative [&amp;_.line]:min-h-5"><div><pre class="shiki github-light" style="background-color:#fff;color:#24292e" tabindex="0"><code><span class="line"><span style="color:#24292E">save </span><span style="color:#005CC5">900</span><span style="color:#005CC5"> 1</span><span style="color:#24292E">          # Save the </span><span style="color:#005CC5">DB</span><span style="color:#D73A49"> if</span><span style="color:#005CC5"> 1</span><span style="color:#24292E"> key changed </span><span style="color:#D73A49">in</span><span style="color:#005CC5"> 900</span><span style="color:#24292E"> seconds</span></span>
+<span class="line"><span style="color:#24292E">save </span><span style="color:#005CC5">300</span><span style="color:#005CC5"> 10</span><span style="color:#24292E">         # Save the </span><span style="color:#005CC5">DB</span><span style="color:#D73A49"> if</span><span style="color:#005CC5"> 10</span><span style="color:#24292E"> keys changed </span><span style="color:#D73A49">in</span><span style="color:#005CC5"> 300</span><span style="color:#24292E"> seconds</span></span>
+<span class="line"><span style="color:#24292E">save </span><span style="color:#005CC5">60</span><span style="color:#005CC5"> 10000</span><span style="color:#24292E">       # Save the </span><span style="color:#005CC5">DB</span><span style="color:#D73A49"> if</span><span style="color:#005CC5"> 10000</span><span style="color:#24292E"> keys changed </span><span style="color:#D73A49">in</span><span style="color:#005CC5"> 60</span><span style="color:#24292E"> seconds</span></span></code></pre></div></div></div>
+<p>These <code>save</code> directives define the conditions under which Redis will automatically trigger an RDB snapshot. You can have multiple <code>save</code> directives. If any of the conditions are met, a snapshot will be created.</p>
+<p><em>Example:</em></p>
+<p>Let's say you have the following configuration:</p>
+<div class="not-prose my-6 max-w-full overflow-hidden rounded-lg border border-gray-200 has-[code:empty]:hidden"><div class="flex items-center justify-between gap-2 border-b border-gray-200 bg-gray-50 px-3 py-2"><span class="text-sm text-gray-600">javascript</span><div class="flex items-center gap-2"><button class="flex size-6 items-center justify-center gap-2 rounded-md text-gray-400 hover:bg-zinc-200 hover:text-black focus:outline-none"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-copy size-3.5" aria-hidden="true"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"></rect><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"></path></svg></button></div></div><div class="mt-0 text-sm [&amp;_pre]:py-0 [&amp;_pre]:grid [&amp;_code]:py-4 [&amp;_code]:w-full [&amp;_code]:grid [&amp;_code]:overflow-x-auto [&amp;_code]:no-scrollbar [&amp;_code]:bg-transparent [&amp;_.line]:px-3 [&amp;_.line]:w-full [&amp;_.line]:relative [&amp;_.line]:min-h-5"><div><pre class="shiki github-light" style="background-color:#fff;color:#24292e" tabindex="0"><code><span class="line"><span style="color:#24292E">save </span><span style="color:#005CC5">60</span><span style="color:#005CC5"> 1000</span></span></code></pre></div></div></div>
+<p>This means that if at least 1000 keys are modified within 60 seconds, Redis will trigger an RDB snapshot.</p>
+<p><strong>Manual Snapshotting:</strong></p>
+<p>You can also manually trigger an RDB snapshot using the <code>SAVE</code> or <code>BGSAVE</code> commands.</p>
+<ul>
+<li><code>SAVE</code>: Performs a synchronous save, blocking the Redis server until the snapshot is complete. <em>Avoid using this in production.</em></li>
+<li><code>BGSAVE</code>: Performs an asynchronous save in the background, allowing the Redis server to continue serving requests.</li>
+</ul>
+<p><strong>Advantages of RDB:</strong></p>
+<ul>
+<li><strong>Compact:</strong> RDB files are a compact, single-file representation of your data, making them easy to back up and transfer.</li>
+<li><strong>Fast Recovery:</strong> RDB allows for faster restart times, especially for large datasets, because it's a single file to load.</li>
+<li><strong>Disaster Recovery:</strong> Ideal for disaster recovery scenarios where you need to restore the entire dataset from a backup.</li>
+</ul>
+<p><strong>Disadvantages of RDB:</strong></p>
+<ul>
+<li><strong>Data Loss:</strong> RDB snapshots are point-in-time, so you can lose data if the Redis server crashes between snapshots. The amount of potential data loss depends on the snapshot interval.</li>
+<li><strong>Forking Overhead:</strong> The forking process can be resource-intensive, especially for large datasets, potentially causing temporary performance degradation.</li>
+</ul>
+<h3>AOF (Append Only File)</h3>
+<p>AOF persistence logs every write operation received by the server. Instead of taking snapshots of the data, it records the commands that modify the dataset.</p>
+<p><strong>How AOF Works:</strong></p>
+<ol>
+<li>When a write operation (e.g., <code>SET</code>, <code>HSET</code>, <code>LPUSH</code>) is executed, Redis appends the command to the AOF file.</li>
+<li>The AOF file is periodically rewritten (a process called <em>AOF rewriting</em>) to reduce its size by removing redundant or obsolete commands.</li>
+</ol>
+<p><strong>Configuration:</strong></p>
+<p>The <code>redis.conf</code> file controls AOF persistence. Here are some key configuration options:</p>
+<div class="not-prose my-6 max-w-full overflow-hidden rounded-lg border border-gray-200 has-[code:empty]:hidden"><div class="flex items-center justify-between gap-2 border-b border-gray-200 bg-gray-50 px-3 py-2"><span class="text-sm text-gray-600">javascript</span><div class="flex items-center gap-2"><button class="flex size-6 items-center justify-center gap-2 rounded-md text-gray-400 hover:bg-zinc-200 hover:text-black focus:outline-none"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-copy size-3.5" aria-hidden="true"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"></rect><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"></path></svg></button></div></div><div class="mt-0 text-sm [&amp;_pre]:py-0 [&amp;_pre]:grid [&amp;_code]:py-4 [&amp;_code]:w-full [&amp;_code]:grid [&amp;_code]:overflow-x-auto [&amp;_code]:no-scrollbar [&amp;_code]:bg-transparent [&amp;_.line]:px-3 [&amp;_.line]:w-full [&amp;_.line]:relative [&amp;_.line]:min-h-5"><div><pre class="shiki github-light" style="background-color:#fff;color:#24292e" tabindex="0"><code><span class="line"><span style="color:#24292E">appendonly yes</span></span>
+<span class="line"><span style="color:#24292E">appendfilename </span><span style="color:#032F62">"appendonly.aof"</span></span>
+<span class="line"><span style="color:#24292E">appendfsync everysec</span></span></code></pre></div></div></div>
+<ul>
+<li><code>appendonly yes</code>: Enables AOF persistence.</li>
+<li><code>appendfilename</code>: Specifies the name of the AOF file.</li>
+<li><code>appendfsync</code>: Controls how frequently Redis flushes the AOF file to disk. Options:
+<ul>
+<li><code>always</code>: Flushes every write operation. Provides the highest durability but the slowest performance.</li>
+<li><code>everysec</code>: Flushes every second. A good balance between durability and performance (recommended).</li>
+<li><code>no</code>: Relies on the operating system to flush the data. Provides the best performance but the lowest durability.</li>
+</ul>
+</li>
+</ul>
+<p><strong>AOF Rewriting:</strong></p>
+<p>As Redis is used, the AOF file grows as each operation is appended. To avoid the AOF file becoming too large, Redis provides a mechanism called AOF rewriting. This process creates a new, smaller AOF file that contains the minimal set of commands needed to recreate the current dataset.</p>
+<p>Redis can automatically trigger AOF rewriting based on the following configuration options:</p>
+<div class="not-prose my-6 max-w-full overflow-hidden rounded-lg border border-gray-200 has-[code:empty]:hidden"><div class="flex items-center justify-between gap-2 border-b border-gray-200 bg-gray-50 px-3 py-2"><span class="text-sm text-gray-600">javascript</span><div class="flex items-center gap-2"><button class="flex size-6 items-center justify-center gap-2 rounded-md text-gray-400 hover:bg-zinc-200 hover:text-black focus:outline-none"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-copy size-3.5" aria-hidden="true"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"></rect><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"></path></svg></button></div></div><div class="mt-0 text-sm [&amp;_pre]:py-0 [&amp;_pre]:grid [&amp;_code]:py-4 [&amp;_code]:w-full [&amp;_code]:grid [&amp;_code]:overflow-x-auto [&amp;_code]:no-scrollbar [&amp;_code]:bg-transparent [&amp;_.line]:px-3 [&amp;_.line]:w-full [&amp;_.line]:relative [&amp;_.line]:min-h-5"><div><pre class="shiki github-light" style="background-color:#fff;color:#24292e" tabindex="0"><code><span class="line"><span style="color:#24292E">auto</span><span style="color:#D73A49">-</span><span style="color:#24292E">aof</span><span style="color:#D73A49">-</span><span style="color:#24292E">rewrite</span><span style="color:#D73A49">-</span><span style="color:#24292E">percentage </span><span style="color:#005CC5">100</span></span>
+<span class="line"><span style="color:#24292E">auto</span><span style="color:#D73A49">-</span><span style="color:#24292E">aof</span><span style="color:#D73A49">-</span><span style="color:#24292E">rewrite</span><span style="color:#D73A49">-</span><span style="color:#24292E">min</span><span style="color:#D73A49">-</span><span style="color:#24292E">size 64mb</span></span></code></pre></div></div></div>
+<ul>
+<li><code>auto-aof-rewrite-percentage</code>: Specifies the percentage the AOF file must grow beyond its previous size to trigger a rewrite. A value of <code>100</code> means the AOF file must double in size.</li>
+<li><code>auto-aof-rewrite-min-size</code>: Specifies the minimum size the AOF file must be before a rewrite can be triggered.</li>
+</ul>
+<p>You can also manually trigger an AOF rewrite using the <code>BGREWRITEAOF</code> command.</p>
+<p><strong>Advantages of AOF:</strong></p>
+<ul>
+<li><strong>High Durability:</strong> AOF provides better durability than RDB, especially when <code>appendfsync always</code> or <code>appendfsync everysec</code> is used. You can configure it to minimize data loss in case of a crash.</li>
+<li><strong>Data Recovery:</strong> AOF files are human-readable, making it easier to diagnose and recover from data corruption issues.</li>
+<li><strong>Continuous Backup:</strong> AOF acts as a continuous backup of your data, allowing you to replay the command log to restore the database to a specific point in time.</li>
+</ul>
+<p><strong>Disadvantages of AOF:</strong></p>
+<ul>
+<li><strong>Larger File Size:</strong> AOF files are typically larger than RDB files because they store every write operation.</li>
+<li><strong>Slower Recovery:</strong> Restarting Redis from an AOF file can be slower than from an RDB file, especially for large datasets, because it needs to replay all the commands.</li>
+<li><strong>Performance Overhead:</strong> Appending every write operation to disk can introduce some performance overhead, especially with <code>appendfsync always</code>.</li>
+</ul>
+<h2>Choosing Between RDB and AOF</h2>
+<p>The choice between RDB and AOF depends on your application's specific requirements for data durability and performance.</p>
+<table><thead><tr><th>Feature</th><th>RDB</th><th>AOF</th></tr></thead><tbody><tr><td>Data Durability</td><td>Lower (potential data loss)</td><td>Higher (minimal data loss)</td></tr><tr><td>File Size</td><td>Smaller</td><td>Larger</td></tr><tr><td>Recovery Time</td><td>Faster</td><td>Slower</td></tr><tr><td>Performance</td><td>Generally faster</td><td>Can be slower, especially with <code>always</code></td></tr><tr><td>Configuration</td><td><code>save</code> directives</td><td><code>appendonly</code>, <code>appendfsync</code></td></tr><tr><td>Use Cases</td><td>Caching, disaster recovery</td><td>Critical data, audit trails</td></tr></tbody></table>
+<p><strong>Recommendations:</strong></p>
+<ul>
+<li><strong>High Durability Required:</strong> Use AOF with <code>appendfsync everysec</code>.</li>
+<li><strong>Fast Recovery Required:</strong> Use RDB.</li>
+<li><strong>Balanced Approach:</strong> Use both RDB and AOF. This provides a good balance between data durability and recovery time. Redis will load the AOF file if both RDB and AOF files exist.</li>
+</ul>
+<h2>Configuring Redis Persistence</h2>
+<p>Let's walk through the steps to configure both RDB and AOF persistence in Redis.</p>
+<p><strong>1. RDB Configuration:</strong></p>
+<ul>
+<li>Open the <code>redis.conf</code> file.</li>
+<li>Configure the <code>save</code> directives according to your needs. For example:</li>
+</ul>
+<div class="not-prose my-6 max-w-full overflow-hidden rounded-lg border border-gray-200 has-[code:empty]:hidden"><div class="flex items-center justify-between gap-2 border-b border-gray-200 bg-gray-50 px-3 py-2"><span class="text-sm text-gray-600">javascript</span><div class="flex items-center gap-2"><button class="flex size-6 items-center justify-center gap-2 rounded-md text-gray-400 hover:bg-zinc-200 hover:text-black focus:outline-none"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-copy size-3.5" aria-hidden="true"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"></rect><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"></path></svg></button></div></div><div class="mt-0 text-sm [&amp;_pre]:py-0 [&amp;_pre]:grid [&amp;_code]:py-4 [&amp;_code]:w-full [&amp;_code]:grid [&amp;_code]:overflow-x-auto [&amp;_code]:no-scrollbar [&amp;_code]:bg-transparent [&amp;_.line]:px-3 [&amp;_.line]:w-full [&amp;_.line]:relative [&amp;_.line]:min-h-5"><div><pre class="shiki github-light" style="background-color:#fff;color:#24292e" tabindex="0"><code><span class="line"><span style="color:#24292E">save </span><span style="color:#005CC5">900</span><span style="color:#005CC5"> 1</span></span>
+<span class="line"><span style="color:#24292E">save </span><span style="color:#005CC5">300</span><span style="color:#005CC5"> 10</span></span>
+<span class="line"><span style="color:#24292E">save </span><span style="color:#005CC5">60</span><span style="color:#005CC5"> 10000</span></span></code></pre></div></div></div>
+<ul>
+<li>Optionally, configure the <code>stop-writes-on-bgsave-error</code> option. If set to <code>yes</code>, Redis will stop accepting write operations if the <code>BGSAVE</code> command fails.</li>
+</ul>
+<div class="not-prose my-6 max-w-full overflow-hidden rounded-lg border border-gray-200 has-[code:empty]:hidden"><div class="flex items-center justify-between gap-2 border-b border-gray-200 bg-gray-50 px-3 py-2"><span class="text-sm text-gray-600">javascript</span><div class="flex items-center gap-2"><button class="flex size-6 items-center justify-center gap-2 rounded-md text-gray-400 hover:bg-zinc-200 hover:text-black focus:outline-none"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-copy size-3.5" aria-hidden="true"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"></rect><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"></path></svg></button></div></div><div class="mt-0 text-sm [&amp;_pre]:py-0 [&amp;_pre]:grid [&amp;_code]:py-4 [&amp;_code]:w-full [&amp;_code]:grid [&amp;_code]:overflow-x-auto [&amp;_code]:no-scrollbar [&amp;_code]:bg-transparent [&amp;_.line]:px-3 [&amp;_.line]:w-full [&amp;_.line]:relative [&amp;_.line]:min-h-5"><div><pre class="shiki github-light" style="background-color:#fff;color:#24292e" tabindex="0"><code><span class="line"><span style="color:#24292E">stop</span><span style="color:#D73A49">-</span><span style="color:#24292E">writes</span><span style="color:#D73A49">-</span><span style="color:#24292E">on</span><span style="color:#D73A49">-</span><span style="color:#24292E">bgsave</span><span style="color:#D73A49">-</span><span style="color:#24292E">error yes</span></span></code></pre></div></div></div>
+<ul>
+<li>Restart the Redis server.</li>
+</ul>
+<p><strong>2. AOF Configuration:</strong></p>
+<ul>
+<li>Open the <code>redis.conf</code> file.</li>
+<li>Enable AOF persistence:</li>
+</ul>
+<div class="not-prose my-6 max-w-full overflow-hidden rounded-lg border border-gray-200 has-[code:empty]:hidden"><div class="flex items-center justify-between gap-2 border-b border-gray-200 bg-gray-50 px-3 py-2"><span class="text-sm text-gray-600">javascript</span><div class="flex items-center gap-2"><button class="flex size-6 items-center justify-center gap-2 rounded-md text-gray-400 hover:bg-zinc-200 hover:text-black focus:outline-none"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-copy size-3.5" aria-hidden="true"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"></rect><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"></path></svg></button></div></div><div class="mt-0 text-sm [&amp;_pre]:py-0 [&amp;_pre]:grid [&amp;_code]:py-4 [&amp;_code]:w-full [&amp;_code]:grid [&amp;_code]:overflow-x-auto [&amp;_code]:no-scrollbar [&amp;_code]:bg-transparent [&amp;_.line]:px-3 [&amp;_.line]:w-full [&amp;_.line]:relative [&amp;_.line]:min-h-5"><div><pre class="shiki github-light" style="background-color:#fff;color:#24292e" tabindex="0"><code><span class="line"><span style="color:#24292E">appendonly yes</span></span></code></pre></div></div></div>
+<ul>
+<li>Set the <code>appendfsync</code> option:</li>
+</ul>
+<div class="not-prose my-6 max-w-full overflow-hidden rounded-lg border border-gray-200 has-[code:empty]:hidden"><div class="flex items-center justify-between gap-2 border-b border-gray-200 bg-gray-50 px-3 py-2"><span class="text-sm text-gray-600">javascript</span><div class="flex items-center gap-2"><button class="flex size-6 items-center justify-center gap-2 rounded-md text-gray-400 hover:bg-zinc-200 hover:text-black focus:outline-none"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-copy size-3.5" aria-hidden="true"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"></rect><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"></path></svg></button></div></div><div class="mt-0 text-sm [&amp;_pre]:py-0 [&amp;_pre]:grid [&amp;_code]:py-4 [&amp;_code]:w-full [&amp;_code]:grid [&amp;_code]:overflow-x-auto [&amp;_code]:no-scrollbar [&amp;_code]:bg-transparent [&amp;_.line]:px-3 [&amp;_.line]:w-full [&amp;_.line]:relative [&amp;_.line]:min-h-5"><div><pre class="shiki github-light" style="background-color:#fff;color:#24292e" tabindex="0"><code><span class="line"><span style="color:#24292E">appendfsync everysec</span></span></code></pre></div></div></div>
+<ul>
+<li>Configure AOF rewriting:</li>
+</ul>
+<div class="not-prose my-6 max-w-full overflow-hidden rounded-lg border border-gray-200 has-[code:empty]:hidden"><div class="flex items-center justify-between gap-2 border-b border-gray-200 bg-gray-50 px-3 py-2"><span class="text-sm text-gray-600">javascript</span><div class="flex items-center gap-2"><button class="flex size-6 items-center justify-center gap-2 rounded-md text-gray-400 hover:bg-zinc-200 hover:text-black focus:outline-none"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-copy size-3.5" aria-hidden="true"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"></rect><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"></path></svg></button></div></div><div class="mt-0 text-sm [&amp;_pre]:py-0 [&amp;_pre]:grid [&amp;_code]:py-4 [&amp;_code]:w-full [&amp;_code]:grid [&amp;_code]:overflow-x-auto [&amp;_code]:no-scrollbar [&amp;_code]:bg-transparent [&amp;_.line]:px-3 [&amp;_.line]:w-full [&amp;_.line]:relative [&amp;_.line]:min-h-5"><div><pre class="shiki github-light" style="background-color:#fff;color:#24292e" tabindex="0"><code><span class="line"><span style="color:#24292E">auto</span><span style="color:#D73A49">-</span><span style="color:#24292E">aof</span><span style="color:#D73A49">-</span><span style="color:#24292E">rewrite</span><span style="color:#D73A49">-</span><span style="color:#24292E">percentage </span><span style="color:#005CC5">100</span></span>
+<span class="line"><span style="color:#24292E">auto</span><span style="color:#D73A49">-</span><span style="color:#24292E">aof</span><span style="color:#D73A49">-</span><span style="color:#24292E">rewrite</span><span style="color:#D73A49">-</span><span style="color:#24292E">min</span><span style="color:#D73A49">-</span><span style="color:#24292E">size 64mb</span></span></code></pre></div></div></div>
+<ul>
+<li>Restart the Redis server.</li>
+</ul>
+<p><strong>3. Verifying Persistence:</strong></p>
+<ul>
+<li>After configuring persistence, verify that Redis is creating the RDB and AOF files. The default location is the Redis working directory. You can find the working directory in the <code>redis.conf</code> file using the <code>dir</code> directive.</li>
+<li>You can also use the <code>INFO persistence</code> command in <code>redis-cli</code> to check the status of RDB and AOF persistence.</li>
+</ul>
+<div class="not-prose my-6 max-w-full overflow-hidden rounded-lg border border-gray-200 has-[code:empty]:hidden"><div class="flex items-center justify-between gap-2 border-b border-gray-200 bg-gray-50 px-3 py-2"><span class="text-sm text-gray-600">javascript</span><div class="flex items-center gap-2"><button class="flex size-6 items-center justify-center gap-2 rounded-md text-gray-400 hover:bg-zinc-200 hover:text-black focus:outline-none"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-copy size-3.5" aria-hidden="true"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"></rect><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"></path></svg></button></div></div><div class="mt-0 text-sm [&amp;_pre]:py-0 [&amp;_pre]:grid [&amp;_code]:py-4 [&amp;_code]:w-full [&amp;_code]:grid [&amp;_code]:overflow-x-auto [&amp;_code]:no-scrollbar [&amp;_code]:bg-transparent [&amp;_.line]:px-3 [&amp;_.line]:w-full [&amp;_.line]:relative [&amp;_.line]:min-h-5"><div><pre class="shiki github-light" style="background-color:#fff;color:#24292e" tabindex="0"><code><span class="line"><span style="color:#24292E">redis</span><span style="color:#D73A49">-</span><span style="color:#24292E">cli</span></span>
+<span class="line"><span style="color:#005CC5">INFO</span><span style="color:#24292E"> persistence</span></span></code></pre></div></div></div>
+<h2>Data Backup Strategies</h2>
+<p>In addition to Redis persistence mechanisms, it's crucial to implement a comprehensive data backup strategy to protect against data loss due to hardware failures, software bugs, or human errors.</p>
+<p><strong>Backup Strategies:</strong></p>
+<ol>
+<li>
+<p><strong>Regular RDB Backups:</strong></p>
+<ul>
+<li>Create regular RDB backups and store them in a safe location, such as a different server, a cloud storage service, or an external hard drive.</li>
+<li>Automate the backup process using cron jobs or other scheduling tools.</li>
+<li>Consider using a tool like <code>rsync</code> to efficiently transfer the RDB files.</li>
+</ul>
+</li>
+<li>
+<p><strong>AOF Backup and Restore:</strong></p>
+<ul>
+<li>Back up the AOF file regularly.</li>
+<li>In case of data loss, you can restore the database by replaying the AOF file.</li>
+<li>You can also use the <code>redis-check-aof</code> tool to repair corrupted AOF files.</li>
+</ul>
+</li>
+<li>
+<p><strong>Offsite Backups:</strong></p>
+<ul>
+<li>Store backups in multiple locations, including offsite locations, to protect against disasters that could affect your primary data center.</li>
+<li>Consider using cloud-based backup services for easy and reliable offsite backups.</li>
+</ul>
+</li>
+<li>
+<p><strong>Monitoring and Alerting:</strong></p>
+<ul>
+<li>Monitor the backup process to ensure that backups are being created successfully.</li>
+<li>Set up alerts to notify you of any backup failures.</li>
+</ul>
+</li>
+</ol>
+<p><strong>Example Backup Script (RDB):</strong></p>
+<p>Here's a simple example of a shell script that creates an RDB backup and copies it to a backup directory:</p>
+<div class="not-prose my-6 max-w-full overflow-hidden rounded-lg border border-gray-200 has-[code:empty]:hidden"><div class="flex items-center justify-between gap-2 border-b border-gray-200 bg-gray-50 px-3 py-2"><span class="text-sm text-gray-600">bash</span><div class="flex items-center gap-2"><button class="flex size-6 items-center justify-center gap-2 rounded-md text-gray-400 hover:bg-zinc-200 hover:text-black focus:outline-none"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-copy size-3.5" aria-hidden="true"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"></rect><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"></path></svg></button></div></div><div class="mt-0 text-sm [&amp;_pre]:py-0 [&amp;_pre]:grid [&amp;_code]:py-4 [&amp;_code]:w-full [&amp;_code]:grid [&amp;_code]:overflow-x-auto [&amp;_code]:no-scrollbar [&amp;_code]:bg-transparent [&amp;_.line]:px-3 [&amp;_.line]:w-full [&amp;_.line]:relative [&amp;_.line]:min-h-5"><div><pre class="shiki github-light" style="background-color:#fff;color:#24292e" tabindex="0"><code><span class="line"><span style="color:#6A737D">#!/bin/bash</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D"># Set the Redis working directory</span></span>
+<span class="line"><span style="color:#24292E">REDIS_DIR</span><span style="color:#D73A49">=</span><span style="color:#032F62">"/var/lib/redis"</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D"># Set the backup directory</span></span>
+<span class="line"><span style="color:#24292E">BACKUP_DIR</span><span style="color:#D73A49">=</span><span style="color:#032F62">"/mnt/backup/redis"</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D"># Set the current date as the backup filename</span></span>
+<span class="line"><span style="color:#24292E">BACKUP_FILE</span><span style="color:#D73A49">=</span><span style="color:#032F62">"dump-$(</span><span style="color:#6F42C1">date</span><span style="color:#032F62"> +%Y-%m-%d-%H-%M-%S).rdb"</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D"># Create the backup directory if it doesn't exist</span></span>
+<span class="line"><span style="color:#6F42C1">mkdir</span><span style="color:#005CC5"> -p</span><span style="color:#24292E"> $BACKUP_DIR</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D"># Create the RDB backup using redis-cli</span></span>
+<span class="line"><span style="color:#6F42C1">redis-cli</span><span style="color:#032F62"> BGSAVE</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D"># Wait for the BGSAVE process to complete</span></span>
+<span class="line"><span style="color:#6F42C1">sleep</span><span style="color:#005CC5"> 5</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D"># Copy the RDB file to the backup directory</span></span>
+<span class="line"><span style="color:#6F42C1">cp</span><span style="color:#24292E"> $REDIS_DIR</span><span style="color:#032F62">/dump.rdb</span><span style="color:#24292E"> $BACKUP_DIR</span><span style="color:#032F62">/</span><span style="color:#24292E">$BACKUP_FILE</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D"># Remove old backups (keep the last 7 days)</span></span>
+<span class="line"><span style="color:#6F42C1">find</span><span style="color:#24292E"> $BACKUP_DIR </span><span style="color:#005CC5">-name</span><span style="color:#032F62"> "dump-*.rdb"</span><span style="color:#005CC5"> -mtime</span><span style="color:#032F62"> +7</span><span style="color:#005CC5"> -delete</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#005CC5">echo</span><span style="color:#032F62"> "Redis backup created: </span><span style="color:#24292E">$BACKUP_DIR</span><span style="color:#032F62">/</span><span style="color:#24292E">$BACKUP_FILE</span><span style="color:#032F62">"</span></span></code></pre></div></div></div>
+<p>This script can be scheduled to run daily using <code>cron</code>.</p>
+<h2>Redis Persistence in the Social Media Analytics Platform</h2>
+<p>Let's revisit our Social Media Analytics Platform and consider how to implement Redis persistence. In the previous lesson, we used Redis to cache API responses to improve application performance. Now, we need to ensure that this cached data is not lost in case of a server restart or crash.</p>
+<p><strong>Scenario:</strong></p>
+<p>Our Social Media Analytics Platform uses Redis to cache the results of API calls to social media platforms like Twitter, Facebook, and Instagram. These API calls are expensive and time-consuming, so caching them in Redis significantly improves the performance of our application.</p>
+<p><strong>Implementation:</strong></p>
+<ol>
+<li>
+<p><strong>Choose a Persistence Strategy:</strong></p>
+<ul>
+<li>Since the cached data is not critical (we can always re-fetch it from the APIs), we can use RDB persistence for its simplicity and fast recovery time.</li>
+<li>We can configure Redis to create RDB snapshots every 6 hours or when a certain number of keys have changed.</li>
+</ul>
+</li>
+<li>
+<p><strong>Configure RDB Persistence:</strong></p>
+<ul>
+<li>Open the <code>redis.conf</code> file.</li>
+<li>Add the following <code>save</code> directives:</li>
+</ul>
+</li>
+</ol>
+<div class="not-prose my-6 max-w-full overflow-hidden rounded-lg border border-gray-200 has-[code:empty]:hidden"><div class="flex items-center justify-between gap-2 border-b border-gray-200 bg-gray-50 px-3 py-2"><span class="text-sm text-gray-600">javascript</span><div class="flex items-center gap-2"><button class="flex size-6 items-center justify-center gap-2 rounded-md text-gray-400 hover:bg-zinc-200 hover:text-black focus:outline-none"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-copy size-3.5" aria-hidden="true"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"></rect><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"></path></svg></button></div></div><div class="mt-0 text-sm [&amp;_pre]:py-0 [&amp;_pre]:grid [&amp;_code]:py-4 [&amp;_code]:w-full [&amp;_code]:grid [&amp;_code]:overflow-x-auto [&amp;_code]:no-scrollbar [&amp;_code]:bg-transparent [&amp;_.line]:px-3 [&amp;_.line]:w-full [&amp;_.line]:relative [&amp;_.line]:min-h-5"><div><pre class="shiki github-light" style="background-color:#fff;color:#24292e" tabindex="0"><code><span class="line"><span style="color:#24292E">save </span><span style="color:#005CC5">21600</span><span style="color:#005CC5"> 1</span><span style="color:#24292E">       # Save the </span><span style="color:#005CC5">DB</span><span style="color:#D73A49"> if</span><span style="color:#005CC5"> 1</span><span style="color:#24292E"> key changed </span><span style="color:#D73A49">in</span><span style="color:#005CC5"> 6</span><span style="color:#24292E"> hours</span></span>
+<span class="line"><span style="color:#24292E">save </span><span style="color:#005CC5">300</span><span style="color:#005CC5"> 1000</span><span style="color:#24292E">      # Save the </span><span style="color:#005CC5">DB</span><span style="color:#D73A49"> if</span><span style="color:#005CC5"> 1000</span><span style="color:#24292E"> keys changed </span><span style="color:#D73A49">in</span><span style="color:#005CC5"> 5</span><span style="color:#24292E"> minutes</span></span></code></pre></div></div></div>
+<ol start="3">
+<li><strong>Implement Backup Strategy:</strong>
+<ul>
+<li>Create a daily RDB backup and store it in a separate location.</li>
+<li>Use the backup script shown in the previous section to automate the backup process.</li>
+</ul>
+</li>
+</ol>
+<p><strong>Alternative Approach (AOF):</strong></p>
+<p>If we wanted to ensure higher data durability, we could use AOF persistence instead of RDB. However, since the cached data is not critical, the added complexity and performance overhead of AOF might not be justified.</p>
+<h2>Exercises</h2>
+<ol>
+<li><strong>RDB Configuration:</strong> Configure RDB persistence on your local Redis instance. Set the <code>save</code> directives to create a snapshot every 15 minutes if at least 100 keys have changed. Verify that the RDB file is created in the Redis working directory.</li>
+<li><strong>AOF Configuration:</strong> Configure AOF persistence on your local Redis instance. Set the <code>appendfsync</code> option to <code>everysec</code>. Verify that the AOF file is created in the Redis working directory.</li>
+<li><strong>Manual Snapshot:</strong> Use the <code>BGSAVE</code> command to manually trigger an RDB snapshot. Check the Redis logs to confirm that the snapshot was created successfully.</li>
+<li><strong>Simulate Data Loss:</strong> Stop and restart your Redis server. Verify that the data is restored from the RDB or AOF file.</li>
+<li><strong>Backup Script:</strong> Implement the backup script shown in the previous section and schedule it to run daily using <code>cron</code>.</li>
 </ol>
 
 </div>
