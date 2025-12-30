@@ -29,6 +29,50 @@
       <li><a href="#chapter-3.6">Redis Persistence and Data Backup</a></li>
     </ul>
   </li>
+  
+  <li><strong>Chapter 4: Real-time Databases: Understanding Firebase</strong>
+    <ul>
+      <li><a href="#chapter-4.1">Introduction to Firebase: Concepts and Architecture</a></li>
+      <li><a href="#chapter-4.2">Setting Up a Firebase Project</a></li>
+      <li><a href="#chapter-4.3">Firebase Realtime Database: Storing and Retrieving Data</a></li>
+      <li><a href="#chapter-4.4">Firebase Authentication: User Management</a></li>
+      <li><a href="#chapter-4.5">Firebase Hosting: Deploying a Simple Web Application</a></li>
+      <li><a href="#chapter-4.6">Implementing Firebase in the Social Media Analytics Platform: Real-time Analytics Dashboard</a></li>
+    </ul>
+  </li>
+  
+  <li><strong>Chapter 5: Time-Series Databases: Working with InfluxDB</strong>
+    <ul>
+      <li><a href="#chapter-5.1">Introduction to Time-Series Databases and InfluxDB</a></li>
+      <li><a href="#chapter-5.2">Installing and Configuring InfluxDB</a></li>
+      <li><a href="#chapter-5.3">Writing Data to InfluxDB: Understanding Measurements, Tags, and Fields</a></li>
+      <li><a href="#chapter-5.4">Querying Data in InfluxDB: Using Flux Language</a></li>
+      <li><a href="#chapter-5.5">Visualizing Time-Series Data with Chronograf</a></li>
+      <li><a href="#chapter-5.6">Implementing InfluxDB in the Social Media Analytics Platform: Storing and Analyzing Social Media Metrics</a></li>
+    </ul>
+  </li>
+  
+  <li><strong>Chapter 6: Column-Family Stores: Introduction to Cassandra</strong>
+    <ul>
+      <li><a href="#chapter-6.1">Introduction to Cassandra: Concepts and Architecture</a></li>
+      <li><a href="#chapter-6.2">Installing and Configuring Cassandra</a></li>
+      <li><a href="#chapter-6.3">Understanding Cassandra Data Modeling: Keyspaces and Tables</a></li>
+      <li><a href="#chapter-6.4">Basic CRUD Operations in Cassandra: CQL (Cassandra Query Language)</a></li>
+      <li><a href="#chapter-6.5">Implementing Cassandra in the Social Media Analytics Platform: Storing Large-Scale User Activity Data</a></li>
+      <li><a href="#chapter-6.6">Cassandra Data Replication and Consistency</a></li>
+    </ul>
+  </li>
+  
+  <li><strong>Chapter 7: Graph Databases: Exploring Neo4j</strong>
+    <ul>
+      <li><a href="#chapter-7.1">Introduction to Graph Databases and Neo4j</a></li>
+      <li><a href="#chapter-7.2">Installing and Configuring Neo4j</a></li>
+      <li><a href="#chapter-7.3">Understanding Graph Data Modeling: Nodes, Relationships, and Properties</a></li>
+      <li><a href="#chapter-7.4">Querying Neo4j with Cypher</a></li>
+      <li><a href="#chapter-7.5">Visualizing Graph Data with Neo4j Browser</a></li>
+      <li><a href="#chapter-7.6">Implementing Neo4j in the Social Media Analytics Platform: Analyzing Social Network Connections</a></li>
+    </ul>
+  </li>
 </ul>
 
 <div id="chapter-1">
