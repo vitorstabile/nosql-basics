@@ -1,4 +1,19 @@
-<a href="#chapter-1">Go to Contact Us</a>
+<a href="#chapter-1.1">What is NoSQL and Why Use It?</a>
+<a href="#chapter-1.2">Understanding Different NoSQL Database Types</a>
+<a href="#chapter-1.3">Key Differences Between NoSQL and Relational Databases (SQL)</a>
+<a href="#chapter-1.4">Choosing the Right NoSQL Database for Your Project: A Case Study - "The Social Media Analytics Platform"</a>
+<a href="#chapter-2.1">Introduction to MongoDB: Concepts and Architecture</a>
+<a href="#chapter-2.2">Installing and Configuring MongoDB</a>
+<a href="#chapter-2.3">Basic CRUD Operations in MongoDB: Create, Read, Update, Delete</a>
+<a href="#chapter-2.4">Querying MongoDB: Finding and Filtering Data</a>
+<a href="#chapter-2.5">Working with MongoDB Compass: A GUI for MongoDB</a>
+<a href="#chapter-2.6">Implementing MongoDB in the Social Media Analytics Platform: Storing User Data</a>
+<a href="#chapter-3.1">Introduction to Redis: Concepts and Use Cases</a>
+<a href="#chapter-3.2">Installing and Configuring Redis</a>
+<a href="#chapter-3.3">Basic Redis Data Types: Strings, Lists, Sets, Hashes</a>
+<a href="#chapter-3.4">Using Redis for Caching: Improving Application Performance</a>
+<a href="#chapter-3.5">Implementing Redis in the Social Media Analytics Platform: Caching API Responses</a>
+<a href="#chapter-3.6">Redis Persistence and Data Backup</a>
 
 <div id="chapter-1">
 
