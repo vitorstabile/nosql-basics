@@ -3158,3 +3158,163 @@ Replace <code>7.0</code> with the desired MongoDB version.</li>
 </div>
 
 </div>
+
+<div id="chapter-4">
+
+<div id="chapter-4.1">
+
+
+  
+</div>
+
+<div id="chapter-4.2">
+  
+
+ 
+</div>
+
+<div id="chapter-4.3">
+
+
+
+</div>
+
+<div id="chapter-4.4">
+
+
+
+</div>
+
+<div id="chapter-4.5">
+
+
+
+</div>
+
+<div id="chapter-4.6">
+
+
+
+</div>
+
+</div>
+
+<div id="chapter-5">
+
+<div id="chapter-5.1">
+
+
+  
+</div>
+
+<div id="chapter-5.2">
+  
+
+ 
+</div>
+
+<div id="chapter-5.3">
+
+
+
+</div>
+
+<div id="chapter-5.4">
+
+
+
+</div>
+
+<div id="chapter-5.5">
+
+
+
+</div>
+
+<div id="chapter-5.6">
+
+
+
+</div>
+
+</div>
+
+<div id="chapter-6">
+
+<div id="chapter-6.1">
+
+
+  
+</div>
+
+<div id="chapter-6.2">
+  
+
+ 
+</div>
+
+<div id="chapter-6.3">
+
+
+
+</div>
+
+<div id="chapter-6.4">
+
+
+
+</div>
+
+<div id="chapter-6.5">
+
+
+
+</div>
+
+<div id="chapter-6.6">
+
+
+
+</div>
+
+</div>
+
+<div id="chapter-7">
+
+<div id="chapter-7.1">
+
+
+  
+</div>
+
+<div id="chapter-7.2">
+  
+
+ 
+</div>
+
+<div id="chapter-7.3">
+
+
+
+</div>
+
+<div id="chapter-7.4">
+
+
+
+</div>
+
+<div id="chapter-7.5">
+
+
+
+</div>
+
+<div id="chapter-7.6">
+
+
+
+</div>
+
+</div>
